@@ -8,9 +8,9 @@ eepp GUI library as part of one of its main objectives.
 
 ## Screenshots
 
-![ecode - Code Editor](https://github.com/SpartanJ/ecode/blob/main/screenshots/ecode.mac.png?raw=true)
+![ecode - Code Editor](https://user-images.githubusercontent.com/650416/172517863-e8a477dd-a560-460c-9a6e-4557efe1c2cd.png)
 
-For more screenshots checkout the [screenshots](https://github.com/SpartanJ/ecode/tree/main/screenshots) folder.
+For more screenshots checkout [running on macOS](https://user-images.githubusercontent.com/650416/172517957-c28d23a5-ee6b-4e96-a0a3-b7252a2b23bb.png), [low dpi](https://user-images.githubusercontent.com/650416/172519582-1aab1e94-8d69-4c2c-b4ba-de9f2d8729cf.png), [code completion](https://user-images.githubusercontent.com/650416/172521557-f68aa855-0534-49c9-b33e-8f9f8b47b9d2.png), [file locator](https://user-images.githubusercontent.com/650416/172521593-bb8fde13-2600-44e5-87d2-3fc41370fc77.png), [file formats](https://user-images.githubusercontent.com/650416/172521619-ac1aeb82-80e5-49fd-894e-afc780d4c0fd.png), [global find](https://user-images.githubusercontent.com/650416/172523164-2ca9b988-7d2d-4b8c-b6d2-10e593d7fc14.png), [global replace](https://user-images.githubusercontent.com/650416/172523195-00451552-2a56-4595-8b3a-cf8071b36dc6.png), [linter](https://user-images.githubusercontent.com/650416/172523272-45c267af-2585-4c54-86e0-739b5202569e.png).
 
 ## Philosophy
 
