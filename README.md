@@ -26,6 +26,7 @@ Some points to illustrate the project philosophy:
 ## Notable Features
 
 * Lightweight
+* Portable
 * Minimalist GUI
 * Syntax Highlighting (including nested syntax highlighting)
 * Auto-Completion
@@ -44,6 +45,7 @@ Some points to illustrate the project philosophy:
 * Per Project Settings
 * Smart and fast project file locator
 * Multiline search and replace
+* Project/Folder state persist between sessions
 * [Lua pattern searches](https://www.lua.org/manual/5.4/manual.html#6.4.1) support.
 
 ### Folder / Project Settings (\*)
@@ -71,19 +73,18 @@ Listed in no particular order:
 ## Live Demo
 
 ecode can be compiled to WASM and run in any modern browser. There are no plans to focus the
-development on the web version since there are plenty of good solutions out there and its size will
-always be too big compared with solutions that use HTML5+JS web technologies.
+development on the web version (at least for the moment) since there are plenty of good solutions out
+there.
 
 [*Demo here*](https://web.ensoft.dev/eepp/demo-fs.html?run=ecode.js)
 
 ### Demo Clarifications
 
 * You'll need a modern browser with [SharedArrayBuffer](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/SharedArrayBuffer#browser_compatibility) support
-* Current hosting isn't very fast, it could take some time to load
-* The demo package is much bigger than it needs to be
+* Current hosting isn't very fast, it could take some seconds to load (gzipped file are arround 2.5MB)
 * Linter and formatter plugins won't work since both work running other processes
-* WebGL renderer isn't optimized, so it's not as fast as it could/should be
-* Demo is designed for desktop resolutions (mobile is unusable)
+* WebGL renderer isn't optimized, so it's not as fast as it could/should be (still, performance is good in chromium based browsers)
+* Demo is designed for desktop resolutions (mobile is unusable, IME keyboard won't show up due to an emscripten limitation)
 
 ## Source Code
 
@@ -98,15 +99,15 @@ PRs for ecode will be accepted at the eepp repository.
 ### Linter
 
 Linter support is provided by executing already stablished linters from each language.
-*ecode* provides support for several languages by default with can be extended easily by expanding the
+*ecode* provides support for several languages by default and can be extended easily by expanding the
 `linters.json` configuration. `linters.json` default configuration can be obtained from [here](https://raw.githubusercontent.com/SpartanJ/eepp/develop/bin/assets/linters/linters.json).
 To configure new linters you can create a new `linters.json` file in the default configuration path of *ecode*.
 
 #### `linters.json` format
 
 The format is a very simple JSON array of objects containing the file formats supported, the
-error Lua pattern to read the error from the stdout of the executed program, the position of each
-group of the pattern, and the command to execute. It also supports some optional extra object keys.
+Lua pattern to find any error printed by the linter to the stdout, the position of each group of the
+pattern, and the command to execute. It also supports some optional extra object keys.
 
 JavaScript linter example (using [eslint](https://eslint.org/))
 
@@ -122,7 +123,8 @@ JavaScript linter example (using [eslint](https://eslint.org/))
 ```
 
 That's all we need to have a working linter in *ecode*. Linters executables must be installed manually
-by the user, linters will not come with the editor.
+by the user, linters will not come with the editor, and they also need to be visible to the executable.
+This means that it must be on `PATH` environment variable or the path to the binary must be absolute.
 
 #### Currently supported linters and languages supported
 
@@ -196,8 +198,8 @@ To configure new linters you can create a new `formatters.json` file in the defa
 * No BiDi support \*2
 * No ligatures support \*4
 * No VIM-mode \*5
-* English only (internationalization pending). It should be implemented very soon.
-* Limited Unicode support. No [text-shaping](https://harfbuzz.github.io/why-do-i-need-a-shaping-engine.html), and no support for non-romance languages (Arabic, Chinese, Hebrew, Hindi, Japanese, etc). Emojis are supported. \*2 \*6
+* English only (internationalization pending). It should be implemented soon.
+* Limited Unicode support. No [text-shaping](https://harfbuzz.github.io/why-do-i-need-a-shaping-engine.html), and no support or at least limited for non-romance languages (Arabic, Chinese, Korean, Hebrew, Hindi, Japanese, etc). Emojis are supported. \*2 \*6
 
 _\*1_ I don't see the point of supporting more encodings for the moment. UTF8 is kind of the defacto industry standard.
 
@@ -243,7 +245,6 @@ If you find any issues with the editor please report it [here](https://github.co
 * Andreas Kling for [SerenityOS](https://github.com/SerenityOS/serenity)
 
 * And a **lot** more people!
-
 
 ## Code License
 
