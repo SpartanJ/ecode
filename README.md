@@ -94,6 +94,20 @@ ecode is being used to actively improve and iterate the eepp GUI library. At som
 migrated to this repository. The ecode repository should be used for issues and documentation.
 PRs for ecode will be accepted at the eepp repository.
 
+
+### Build from Source
+
+There are scripts for each supported platform ready to build the application.
+For *Linux* and *macOS* it is trivial to build the project, you'll just need to have GCC/Clang installed
+and also the development library from libSDL2. Windows build script is currently a cross-compiling script and it uses mingw64.
+But it also can be easily built with Visual Studio and [libSDL2 development libraries](https://www.libsdl.org/release/SDL2-devel-2.0.22-VC.zip) installed.
+For more information on how to build manually a project please follow the [eepp build instructions](https://github.com/SpartanJ/eepp/#how-to-build-it).
+The project name is always *ecode* (so if you are building with make, you'll need to run `make ecode`).
+
+* *Linux* build script can be found [here](https://github.com/SpartanJ/eepp/tree/develop/projects/linux/ecode). Running `build.app.sh` will try to build the `AppImage` package.
+* *macOS* build script can be found [here](https://github.com/SpartanJ/eepp/tree/develop/projects/macos/ecode). Running `build.app.sh` will create `ecode.app`.
+* *Windows* cross-compiling build script can be found [here](https://github.com/SpartanJ/eepp/tree/develop/projects/mingw32/ecode). Running `build.app.sh` will create a `zip` file with the zipped application package.
+
 ## Plugins
 
 ### Linter
