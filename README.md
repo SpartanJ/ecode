@@ -22,6 +22,7 @@ Some points to illustrate the project philosophy:
 * Load asynchronously as many resources as possible
 * Use the machine resources but not abuse them
 * Developed with modern hardware in mind: expected hardware should have low file system latency (SSD), high cores count and decent GPU acceleration
+* Terminals are part of the developer workflow
 
 ## Notable Features
 
@@ -29,6 +30,7 @@ Some points to illustrate the project philosophy:
 * Portable
 * Minimalist GUI
 * Syntax Highlighting (including nested syntax highlighting)
+* Terminal support
 * Auto-Completion
 * Customizable Linter support
 * Customizable Formatter support
@@ -65,7 +67,6 @@ with files that are not officially supported.
 Listed in no particular order:
 
 * LSP support
-* Terminal support
 * Configurable build pipeline
 * Multi-cursor support
 * Code-folding
@@ -93,7 +94,6 @@ Currently, the source code is located at the [eepp](https://github.com/SpartanJ/
 ecode is being used to actively improve and iterate the eepp GUI library. At some point, it will be
 migrated to this repository. The ecode repository should be used for issues and documentation.
 PRs for ecode will be accepted at the eepp repository.
-
 
 ### Build from Source
 
@@ -251,6 +251,10 @@ If you find any issues with the editor please report it [here](https://github.co
 * Niels Lohmann for [JSON for Modern C++](https://github.com/nlohmann/json)
 
 * Neil Henning for [subprocess.h](https://github.com/sheredom/subprocess.h)
+
+* All the authors of the [suckless terminal emulator](https://st.suckless.org/)
+
+* Fredrik Aleksander for [Hexe Terminal](https://github.com/FredrikAleksander/HexeTerminal)
 
 * rxi for [lite](https://github.com/rxi/lite)
 
