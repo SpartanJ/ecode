@@ -77,12 +77,11 @@ ecode can be compiled to WASM and run in any modern browser. There are no plans 
 development on the web version (at least for the moment) since there are plenty of good solutions out
 there.
 
-[*Demo here*](https://web.ensoft.dev/eepp/demo-fs.html?run=ecode.js)
+[*Demo here*](https://cdn.ensoft.dev/eepp-demos/demo-fs.html?run=ecode.js)
 
 ### Demo Clarifications
 
 * You'll need a modern browser with [SharedArrayBuffer](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/SharedArrayBuffer#browser_compatibility) support
-* Current hosting isn't very fast, it could take some seconds to load (gzipped file are arround 2.5MB)
 * Linter and formatter plugins won't work since both work running other processes
 * WebGL renderer isn't optimized, so it's not as fast as it could/should be (still, performance is good in chromium based browsers)
 * Demo is designed for desktop resolutions (mobile is unusable, IME keyboard won't show up due to an emscripten limitation)
