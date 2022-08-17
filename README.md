@@ -66,10 +66,11 @@ with files that are not officially supported.
 
 Listed in no particular order:
 
-* LSP support
-* Configurable build pipeline
+* [LSP](https://microsoft.github.io/language-server-protocol/) support
+* Configurable build pipelines
 * Multi-cursor support
 * Code-folding
+* [DAP](https://microsoft.github.io/debug-adapter-protocol/) support
 
 ## Live Demo
 
