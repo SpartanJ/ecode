@@ -49,6 +49,7 @@ Some points to illustrate the project philosophy:
 * Multiline search and replace
 * Project/Folder state persist between sessions
 * [Lua pattern searches](https://www.lua.org/manual/5.4/manual.html#6.4.1) support.
+* Plugins support.
 
 ### Folder / Project Settings (\*)
 
@@ -170,6 +171,7 @@ This means that it must be on `PATH` environment variable or the path to the bin
 The formatter plugin works exactly like the linter plugin, but it will execute tools that auto-format code.
 *ecode* provides support for several languages by default with can be extended easily by expanding the
 `formatters.json` configuration. `formatters.json` default configuration can be obtained from [here](https://raw.githubusercontent.com/SpartanJ/eepp/develop/bin/assets/formatters/formatters.json).
+It also supports some formatters natively, this means that the formatter comes with ecode without requiring any external dependency.
 To configure new linters you can create a new `formatters.json` file in the default configuration path of *ecode*.
 
 #### `formatters.json` format
@@ -190,6 +192,8 @@ To configure new linters you can create a new `formatters.json` file in the defa
 * **cpp**: uses [clang-format](https://clang.llvm.org/docs/ClangFormat.html) formatter
 * **Python**: uses [black](https://github.com/psf/black) formatter
 * **Kotlin**: uses [ktlint](https://ktlint.github.io/) formatter
+* **CSS**: uses the eepp CSS native formatter (no external formatter required).
+* **XML**: uses [pugixml](https://github.com/zeux/pugixml/) native formatter (no external formatter required).
 
 #### JSON object keys
 
