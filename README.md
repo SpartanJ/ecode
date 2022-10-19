@@ -1,7 +1,7 @@
 # ecode
 
 *ecode* is a lightweight multi-platform C++ code editor designed for modern hardware with a focus on
-responsiveness and performance. It has been developed with the new hardware-accelerated [eepp GUI](https://github.com/SpartanJ/eepp/),
+responsiveness and performance. It has been developed with the hardware-accelerated [eepp GUI](https://github.com/SpartanJ/eepp/),
 which provides the core technology for the editor. The project comes as the first serious project using
 the [eepp GUI](https://github.com/SpartanJ/eepp/), and it's currently being developed to improve the
 eepp GUI library as part of one of its main objectives.
@@ -12,24 +12,12 @@ eepp GUI library as part of one of its main objectives.
 
 For more screenshots checkout [running on macOS](https://user-images.githubusercontent.com/650416/172517957-c28d23a5-ee6b-4e96-a0a3-b7252a2b23bb.png), [running on Windows](https://user-images.githubusercontent.com/650416/172760308-30d5335c-d5f7-4dbe-94ce-2e556d858909.png), [running on Haiku](https://user-images.githubusercontent.com/650416/172760331-799b7d16-104b-4cac-ba34-c0cf60ba4374.png), [low dpi](https://user-images.githubusercontent.com/650416/172519582-1aab1e94-8d69-4c2c-b4ba-de9f2d8729cf.png), [code completion](https://user-images.githubusercontent.com/650416/172521557-f68aa855-0534-49c9-b33e-8f9f8b47b9d2.png), [terminal](https://user-images.githubusercontent.com/650416/180109676-a1f9dbc6-d170-4e67-a19c-611cff9f04dd.png), [file locator](https://user-images.githubusercontent.com/650416/172521593-bb8fde13-2600-44e5-87d2-3fc41370fc77.png), [file formats](https://user-images.githubusercontent.com/650416/172521619-ac1aeb82-80e5-49fd-894e-afc780d4c0fd.png), [global find](https://user-images.githubusercontent.com/650416/172523164-2ca9b988-7d2d-4b8c-b6d2-10e593d7fc14.png), [global replace](https://user-images.githubusercontent.com/650416/172523195-00451552-2a56-4595-8b3a-cf8071b36dc6.png), [linter](https://user-images.githubusercontent.com/650416/172523272-45c267af-2585-4c54-86e0-739b5202569e.png).
 
-## Philosophy
-
-Some points to illustrate the project philosophy:
-
-* Plugins and non-main functionality should never lock the main thread (GUI thread) or at least should block it as little as possible
-* Extendable functionality but in a controlled environment
-* Load as few files and resources as possible
-* Load asynchronously as many resources as possible
-* Use the machine resources but not abuse them
-* Developed with modern hardware in mind: expected hardware should have low file system latency (SSD), high cores count and decent GPU acceleration
-* Terminals are part of the developer workflow
-
 ## Notable Features
 
 * Lightweight
 * Portable
 * Minimalist GUI
-* Syntax Highlighting (including nested syntax highlighting)
+* Syntax Highlighting (including nested syntax highlighting, supporting over 50 languages)
 * Terminal support
 * Auto-Completion
 * Customizable Linter support
@@ -38,17 +26,17 @@ Some points to illustrate the project philosophy:
 * Minimap
 * Unlimited editor splitting
 * Customizable keyboard bindings
-* Blazing fast global search (and replace)
+* Fast global search (and replace)
 * Customizable and scalable (non-integer) GUI (thanks to [eepp GUI](https://github.com/SpartanJ/eepp/))
 * Dark & Light Mode
-* Tree View (with real-time file system changes)
+* File system Tree View (with real-time file system changes)
 * Smart hot-reload of files
 * Folders as Projects with `.gitignore` support \*
 * Per Project Settings
 * Smart and fast project file locator
 * Multiline search and replace
 * Project/Folder state persist between sessions
-* [Lua pattern searches](https://www.lua.org/manual/5.4/manual.html#6.4.1) support.
+* [Lua pattern searches](https://www.lua.org/manual/5.4/manual.html#6.4.1) support
 * Plugins support.
 
 ### Folder / Project Settings (\*)
@@ -63,15 +51,16 @@ to add the functionality soon.
 Also, ecode will only add files that are supported by the editor, the editor won't try to do anything
 with files that are not officially supported.
 
-## Planned Features
+## Philosophy
 
-Listed in no particular order:
+Some points to illustrate the project philosophy:
 
-* [LSP](https://microsoft.github.io/language-server-protocol/) support
-* Configurable build pipelines
-* Multi-cursor support
-* Code-folding
-* [DAP](https://microsoft.github.io/debug-adapter-protocol/) support
+* Extendable functionality but in a controlled environment (new features and new plugins are accepted, but the author will supervise any new content that might affect the product quality and performance)
+* Load as few files and resources as possible and load asynchronously as many resources as possible
+* Use the machine resources but not abuse them
+* Developed with modern hardware in mind: expected hardware should have low file system latency (SSD), high cores count and decent GPU acceleration
+* Plugins and non-main functionality should never lock the main thread (GUI thread) or at least should block it as little as possible
+* Terminals are part of the developer workflow
 
 ## Live Demo
 
@@ -127,14 +116,19 @@ pattern, and the command to execute. It also supports some optional extra object
 JavaScript linter example (using [eslint](https://eslint.org/))
 
 ```json
-[
-  {
-	"file_patterns": ["%.js$", "%.ts$"],
-	"warning_pattern": "[^:]:(%d+):(%d+): ([^%[]+)%[([^\n]+)",
-	"warning_pattern_order": { "line": 1, "col": 2, "message": 3, "type": 4 },
-	"command": "eslint --no-ignore --format unix $FILENAME"
-  }
-]
+{
+	"config": {
+		"delay_time": "0.5s"
+	},
+	"linters": [
+	  {
+		"file_patterns": ["%.js$", "%.ts$"],
+		"warning_pattern": "[^:]:(%d+):(%d+): ([^%[]+)%[([^\n]+)",
+		"warning_pattern_order": { "line": 1, "col": 2, "message": 3, "type": 4 },
+		"command": "eslint --no-ignore --format unix $FILENAME"
+	  }
+	]
+}
 ```
 
 That's all we need to have a working linter in *ecode*. Linters executables must be installed manually
@@ -155,7 +149,11 @@ This means that it must be on `PATH` environment variable or the path to the bin
 * **Zig**: uses the [zig](https://ziglang.org/download/) official binary
 * **Nim**: uses the [nim](https://nim-lang.org/install.html) official binary
 
-#### JSON object keys
+#### Linter config object keys
+
+* **delay_time**: Delay to run the linter after editing a document
+
+#### Linter JSON object keys
 
 * **file_patterns**: Array of Lua Patterns representing the file extensions that must use the linter
 * **warning_pattern**: Lua Pattern to be parsed from the executable stdout
@@ -172,34 +170,50 @@ The formatter plugin works exactly like the linter plugin, but it will execute t
 *ecode* provides support for several languages by default with can be extended easily by expanding the
 `formatters.json` configuration. `formatters.json` default configuration can be obtained from [here](https://raw.githubusercontent.com/SpartanJ/eepp/develop/bin/assets/formatters/formatters.json).
 It also supports some formatters natively, this means that the formatter comes with ecode without requiring any external dependency.
-To configure new linters you can create a new `formatters.json` file in the default configuration path of *ecode*.
+To configure new formatters you can create a new `formatters.json` file in the default configuration path of *ecode*.
 
 #### `formatters.json` format
 
 ```json
-[
-  {
-    "file_patterns": ["%.js$", "%.ts$"],
-    "command": "prettier $FILENAME"
-  }
-]
+{
+	"config": {
+		"auto_format_on_save": false
+	},
+	"keybindings": {
+		"format-doc": "alt+f"
+	},
+	"formatters": [
+		{
+			"file_patterns": ["%.js$", "%.ts$"],
+			"command": "prettier $FILENAME"
+		}
+	]
+}
 ```
 
 #### Currently supported formatters and languages supported
 
 * **JavaScript and TypeScript**: uses [prettier](https://prettier.io) formatter
-* **JSON**: uses [jq](https://stedolan.github.io/jq/) formatter
+* **JSON**: uses [JSON for Modern C++](https://github.com/nlohmann/json) native formatter (no external formatter required).
 * **cpp**: uses [clang-format](https://clang.llvm.org/docs/ClangFormat.html) formatter
 * **Python**: uses [black](https://github.com/psf/black) formatter
 * **Kotlin**: uses [ktlint](https://ktlint.github.io/) formatter
 * **CSS**: uses the eepp CSS native formatter (no external formatter required).
 * **XML**: uses [pugixml](https://github.com/zeux/pugixml/) native formatter (no external formatter required).
 
-#### JSON object keys
+#### Formatter config object keys
+
+* **auto_format_on_save**: Indicates if after saving the file it should be auto-formatted
+
+#### Formatter keybindings object keys
+
+* **format-doc*: Keybinding to format the doc with the configured language formatter
+
+#### Formatter JSON object keys
 
 * **file_patterns**: Array of Lua Patterns representing the file extensions that must use the formatter
 * **command**: The command to execute to run the formatter. $FILENAME represents the file path
-* **type**: Indicates the mode that which the formatter outputs the results. Supported two possible options: "inplace" (file is replaced with the formatted version) and "output" (newly formatted file is the stdout of the program, default option)
+* **type**: Indicates the mode that which the formatter outputs the results. Supported two possible options: "inplace" (file is replaced with the formatted version), "output" (newly formatted file is the stdout of the program, default option) or "native" (uses the formatter provided by ecode)
 
 #### Plugins configuration files location
 
@@ -209,6 +223,46 @@ To configure new linters you can create a new `formatters.json` file in the defa
 * *macOS*: uses `Application Support` folder in `HOME`, usually translates to `~/Library/Application Support/ecode/plugins`
 * *Windows*: uses `APPDATA`, usually translates to `C:\Users\{username}\AppData\ecode\plugins`
 
+## Customizations
+
+### Custom editor color schemes
+
+Custom editor color schemes can be added in the user color schemes directory found at:
+
+* *Linux*: uses `XDG_CONFIG_HOME`, usually translates to `~/.config/ecode/editor/colorschemes`
+* *macOS*: uses `Application Support` folder in `HOME`, usually translates to `~/Library/Application Support/ecode/editor/colorschemes`
+* *Windows*: uses `APPDATA`, usually translates to `C:\Users\{username}\AppData\ecode\editor\colorschemes`
+
+The directory will not exist by default, the user will need to create it.
+Any file written in the directory will be treated as an editor color scheme file. Each file can contain
+any number of color schemes.
+
+The format of a color scheme can be read from [here](https://github.com/SpartanJ/eepp/blob/develop/bin/assets/colorschemes/colorschemes.conf).
+
+### Custom terminal color schemes
+
+Custom terminal color schemes can be added in the user color schemes directory found at:
+
+* *Linux*: uses `XDG_CONFIG_HOME`, usually translates to `~/.config/ecode/terminal/colorschemes`
+* *macOS*: uses `Application Support` folder in `HOME`, usually translates to `~/Library/Application Support/ecode/terminal/colorschemes`
+* *Windows*: uses `APPDATA`, usually translates to `C:\Users\{username}\AppData\ecode\terminal\colorschemes`
+
+The directory will not exist by default, the user will need to create it.
+Any file written in the directory will be treated as a terminal color scheme file. Each file can contain
+any number of color schemes.
+
+The format of a color scheme can be read from [here](https://github.com/SpartanJ/eepp/blob/develop/bin/assets/colorschemes/terminalcolorschemes.conf).
+
+## Planned Features
+
+Listed in no particular order:
+
+* [LSP](https://microsoft.github.io/language-server-protocol/) support
+* [DAP](https://microsoft.github.io/debug-adapter-protocol/) support
+* Multi-cursor support
+* Configurable build pipelines
+* Code-folding
+
 ## Current Limitations
 
 * UTF-8 files only support (with BOM included) \*1
@@ -217,7 +271,7 @@ To configure new linters you can create a new `formatters.json` file in the defa
 * No ligatures support \*4
 * No VIM-mode \*5
 * English only (internationalization pending). It should be implemented soon.
-* Limited Unicode support. No [text-shaping](https://harfbuzz.github.io/why-do-i-need-a-shaping-engine.html), and no support or at least limited for non-romance languages (Arabic, Chinese, Korean, Hebrew, Hindi, Japanese, etc). Emojis are supported. \*2 \*6
+* Limited Unicode support. No [text-shaping](https://harfbuzz.github.io/why-do-i-need-a-shaping-engine.html). Limited support for non-romance languages (Arabic, Chinese, Korean, Hebrew, Hindi, Japanese, etc) in editor (supported in the UI elements and terminal). Emojis are supported. \*2 \*6
 
 _\*1_ I don't see the point of supporting more encodings for the moment. UTF8 is kind of the defacto industry standard.
 
