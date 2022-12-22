@@ -362,6 +362,7 @@ Listed in no particular order:
 * Multi-cursor support
 * Configurable build pipelines
 * Code-folding
+* Command Pallete
 
 ## Current Limitations
 
@@ -402,8 +403,11 @@ Several features were developed based on the lite/lite-xl implementations. Some 
 directly from lite: color-schemes and syntax-highlighting patterns (eepp implementation expands original
 lite implementation to add many more features).
 
-*ecode* it's being used almost exclusively in Linux, it's not well tested in macOS and Windows OS.
+*ecode* is being used almost exclusively in Linux, it's not well tested in macOS and Windows OS.
 If you find any issues with the editor please report it [here](https://github.com/SpartanJ/ecode/issues).
+
+This is a work in progress, stability is not guaranteed. Please don't use it for critical tasks. I'm
+using the editor daily and is stable enough for me, but use it at your own risk.
 
 ## Acknowledgements
 
