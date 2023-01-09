@@ -244,7 +244,7 @@ supported file is opened in the project.
 The format follows the same pattern that all previous configuration files. Configuration is represented
 in a JSON file with three main keys: `config`, `keybindings`, `servers`.
 
-C and C++ LSP server example (using [eslint](https://eslint.org/))
+C and C++ LSP server example (using [clangd](https://clang.llvm.org/extra/clangd))
 
 ```json
 {
@@ -287,6 +287,7 @@ This means that it must be on `PATH` environment variable or the path to the bin
 #### LSP Client config object keys
 
 * **hover_delay**: The time the editor must wait to show symbol information when hovering any piece of code.
+* **server_close_after_idle_time**: The time the LSP Server will keep alive after all documents that consumes that LSP Server were closed. LSP Servers are spawned and killed on demand.
 
 #### LSP Client keybindings object keys
 
