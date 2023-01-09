@@ -244,7 +244,7 @@ supported file is opened in the project.
 The format follows the same pattern that all previous configuration files. Configuration is represented
 in a JSON file with three main keys: `config`, `keybindings`, `servers`.
 
-C and C++ LSP server example (using [clangd](https://clang.llvm.org/extra/clangd))
+C and C++ LSP server example (using [clangd](https://clangd.llvm.org/))
 
 ```json
 {
@@ -255,7 +255,7 @@ C and C++ LSP server example (using [clangd](https://clang.llvm.org/extra/clangd
         {
           "language": "c",
           "name": "clangd",
-          "url": "https://clang.llvm.org/extra/clangd/",
+          "url": "https://clangd.llvm.org/",
           "command": "clangd -log=error --background-index --limit-results=500 --completion-style=bundled",
           "file_patterns": ["%.c$", "%.h$", "%.C$", "%.H$", "%.objc$"]
         },
@@ -275,7 +275,7 @@ This means that it must be on `PATH` environment variable or the path to the bin
 #### Currently supported LSPs and languages supported
 
 * **JavaScript and TypeScript**: [typescript-language-server](https://github.com/theia-ide/typescript-language-server)
-* **C and C++**: uses [clangd](https://clang.llvm.org/extra/clangd)
+* **C and C++**: uses [clangd](https://clangd.llvm.org/)
 * **D**: uses [server](https://github.com/Pure-D/serve-d)
 * **Zig**: uses [zls](https://github.com/zigtools/zls)
 * **Go**: uses [gopls](https://golang.org/x/tools/gopls)
