@@ -1,6 +1,6 @@
 # ecode
 
-*ecode* is a lightweight multi-platform C++ code editor designed for modern hardware with a focus on
+*ecode* is a lightweight multi-platform code editor designed for modern hardware with a focus on
 responsiveness and performance. It has been developed with the hardware-accelerated [eepp GUI](https://github.com/SpartanJ/eepp/),
 which provides the core technology for the editor. The project comes as the first serious project using
 the [eepp GUI](https://github.com/SpartanJ/eepp/), and it's currently being developed to improve the
@@ -19,13 +19,14 @@ For more screenshots checkout [running on macOS](https://user-images.githubuserc
 * Minimalist GUI
 * Syntax Highlighting (including nested syntax highlighting, supporting over 50 languages)
 * Terminal support
+* [LSP](https://microsoft.github.io/language-server-protocol/) support
 * Auto-Completion
 * Customizable Linter support
 * Customizable Formatter support
 * Customizable Color-Schemes
-* Minimap
-* Unlimited editor splitting
 * Customizable keyboard bindings
+* Unlimited editor splitting
+* Minimap
 * Fast global search (and replace)
 * Customizable and scalable (non-integer) GUI (thanks to [eepp GUI](https://github.com/SpartanJ/eepp/))
 * Dark & Light Mode
@@ -44,7 +45,7 @@ For more screenshots checkout [running on macOS](https://user-images.githubuserc
 *ecode* treats folders as projects, like many other editors. The main difference is that it also tries
 to automatically sanitize the project files by filtering out any file that it's filtered in the repository
 `.gitignore` files. The idea is to use the `.gitignore` file as a project setting.
-The remaining project files will be the ones used to: find files in the project and do global searches.
+The project files will be the ones used to find files in the project and do global searches.
 Usually, this translates into much better results for any project-related search.
 Currently there's no way to "unfilter" files filtered by the `.gitignore` configuration, but I plan
 to add the functionality soon.
@@ -55,25 +56,26 @@ with files that are not officially supported.
 
 Some points to illustrate the project philosophy:
 
-* Extendable functionality but in a controlled environment (new features and new plugins are accepted, but the author will supervise any new content that might affect the product quality and performance)
-* Load as few files and resources as possible and load asynchronously as many resources as possible
-* Use the machine resources but not abuse them
-* Developed with modern hardware in mind: expected hardware should have low file system latency (SSD), high cores count and decent GPU acceleration
-* Plugins and non-main functionality should never lock the main thread (GUI thread) or at least should block it as little as possible
-* Terminals are part of the developer workflow
+* Extendable functionality but in a controlled environment. New features and new plugins are accepted, but the author will supervise any new content that might affect the product quality and performance.
+* Load as few files and resources as possible and load asynchronously as many resources as possible. Startup time of the application is considered critical.
+* Use the machine resources but not abuse them.
+* The editor implementation will try to prioritize performance and memory usage over simplicity.
+* Developed with modern hardware in mind: expected hardware should have low file system latency (SSD), high cores count and decent GPU acceleration.
+* Plugins and non-main functionality should never lock the main thread (GUI thread) or at least should block it as little as possible.
+* Terminals are part of the developer workflow.
 
 ## Live Demo
 
 ecode can be compiled to WASM and run in any modern browser. There are no plans to focus the
 development on the web version (at least for the moment) since there are plenty of good solutions out
-there.
+there. But you can give it a try:
 
 [*Demo here*](https://cdn.ensoft.dev/eepp-demos/demo-fs.html?run=ecode.js)
 
 ### Demo Clarifications
 
 * You'll need a modern browser with [SharedArrayBuffer](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/SharedArrayBuffer#browser_compatibility) support
-* Linter and formatter plugins won't work since both work running other processes
+* Linter, Formatter and LSP plugins won't work since both work running other processes
 * WebGL renderer isn't optimized, so it's not as fast as it could/should be (still, performance is good in chromium based browsers)
 * Demo is designed for desktop resolutions (mobile is unusable, IME keyboard won't show up due to an emscripten limitation)
 
@@ -100,34 +102,41 @@ The project name is always *ecode* (so if you are building with make, you'll nee
 
 ## Plugins
 
+Plugins extend the base code editor functionality. Currently all plugins are enabled by default, but
+they are optional and they can be disabled at any time. *ecode* implements an internal protocol that
+allow plugins to communicate with each other. The LSP protocol is going to be used as a base to implement
+the plugin communication. And, for example, the Linter plugin will consume the LSP to improve its diagnostics.
+Also the Auto Complete module will request assistance from the LSP, if available, to improve the
+completions and to provide signature help.
+
 ### Linter
 
 Linter support is provided by executing already stablished linters from each language.
 *ecode* provides support for several languages by default and can be extended easily by expanding the
-`linters.json` configuration. `linters.json` default configuration can be obtained from [here](https://raw.githubusercontent.com/SpartanJ/eepp/develop/bin/assets/linters/linters.json).
+`linters.json` configuration. `linters.json` default configuration can be obtained from [here](https://raw.githubusercontent.com/SpartanJ/eepp/develop/bin/assets/plugins/linters.json).
 To configure new linters you can create a new `linters.json` file in the default configuration path of *ecode*.
 
 #### `linters.json` format
 
-The format is a very simple JSON array of objects containing the file formats supported, the
-Lua pattern to find any error printed by the linter to the stdout, the position of each group of the
-pattern, and the command to execute. It also supports some optional extra object keys.
+The format is a very simple JSON object with a config object and array of objects containing the file
+formats supported, the Lua pattern to find any error printed by the linter to the stdout, the position
+of each group of the pattern, and the command to execute. It also supports some optional extra object keys.
 
 JavaScript linter example (using [eslint](https://eslint.org/))
 
 ```json
 {
-	"config": {
-		"delay_time": "0.5s"
-	},
-	"linters": [
-	  {
-		"file_patterns": ["%.js$", "%.ts$"],
-		"warning_pattern": "[^:]:(%d+):(%d+): ([^%[]+)%[([^\n]+)",
-		"warning_pattern_order": { "line": 1, "col": 2, "message": 3, "type": 4 },
-		"command": "eslint --no-ignore --format unix $FILENAME"
-	  }
-	]
+    "config": {
+        "delay_time": "0.5s"
+    },
+    "linters": [
+      {
+        "file_patterns": ["%.js$", "%.ts$"],
+        "warning_pattern": "[^:]:(%d+):(%d+): ([^%[]+)%[([^\n]+)",
+        "warning_pattern_order": { "line": 1, "col": 2, "message": 3, "type": 4 },
+        "command": "eslint --no-ignore --format unix $FILENAME"
+      }
+    ]
 }
 ```
 
@@ -144,7 +153,7 @@ This means that it must be on `PATH` environment variable or the path to the bin
 * **Python**: uses [pycodestyle](https://github.com/pycqa/pycodestyle)
 * **sh**: uses [shellcheck](https://github.com/koalaman/shellcheck)
 * **Solidity**: uses [solhint](https://protofire.github.io/solhint/)
-* **cpp**: uses [cppcheck](https://github.com/danmar/cppcheck/)
+* **C++**: uses [cppcheck](https://github.com/danmar/cppcheck/)
 * **Kotlin**: uses [ktlint](https://ktlint.github.io/)
 * **Zig**: uses the [zig](https://ziglang.org/download/) official binary
 * **Nim**: uses the [nim](https://nim-lang.org/install.html) official binary
@@ -152,6 +161,8 @@ This means that it must be on `PATH` environment variable or the path to the bin
 #### Linter config object keys
 
 * **delay_time**: Delay to run the linter after editing a document
+* **enable_lsp_diagnostics**: Boolean that enable/disable LSP diagnostics as part of the linting. Enabled by default.
+* **disable_lsp_languages**: Array of LSP languages disabled for LSP diagnostics. For example: `"disable_lsp_languages": ["lua", "python"]`, disables lua and python.
 
 #### Linter JSON object keys
 
@@ -168,7 +179,7 @@ This means that it must be on `PATH` environment variable or the path to the bin
 
 The formatter plugin works exactly like the linter plugin, but it will execute tools that auto-format code.
 *ecode* provides support for several languages by default with can be extended easily by expanding the
-`formatters.json` configuration. `formatters.json` default configuration can be obtained from [here](https://raw.githubusercontent.com/SpartanJ/eepp/develop/bin/assets/formatters/formatters.json).
+`formatters.json` configuration. `formatters.json` default configuration can be obtained from [here](https://raw.githubusercontent.com/SpartanJ/eepp/develop/bin/assets/plugins/formatters.json).
 It also supports some formatters natively, this means that the formatter comes with ecode without requiring any external dependency.
 To configure new formatters you can create a new `formatters.json` file in the default configuration path of *ecode*.
 
@@ -176,18 +187,18 @@ To configure new formatters you can create a new `formatters.json` file in the d
 
 ```json
 {
-	"config": {
-		"auto_format_on_save": false
-	},
-	"keybindings": {
-		"format-doc": "alt+f"
-	},
-	"formatters": [
-		{
-			"file_patterns": ["%.js$", "%.ts$"],
-			"command": "prettier $FILENAME"
-		}
-	]
+    "config": {
+        "auto_format_on_save": false
+    },
+    "keybindings": {
+        "format-doc": "alt+f"
+    },
+    "formatters": [
+        {
+            "file_patterns": ["%.js$", "%.ts$"],
+            "command": "prettier $FILENAME"
+        }
+    ]
 }
 ```
 
@@ -195,7 +206,7 @@ To configure new formatters you can create a new `formatters.json` file in the d
 
 * **JavaScript and TypeScript**: uses [prettier](https://prettier.io) formatter
 * **JSON**: uses [JSON for Modern C++](https://github.com/nlohmann/json) native formatter (no external formatter required).
-* **cpp**: uses [clang-format](https://clang.llvm.org/docs/ClangFormat.html) formatter
+* **C++**: uses [clang-format](https://clang.llvm.org/docs/ClangFormat.html) formatter
 * **Python**: uses [black](https://github.com/psf/black) formatter
 * **Kotlin**: uses [ktlint](https://ktlint.github.io/) formatter
 * **CSS**: uses the eepp CSS native formatter (no external formatter required).
@@ -215,13 +226,104 @@ To configure new formatters you can create a new `formatters.json` file in the d
 * **command**: The command to execute to run the formatter. $FILENAME represents the file path
 * **type**: Indicates the mode that which the formatter outputs the results. Supported two possible options: "inplace" (file is replaced with the formatted version), "output" (newly formatted file is the stdout of the program, default option) or "native" (uses the formatter provided by ecode)
 
-#### Plugins configuration files location
+### LSP Client
+
+LSP support is provided by executing already stablished LSP from each language. It's currently being
+developed and many features aren't present at the moment.
+*ecode* provides support for several languages by default and can be extended easily by expanding the
+`lspclient.json` configuration. `lspclient.json` default configuration can be obtained from [here](https://raw.githubusercontent.com/SpartanJ/eepp/develop/bin/assets/plugins/lspclient.json).
+To configure new LSPs you can create a new `lspclient.json` file in the default configuration path of *ecode*.
+
+Important note: LSP servers can be very resource intensive and might not be always the best option for simple projects.
+
+Implementation details: LSP servers are only loaded when needed, no process will be opened until a
+supported file is opened in the project.
+
+#### `lspclient.json` format
+
+The format follows the same pattern that all previous configuration files. Configuration is represented
+in a JSON file with three main keys: `config`, `keybindings`, `servers`.
+
+C and C++ LSP server example (using [clangd](https://clangd.llvm.org/))
+
+```json
+{
+    "config": {
+        "hover_delay": "0.5s"
+    },
+    "servers": [
+        {
+          "language": "c",
+          "name": "clangd",
+          "url": "https://clangd.llvm.org/",
+          "command": "clangd -log=error --background-index --limit-results=500 --completion-style=bundled",
+          "file_patterns": ["%.c$", "%.h$", "%.C$", "%.H$", "%.objc$"]
+        },
+        {
+          "language": "cpp",
+          "use": "clangd",
+          "file_patterns": ["%.inl$", "%.cpp$", "%.hpp$", "%.cc$", "%.cxx$", "%.c++$", "%.hh$", "%.hxx$", "%.h++$", "%.objcpp$"]
+        }
+    ]
+}
+```
+
+That's all we need to have a working LSP in *ecode*. LSPs executables must be installed manually
+by the user, LSPs will not come with the editor, and they also need to be visible to the executable.
+This means that it must be on `PATH` environment variable or the path to the binary must be absolute.
+
+#### Currently supported LSPs and languages supported
+
+* **JavaScript and TypeScript**: [typescript-language-server](https://github.com/theia-ide/typescript-language-server)
+* **C and C++**: uses [clangd](https://clangd.llvm.org/)
+* **D**: uses [server](https://github.com/Pure-D/serve-d)
+* **Zig**: uses [zls](https://github.com/zigtools/zls)
+* **Go**: uses [gopls](https://golang.org/x/tools/gopls)
+* **PHP**: uses [intelephense](https://intelephense.com)
+* **Lua**: uses [lua-language-server](https://github.com/sumneko/lua-language-server)
+* **Python**: uses [pylsp](https://github.com/python-lsp/python-lsp-server)
+* **Rust**: uses the [rust-analyzer](https://rust-analyzer.github.io)
+
+#### LSP Client config object keys
+
+* **hover_delay**: The time the editor must wait to show symbol information when hovering any piece of code.
+* **server_close_after_idle_time**: The time the LSP Server will keep alive after all documents that consumes that LSP Server were closed. LSP Servers are spawned and killed on demand.
+
+#### LSP Client keybindings object keys
+
+* **lsp-go-to-definition**: Keybinding to "Go to Definition"
+* **lsp-go-to-declaration**: Keybinding to "Go to Declaration"
+* **lsp-go-to-implementation**: Keybinding to "Go to Implementation"
+* **lsp-go-to-type-definition**: Keybinding to "Go to Type Definition"
+* **lsp-switch-header-source**: Keybinding to "Switch Header/Source" (only available for C and C++)
+
+#### LSP Client JSON object keys
+
+* **language**: The LSP language identifier. Some identifiers can be found [here](https://microsoft.github.io/language-server-protocol/specifications/lsp/3.17/specification/#textDocumentItem)
+* **name**: The name of the language server
+* **url** (optional): The web page URL of the language server
+* **use** (optional): A server can be inherit the configuration from other server. This must be the name of the server configuration that inherits (useful for LSPs that support several languages like clang and typescript-language-server).
+* **file_patterns**: Array of Lua Patterns representing the file extensions that must use the LSP client
+* **command**: The command to execute to run the LSP
+* **rootIndicationFileNames** (optional): Some languages need to indicate the project root path to the LSP work correctly. This is an array of files that might indicate where the root path is. Usually this is resolver by the LSP itself, but it might help in some situations.
+* **initializationOptions** (optional): These are custom initialization options that can be passed to the LSP. Usually not required, but it will allow the user to configure the LSP. More information can be found [here](https://microsoft.github.io/language-server-protocol/specifications/lsp/3.17/specification/#initialize).
+
+### Plugins configuration files location
 
 *ecode* respects the standard configuration paths on each OS:
 
 * *Linux*: uses `XDG_CONFIG_HOME`, usually translates to `~/.config/ecode/plugins`
 * *macOS*: uses `Application Support` folder in `HOME`, usually translates to `~/Library/Application Support/ecode/plugins`
 * *Windows*: uses `APPDATA`, usually translates to `C:\Users\{username}\AppData\ecode\plugins`
+
+### Plugins important behaviors
+
+All plugin configurations are designed to be overwriteable by the user. This means that the default
+configuration can be replaced with custom configurations from the user. For example, if the user
+wants to use a different linter, it just needs to declare a new linter definition in its own linter
+configuration file. The same applies to formatters and LSPs servers.
+Plugins will always implement a "config" for plugins customization, and will always implement a
+"keybindings" key to configure custom keybindings.
 
 ## Customizations
 
@@ -257,11 +359,11 @@ The format of a color scheme can be read from [here](https://github.com/SpartanJ
 
 Listed in no particular order:
 
-* [LSP](https://microsoft.github.io/language-server-protocol/) support
 * [DAP](https://microsoft.github.io/debug-adapter-protocol/) support
 * Multi-cursor support
 * Configurable build pipelines
 * Code-folding
+* Command Pallete
 
 ## Current Limitations
 
@@ -269,9 +371,10 @@ Listed in no particular order:
 * No font sub-pixel hinting \*2 \*3
 * No BiDi support \*2
 * No ligatures support \*4
-* No VIM-mode \*5
+* No VIM-mode / modal editing \*5
 * English only (internationalization pending). It should be implemented soon.
 * Limited Unicode support. No [text-shaping](https://harfbuzz.github.io/why-do-i-need-a-shaping-engine.html). Limited support for non-romance languages (Arabic, Chinese, Korean, Hebrew, Hindi, Japanese, etc) in editor (supported in the UI elements and terminal). Emojis are supported. \*2 \*6
+* No tree-sitter support \*7
 
 _\*1_ I don't see the point of supporting more encodings for the moment. UTF8 is kind of the defacto industry standard.
 
@@ -281,9 +384,11 @@ _\*3_ I'm not a fan of sub-pixel hinting. But I'm more than willing to implement
 
 _\*4_ I don't really like ligatures. I'm open to PRs implementing them.
 
-_\*5_ I'm not a VIM user, si I'm not qualified to implement the VIM mode. PRs are welcome to support this.
+_\*5_ I'm not a VIM user, si I'm not qualified to implement the VIM mode or any modal editing. PRs are welcome to support this.
 
 _\*6_ Better Unicode support will come with time, but with no rush for the moment. eepp architecture is ready to add HarfBuzz support.
+
+_\*7_ Tree-sitters might be implemented at some point, but I'm still not 100% sure if it's worth it (yes, I know many of you might think the contrary)
 
 ## Collaborate
 
@@ -299,8 +404,11 @@ Several features were developed based on the lite/lite-xl implementations. Some 
 directly from lite: color-schemes and syntax-highlighting patterns (eepp implementation expands original
 lite implementation to add many more features).
 
-*ecode* it's being used almost exclusively in Linux, it's not well tested in macOS and Windows OS.
+*ecode* is being used almost exclusively in Linux, it's not well tested in macOS and Windows OS.
 If you find any issues with the editor please report it [here](https://github.com/SpartanJ/ecode/issues).
+
+This is a work in progress, stability is not guaranteed. Please don't use it for critical tasks. I'm
+using the editor daily and is stable enough for me, but use it at your own risk.
 
 ## Acknowledgements
 
