@@ -365,6 +365,26 @@ Listed in no particular order:
 * Code-folding
 * Command Pallete
 
+## Collaborate
+
+The author is more than open to collaborations. Any person interested in the project is invited to
+participate. Many features are still pending, and the project will grow much more over time. Please,
+collaborate. =)
+
+## FAQ
+
+## Why some characters are not being rendered correctly inside the editor?
+
+Some Unicode characters won't be rendered in the editor out of the box. You'll need to change the
+default monospace font in favor of a font that supports the characters you want to see that are not
+being rendered. For example in order to be able to use Chinese characters, you'll have to install a
+monospaced font with Chinese characters. When changing the font the editor will complain that using
+a non-monospaced font can have an important impact on the editor's performance (special characters
+like Chinese characters are never monospaced even in "monospaced" fonts) and that's one of the
+reasons why ecode is not supporting CJK fonts out of the box (negative performance impact).
+For CJK fonts (Chinese, Japanese, Korean) there are plenty of options available, I personally
+recommend [Sarasa Gothic Mono](https://picaq.github.io/sarasa/).
+
 ## Current Limitations
 
 * UTF-8 files only support (with BOM included) \*1
@@ -389,12 +409,6 @@ _\*5_ I'm not a VIM user, si I'm not qualified to implement the VIM mode or any 
 _\*6_ Better Unicode support will come with time, but with no rush for the moment. eepp architecture is ready to add HarfBuzz support.
 
 _\*7_ Tree-sitters might be implemented at some point, but I'm still not 100% sure if it's worth it (yes, I know many of you might think the contrary)
-
-## Collaborate
-
-The author is more than open to collaborations. Any person interested in the project is invited to
-participate. Many features are still pending, and the project will grow much more over time. Please,
-collaborate. =)
 
 ## Author comments
 
