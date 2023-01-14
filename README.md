@@ -355,6 +355,20 @@ any number of color schemes.
 
 The format of a color scheme can be read from [here](https://github.com/SpartanJ/eepp/blob/develop/bin/assets/colorschemes/terminalcolorschemes.conf).
 
+## FAQ
+
+## Why some characters are not being rendered correctly inside the editor?
+
+Some Unicode characters won't be rendered in the editor out of the box. You'll need to change the
+default monospace font in favor of a font that supports the characters you want to see that are not
+being rendered. For example in order to be able to use Chinese characters, you'll have to install a
+monospaced font with Chinese characters. When changing the font the editor will complain that using
+a non-monospaced font can have an important impact on the editor's performance (special characters
+like Chinese characters are never monospaced even in "monospaced" fonts) and that's one of the
+reasons why ecode is not supporting CJK fonts out of the box (negative performance impact).
+For CJK fonts (Chinese, Japanese, Korean) there are plenty of options available, I personally
+recommend [Sarasa Gothic Mono](https://picaq.github.io/sarasa/).
+
 ## Planned Features
 
 Listed in no particular order:
