@@ -355,6 +355,22 @@ any number of color schemes.
 
 The format of a color scheme can be read from [here](https://github.com/SpartanJ/eepp/blob/develop/bin/assets/colorschemes/terminalcolorschemes.conf).
 
+## Planned Features
+
+Listed in no particular order:
+
+* [DAP](https://microsoft.github.io/debug-adapter-protocol/) support
+* Multi-cursor support
+* Configurable build pipelines
+* Code-folding
+* Command Pallete
+
+## Collaborate
+
+The author is more than open to collaborations. Any person interested in the project is invited to
+participate. Many features are still pending, and the project will grow much more over time. Please,
+collaborate. =)
+
 ## FAQ
 
 ## Why some characters are not being rendered correctly inside the editor?
@@ -368,16 +384,6 @@ like Chinese characters are never monospaced even in "monospaced" fonts) and tha
 reasons why ecode is not supporting CJK fonts out of the box (negative performance impact).
 For CJK fonts (Chinese, Japanese, Korean) there are plenty of options available, I personally
 recommend [Sarasa Gothic Mono](https://picaq.github.io/sarasa/).
-
-## Planned Features
-
-Listed in no particular order:
-
-* [DAP](https://microsoft.github.io/debug-adapter-protocol/) support
-* Multi-cursor support
-* Configurable build pipelines
-* Code-folding
-* Command Pallete
 
 ## Current Limitations
 
@@ -403,12 +409,6 @@ _\*5_ I'm not a VIM user, si I'm not qualified to implement the VIM mode or any 
 _\*6_ Better Unicode support will come with time, but with no rush for the moment. eepp architecture is ready to add HarfBuzz support.
 
 _\*7_ Tree-sitters might be implemented at some point, but I'm still not 100% sure if it's worth it (yes, I know many of you might think the contrary)
-
-## Collaborate
-
-The author is more than open to collaborations. Any person interested in the project is invited to
-participate. Many features are still pending, and the project will grow much more over time. Please,
-collaborate. =)
 
 ## Author comments
 
