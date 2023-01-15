@@ -283,6 +283,10 @@ This means that it must be on `PATH` environment variable or the path to the bin
 * **Lua**: uses [lua-language-server](https://github.com/sumneko/lua-language-server)
 * **Python**: uses [pylsp](https://github.com/python-lsp/python-lsp-server)
 * **Rust**: uses the [rust-analyzer](https://rust-analyzer.github.io)
+* **Kotlin**: uses [kotlin-language-server](https://github.com/fwcd/kotlin-language-server)
+* **nim**: uses [nimlsp](https://github.com/PMunch/nimlsp)
+* **Ruby**: uses [solargraph](https://solargraph.org/)
+* **YAML**: uses [yaml-language-server](https://github.com/redhat-developer/yaml-language-server)
 
 #### LSP Client config object keys
 
