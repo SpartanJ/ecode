@@ -318,7 +318,7 @@ This means that it must be on `PATH` environment variable or the path to the bin
 
 * *Linux*: uses `XDG_CONFIG_HOME`, usually translates to `~/.config/ecode/plugins`
 * *macOS*: uses `Application Support` folder in `HOME`, usually translates to `~/Library/Application Support/ecode/plugins`
-* *Windows*: uses `APPDATA`, usually translates to `C:\Users\{username}\AppData\ecode\plugins`
+* *Windows*: uses `APPDATA`, usually translates to `C:\Users\{username}\AppData\Roaming\ecode\plugins`
 
 ### Plugins important behaviors
 
@@ -337,7 +337,7 @@ Custom editor color schemes can be added in the user color schemes directory fou
 
 * *Linux*: uses `XDG_CONFIG_HOME`, usually translates to `~/.config/ecode/editor/colorschemes`
 * *macOS*: uses `Application Support` folder in `HOME`, usually translates to `~/Library/Application Support/ecode/editor/colorschemes`
-* *Windows*: uses `APPDATA`, usually translates to `C:\Users\{username}\AppData\ecode\editor\colorschemes`
+* *Windows*: uses `APPDATA`, usually translates to `C:\Users\{username}\AppData\Roaming\ecode\editor\colorschemes`
 
 The directory will not exist by default, the user will need to create it.
 Any file written in the directory will be treated as an editor color scheme file. Each file can contain
@@ -351,7 +351,7 @@ Custom terminal color schemes can be added in the user color schemes directory f
 
 * *Linux*: uses `XDG_CONFIG_HOME`, usually translates to `~/.config/ecode/terminal/colorschemes`
 * *macOS*: uses `Application Support` folder in `HOME`, usually translates to `~/Library/Application Support/ecode/terminal/colorschemes`
-* *Windows*: uses `APPDATA`, usually translates to `C:\Users\{username}\AppData\ecode\terminal\colorschemes`
+* *Windows*: uses `APPDATA`, usually translates to `C:\Users\{username}\AppData\Roaming\ecode\terminal\colorschemes`
 
 The directory will not exist by default, the user will need to create it.
 Any file written in the directory will be treated as a terminal color scheme file. Each file can contain
