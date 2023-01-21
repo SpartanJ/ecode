@@ -209,6 +209,7 @@ To configure new formatters you can create a new `formatters.json` file in the d
 * **C++**: uses [clang-format](https://clang.llvm.org/docs/ClangFormat.html) formatter
 * **Python**: uses [black](https://github.com/psf/black) formatter
 * **Kotlin**: uses [ktlint](https://ktlint.github.io/) formatter
+* **Go**: uses [gopls](https://github.com/golang/tools/blob/master/gopls/README.md) formatter
 * **CSS**: uses the eepp CSS native formatter (no external formatter required).
 * **XML**: uses [pugixml](https://github.com/zeux/pugixml/) native formatter (no external formatter required).
 
@@ -276,7 +277,7 @@ This means that it must be on `PATH` environment variable or the path to the bin
 
 * **JavaScript and TypeScript**: [typescript-language-server](https://github.com/theia-ide/typescript-language-server)
 * **C and C++**: uses [clangd](https://clangd.llvm.org/)
-* **D**: uses [server](https://github.com/Pure-D/serve-d)
+* **D**: uses [serve-d](https://github.com/Pure-D/serve-d)
 * **Zig**: uses [zls](https://github.com/zigtools/zls)
 * **Go**: uses [gopls](https://golang.org/x/tools/gopls)
 * **PHP**: uses [intelephense](https://intelephense.com)
@@ -287,6 +288,8 @@ This means that it must be on `PATH` environment variable or the path to the bin
 * **nim**: uses [nimlsp](https://github.com/PMunch/nimlsp)
 * **Ruby**: uses [solargraph](https://solargraph.org/)
 * **YAML**: uses [yaml-language-server](https://github.com/redhat-developer/yaml-language-server)
+* **Odin**: uses [ols](https://github.com/DanielGavin/ols)
+* **Dart**: uses [dart native LSP](https://github.com/dart-lang/sdk/blob/main/pkg/analysis_server/tool/lsp_spec)
 
 #### LSP Client config object keys
 
