@@ -299,6 +299,7 @@ This means that it must be on `PATH` environment variable or the path to the bin
 
 #### LSP Client keybindings object keys
 
+* **lsp-symbol-info**: Keybinding to request symbol information
 * **lsp-go-to-definition**: Keybinding to "Go to Definition"
 * **lsp-go-to-declaration**: Keybinding to "Go to Declaration"
 * **lsp-go-to-implementation**: Keybinding to "Go to Implementation"
