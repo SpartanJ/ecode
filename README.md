@@ -18,6 +18,7 @@ For more screenshots checkout [running on macOS](https://user-images.githubuserc
 * Portable
 * Minimalist GUI
 * Syntax Highlighting (including nested syntax highlighting, supporting over 50 languages)
+* Multi-cursor support
 * Terminal support
 * [LSP](https://microsoft.github.io/language-server-protocol/) support
 * Auto-Completion
@@ -367,7 +368,6 @@ The format of a color scheme can be read from [here](https://github.com/SpartanJ
 Listed in no particular order:
 
 * [DAP](https://microsoft.github.io/debug-adapter-protocol/) support
-* Multi-cursor support
 * Configurable build pipelines
 * Code-folding
 * Command Pallete
