@@ -163,6 +163,7 @@ This means that it must be on `PATH` environment variable or the path to the bin
 #### Linter config object keys
 
 * **delay_time**: Delay to run the linter after editing a document
+* **enable_error_lens**: Enables error lens (prints the message inline)
 * **enable_lsp_diagnostics**: Boolean that enable/disable LSP diagnostics as part of the linting. Enabled by default.
 * **disable_lsp_languages**: Array of LSP languages disabled for LSP diagnostics. For example: `"disable_lsp_languages": ["lua", "python"]`, disables lua and python.
 
@@ -373,6 +374,9 @@ Listed in no particular order:
 * Configurable build pipelines
 * Code-folding
 * Command Pallete
+* Git integration (visual git diff, git blame, git branch, etc)
+* Improved LSP integration
+* Improved plugin system (visual configuration, more flexibility/features)
 
 ## Collaborate
 
