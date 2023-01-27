@@ -158,6 +158,7 @@ This means that it must be on `PATH` environment variable or the path to the bin
 * **Kotlin**: uses [ktlint](https://ktlint.github.io/)
 * **Zig**: uses the [zig](https://ziglang.org/download/) official binary
 * **Nim**: uses the [nim](https://nim-lang.org/install.html) official binary
+* **Nelua**: uses the [nelua](https://nelua.io/installing/) official binary
 
 #### Linter config object keys
 
