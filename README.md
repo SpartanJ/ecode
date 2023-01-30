@@ -18,6 +18,7 @@ For more screenshots checkout [running on macOS](https://user-images.githubuserc
 * Portable
 * Minimalist GUI
 * Syntax Highlighting (including nested syntax highlighting, supporting over 50 languages)
+* Multi-cursor support
 * Terminal support
 * [LSP](https://microsoft.github.io/language-server-protocol/) support
 * Auto-Completion
@@ -157,10 +158,12 @@ This means that it must be on `PATH` environment variable or the path to the bin
 * **Kotlin**: uses [ktlint](https://ktlint.github.io/)
 * **Zig**: uses the [zig](https://ziglang.org/download/) official binary
 * **Nim**: uses the [nim](https://nim-lang.org/install.html) official binary
+* **Nelua**: uses the [nelua](https://nelua.io/installing/) official binary
 
 #### Linter config object keys
 
 * **delay_time**: Delay to run the linter after editing a document
+* **enable_error_lens**: Enables error lens (prints the message inline)
 * **enable_lsp_diagnostics**: Boolean that enable/disable LSP diagnostics as part of the linting. Enabled by default.
 * **disable_lsp_languages**: Array of LSP languages disabled for LSP diagnostics. For example: `"disable_lsp_languages": ["lua", "python"]`, disables lua and python.
 
@@ -298,6 +301,7 @@ This means that it must be on `PATH` environment variable or the path to the bin
 
 #### LSP Client keybindings object keys
 
+* **lsp-symbol-info**: Keybinding to request symbol information
 * **lsp-go-to-definition**: Keybinding to "Go to Definition"
 * **lsp-go-to-declaration**: Keybinding to "Go to Declaration"
 * **lsp-go-to-implementation**: Keybinding to "Go to Implementation"
@@ -367,10 +371,12 @@ The format of a color scheme can be read from [here](https://github.com/SpartanJ
 Listed in no particular order:
 
 * [DAP](https://microsoft.github.io/debug-adapter-protocol/) support
-* Multi-cursor support
 * Configurable build pipelines
 * Code-folding
 * Command Pallete
+* Git integration (visual git diff, git blame, git branch, etc)
+* Improved LSP integration
+* Improved plugin system (visual configuration, more flexibility/features)
 
 ## Collaborate
 
