@@ -20,6 +20,7 @@ For more screenshots checkout [running on macOS](https://user-images.githubuserc
 * Syntax Highlighting (including nested syntax highlighting, supporting over 50 languages)
 * Multi-cursor support
 * Terminal support
+* Command Palette
 * [LSP](https://microsoft.github.io/language-server-protocol/) support
 * Auto-Completion
 * Customizable Linter support
@@ -48,9 +49,10 @@ to automatically sanitize the project files by filtering out any file that it's 
 `.gitignore` files. The idea is to use the `.gitignore` file as a project setting.
 The project files will be the ones used to find files in the project and do global searches.
 Usually, this translates into much better results for any project-related search.
-Currently there's no way to "unfilter" files filtered by the `.gitignore` configuration, but I plan
-to add the functionality soon.
-Also, ecode will only add files that are supported by the editor, the editor won't try to do anything
+There's also a very simple mechanism to allow visibility of filtered files by the `.gitignore`, by
+adding a file with the allowed filtered patterns in a subfolder over the folder loaded, creating a file
+in `.ecode/.prjallowed` with the necessary glob patterns allowing the filtered patterns to be "unfiltered".
+ecode will only add files that are supported by the editor, the editor won't try to do anything
 with files that are not officially supported.
 
 ## Philosophy
@@ -225,7 +227,7 @@ Plus the LSP formatters available.
 
 #### Formatter keybindings object keys
 
-* **format-doc*: Keybinding to format the doc with the configured language formatter
+* **format-doc**: Keybinding to format the doc with the configured language formatter
 
 #### Formatter JSON object keys
 
@@ -286,6 +288,7 @@ This means that it must be on `PATH` environment variable or the path to the bin
 * **D**: uses [serve-d](https://github.com/Pure-D/serve-d)
 * **Dart**: uses [dart native LSP](https://github.com/dart-lang/sdk/blob/main/pkg/analysis_server/tool/lsp_spec)
 * **Go**: uses [gopls](https://golang.org/x/tools/gopls)
+* **Java**: uses [eclipse.jdt.ls](https://github.com/eclipse/eclipse.jdt.ls)
 * **JavaScript and TypeScript**: [typescript-language-server](https://github.com/theia-ide/typescript-language-server)
 * **Kotlin**: uses [kotlin-language-server](https://github.com/fwcd/kotlin-language-server)
 * **Lua**: uses [lua-language-server](https://github.com/sumneko/lua-language-server)
@@ -295,6 +298,7 @@ This means that it must be on `PATH` environment variable or the path to the bin
 * **Python**: uses [pylsp](https://github.com/python-lsp/python-lsp-server)
 * **Ruby**: uses [solargraph](https://solargraph.org/)
 * **Rust**: uses the [rust-analyzer](https://rust-analyzer.github.io)
+* **Vue**: uses [vls](https://github.com/vuejs/vetur/tree/master/server)
 * **YAML**: uses [yaml-language-server](https://github.com/redhat-developer/yaml-language-server)
 * **Zig**: uses [zls](https://github.com/zigtools/zls)
 
@@ -374,13 +378,18 @@ The format of a color scheme can be read from [here](https://github.com/SpartanJ
 
 Listed in no particular order:
 
-* [DAP](https://microsoft.github.io/debug-adapter-protocol/) support
-* Configurable build pipelines
-* Code-folding
-* Command Pallete
-* Git integration (visual git diff, git blame, git branch, etc)
-* Improved LSP integration
+* Git integration (visual git diff, git blame, git status, etc)
+* Improved LSP integration (semantic highlighting, code actions, symbol viewer)
 * Improved plugin system (visual configuration, more flexibility/features)
+* Custom languages support (load language definition from files)
+* [DAP](https://microsoft.github.io/debug-adapter-protocol/) support
+* Code-folding
+* Configurable build pipelines
+
+### Long Term Features
+
+* Remote development support
+* Modal editing
 
 ## Collaborate
 
@@ -394,7 +403,7 @@ collaborate. =)
 
 Some Unicode characters won't be rendered in the editor out of the box. You'll need to change the
 default monospace font in favor of a font that supports the characters you want to see that are not
-being rendered. You could also change the default fallback font in the case you want to use a 
+being rendered. You could also change the default fallback font in the case you want to use a
 traditional monospaced font. The default fallback font should cover a wide range of languages but
 you could need some special font.
 
