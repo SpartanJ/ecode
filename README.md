@@ -395,7 +395,7 @@ should contain the language definition.
 	"patterns": [
 		{ "pattern": "lua_pattern", "type": "type_name" },
 		{ "pattern": ["lua_pattern_start", "lua_pattern_end", "escape_character"], "type": "type_name" }
-	},
+	],
 	"symbols": [
 		{ "symbol_name": "type_name" }
 	],
