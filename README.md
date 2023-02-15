@@ -394,7 +394,7 @@ should contain the language definition.
 	"comment": "Sets the comment string used for auto-comment functionality.",
 	"patterns": [
 		{ "pattern": "lua_pattern", "type": "type_name" },
-		{ "pattern": ["lua_pattern_start", "lua_pattern_end", "escape_character"], "type": "type_name" },
+		{ "pattern": ["lua_pattern_start", "lua_pattern_end", "escape_character"], "type": "type_name" }
 	},
 	"symbols": [
 		{ "symbol_name": "type_name" }
