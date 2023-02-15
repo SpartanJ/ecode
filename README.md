@@ -20,6 +20,7 @@ For more screenshots checkout [running on macOS](https://user-images.githubuserc
 * Syntax Highlighting (including nested syntax highlighting, supporting over 50 languages)
 * Multi-cursor support
 * Terminal support
+* Command Palette
 * [LSP](https://microsoft.github.io/language-server-protocol/) support
 * Auto-Completion
 * Customizable Linter support
@@ -48,9 +49,10 @@ to automatically sanitize the project files by filtering out any file that it's 
 `.gitignore` files. The idea is to use the `.gitignore` file as a project setting.
 The project files will be the ones used to find files in the project and do global searches.
 Usually, this translates into much better results for any project-related search.
-Currently there's no way to "unfilter" files filtered by the `.gitignore` configuration, but I plan
-to add the functionality soon.
-Also, ecode will only add files that are supported by the editor, the editor won't try to do anything
+There's also a very simple mechanism to allow visibility of filtered files by the `.gitignore`, by
+adding a file with the allowed filtered patterns in a subfolder over the folder loaded, creating a file
+in `.ecode/.prjallowed` with the necessary glob patterns allowing the filtered patterns to be "unfiltered".
+ecode will only add files that are supported by the editor, the editor won't try to do anything
 with files that are not officially supported.
 
 ## Philosophy
@@ -76,7 +78,7 @@ there. But you can give it a try:
 ### Demo Clarifications
 
 * You'll need a modern browser with [SharedArrayBuffer](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/SharedArrayBuffer#browser_compatibility) support
-* Linter, Formatter and LSP plugins won't work since both work running other processes
+* Linter, Formatter and LSP plugins won't work since both work running other processes (except for the native formatters that are available)
 * WebGL renderer isn't optimized, so it's not as fast as it could/should be (still, performance is good in chromium based browsers)
 * Demo is designed for desktop resolutions (mobile is unusable, IME keyboard won't show up due to an emscripten limitation)
 
@@ -115,7 +117,7 @@ completions and to provide signature help.
 Linter support is provided by executing already stablished linters from each language.
 *ecode* provides support for several languages by default and can be extended easily by expanding the
 `linters.json` configuration. `linters.json` default configuration can be obtained from [here](https://raw.githubusercontent.com/SpartanJ/eepp/develop/bin/assets/plugins/linters.json).
-To configure new linters you can create a new `linters.json` file in the default configuration path of *ecode*.
+To configure new linters you can create a new `linters.json` file in the [default configuration path](#plugins-configuration-files-location) of *ecode*.
 
 #### `linters.json` format
 
@@ -147,18 +149,18 @@ This means that it must be on `PATH` environment variable or the path to the bin
 
 #### Currently supported linters and languages supported
 
+* **C++**: uses [cppcheck](https://github.com/danmar/cppcheck/)
 * **JavaScript and TypeScript**: [eslint](https://eslint.org/)
-* **PHP**: uses the [php](https://php.net) official binary
 * **JSON**: linted with [jq](https://stedolan.github.io/jq/)
+* **Kotlin**: uses [ktlint](https://ktlint.github.io/)
 * **Lua**: uses [luacheck](https://github.com/mpeterv/luacheck)
+* **PHP**: uses the [php](https://php.net) official binary
 * **Python**: uses [pycodestyle](https://github.com/pycqa/pycodestyle)
 * **sh**: uses [shellcheck](https://github.com/koalaman/shellcheck)
 * **Solidity**: uses [solhint](https://protofire.github.io/solhint/)
-* **C++**: uses [cppcheck](https://github.com/danmar/cppcheck/)
-* **Kotlin**: uses [ktlint](https://ktlint.github.io/)
-* **Zig**: uses the [zig](https://ziglang.org/download/) official binary
-* **Nim**: uses the [nim](https://nim-lang.org/install.html) official binary
 * **Nelua**: uses the [nelua](https://nelua.io/installing/) official binary
+* **Nim**: uses the [nim](https://nim-lang.org/install.html) official binary
+* **Zig**: uses the [zig](https://ziglang.org/download/) official binary
 
 #### Linter config object keys
 
@@ -184,7 +186,8 @@ The formatter plugin works exactly like the linter plugin, but it will execute t
 *ecode* provides support for several languages by default with can be extended easily by expanding the
 `formatters.json` configuration. `formatters.json` default configuration can be obtained from [here](https://raw.githubusercontent.com/SpartanJ/eepp/develop/bin/assets/plugins/formatters.json).
 It also supports some formatters natively, this means that the formatter comes with ecode without requiring any external dependency.
-To configure new formatters you can create a new `formatters.json` file in the default configuration path of *ecode*.
+And also supports LSP text document formatting, meaning that if you're running an LSP that supports formatting documents, formatting will be available too.
+To configure new formatters you can create a new `formatters.json` file in the [default configuration path](#plugins-configuration-files-location) of *ecode*.
 
 #### `formatters.json` format
 
@@ -207,14 +210,16 @@ To configure new formatters you can create a new `formatters.json` file in the d
 
 #### Currently supported formatters and languages supported
 
+* **C++**: uses [clang-format](https://clang.llvm.org/docs/ClangFormat.html) formatter
+* **CSS**: uses the eepp CSS native formatter (no external formatter required).
+* **Go**: uses [gopls](https://github.com/golang/tools/blob/master/gopls/README.md) formatter
 * **JavaScript and TypeScript**: uses [prettier](https://prettier.io) formatter
 * **JSON**: uses [JSON for Modern C++](https://github.com/nlohmann/json) native formatter (no external formatter required).
-* **C++**: uses [clang-format](https://clang.llvm.org/docs/ClangFormat.html) formatter
-* **Python**: uses [black](https://github.com/psf/black) formatter
 * **Kotlin**: uses [ktlint](https://ktlint.github.io/) formatter
-* **Go**: uses [gopls](https://github.com/golang/tools/blob/master/gopls/README.md) formatter
-* **CSS**: uses the eepp CSS native formatter (no external formatter required).
+* **Python**: uses [black](https://github.com/psf/black) formatter
 * **XML**: uses [pugixml](https://github.com/zeux/pugixml/) native formatter (no external formatter required).
+
+Plus the LSP formatters available.
 
 #### Formatter config object keys
 
@@ -222,7 +227,7 @@ To configure new formatters you can create a new `formatters.json` file in the d
 
 #### Formatter keybindings object keys
 
-* **format-doc*: Keybinding to format the doc with the configured language formatter
+* **format-doc**: Keybinding to format the doc with the configured language formatter
 
 #### Formatter JSON object keys
 
@@ -236,7 +241,7 @@ LSP support is provided by executing already stablished LSP from each language. 
 developed and many features aren't present at the moment.
 *ecode* provides support for several languages by default and can be extended easily by expanding the
 `lspclient.json` configuration. `lspclient.json` default configuration can be obtained from [here](https://raw.githubusercontent.com/SpartanJ/eepp/develop/bin/assets/plugins/lspclient.json).
-To configure new LSPs you can create a new `lspclient.json` file in the default configuration path of *ecode*.
+To configure new LSPs you can create a new `lspclient.json` file in the [default configuration path](#plugins-configuration-files-location) of *ecode*.
 
 Important note: LSP servers can be very resource intensive and might not be always the best option for simple projects.
 
@@ -278,21 +283,24 @@ This means that it must be on `PATH` environment variable or the path to the bin
 
 #### Currently supported LSPs and languages supported
 
-* **JavaScript and TypeScript**: [typescript-language-server](https://github.com/theia-ide/typescript-language-server)
 * **C and C++**: uses [clangd](https://clangd.llvm.org/)
+* **C#**: uses [OmniSharp](https://github.com/OmniSharp/omnisharp-roslyn)
 * **D**: uses [serve-d](https://github.com/Pure-D/serve-d)
-* **Zig**: uses [zls](https://github.com/zigtools/zls)
-* **Go**: uses [gopls](https://golang.org/x/tools/gopls)
-* **PHP**: uses [intelephense](https://intelephense.com)
-* **Lua**: uses [lua-language-server](https://github.com/sumneko/lua-language-server)
-* **Python**: uses [pylsp](https://github.com/python-lsp/python-lsp-server)
-* **Rust**: uses the [rust-analyzer](https://rust-analyzer.github.io)
-* **Kotlin**: uses [kotlin-language-server](https://github.com/fwcd/kotlin-language-server)
-* **nim**: uses [nimlsp](https://github.com/PMunch/nimlsp)
-* **Ruby**: uses [solargraph](https://solargraph.org/)
-* **YAML**: uses [yaml-language-server](https://github.com/redhat-developer/yaml-language-server)
-* **Odin**: uses [ols](https://github.com/DanielGavin/ols)
 * **Dart**: uses [dart native LSP](https://github.com/dart-lang/sdk/blob/main/pkg/analysis_server/tool/lsp_spec)
+* **Go**: uses [gopls](https://golang.org/x/tools/gopls)
+* **Java**: uses [eclipse.jdt.ls](https://github.com/eclipse/eclipse.jdt.ls)
+* **JavaScript and TypeScript**: [typescript-language-server](https://github.com/theia-ide/typescript-language-server)
+* **Kotlin**: uses [kotlin-language-server](https://github.com/fwcd/kotlin-language-server)
+* **Lua**: uses [lua-language-server](https://github.com/sumneko/lua-language-server)
+* **nim**: uses [nimlsp](https://github.com/PMunch/nimlsp)
+* **Odin**: uses [ols](https://github.com/DanielGavin/ols)
+* **PHP**: uses [intelephense](https://intelephense.com)
+* **Python**: uses [pylsp](https://github.com/python-lsp/python-lsp-server)
+* **Ruby**: uses [solargraph](https://solargraph.org/)
+* **Rust**: uses the [rust-analyzer](https://rust-analyzer.github.io)
+* **Vue**: uses [vls](https://github.com/vuejs/vetur/tree/master/server)
+* **YAML**: uses [yaml-language-server](https://github.com/redhat-developer/yaml-language-server)
+* **Zig**: uses [zls](https://github.com/zigtools/zls)
 
 #### LSP Client config object keys
 
@@ -315,7 +323,7 @@ This means that it must be on `PATH` environment variable or the path to the bin
 * **url** (optional): The web page URL of the language server
 * **use** (optional): A server can be inherit the configuration from other server. This must be the name of the server configuration that inherits (useful for LSPs that support several languages like clang and typescript-language-server).
 * **file_patterns**: Array of Lua Patterns representing the file extensions that must use the LSP client
-* **command**: The command to execute to run the LSP
+* **command**: The command to execute to run the LSP. It's possible to override the default LSP command by declaring the server in the `lspclient.json` config.
 * **rootIndicationFileNames** (optional): Some languages need to indicate the project root path to the LSP work correctly. This is an array of files that might indicate where the root path is. Usually this is resolver by the LSP itself, but it might help in some situations.
 * **initializationOptions** (optional): These are custom initialization options that can be passed to the LSP. Usually not required, but it will allow the user to configure the LSP. More information can be found [here](https://microsoft.github.io/language-server-protocol/specifications/lsp/3.17/specification/#initialize).
 
@@ -370,13 +378,18 @@ The format of a color scheme can be read from [here](https://github.com/SpartanJ
 
 Listed in no particular order:
 
-* [DAP](https://microsoft.github.io/debug-adapter-protocol/) support
-* Configurable build pipelines
-* Code-folding
-* Command Pallete
-* Git integration (visual git diff, git blame, git branch, etc)
-* Improved LSP integration
+* Git integration (visual git diff, git blame, git status, etc)
+* Improved LSP integration (semantic highlighting, code actions, symbol viewer)
 * Improved plugin system (visual configuration, more flexibility/features)
+* Custom languages support (load language definition from files)
+* [DAP](https://microsoft.github.io/debug-adapter-protocol/) support
+* Code-folding
+* Configurable build pipelines
+
+### Long Term Features
+
+* Remote development support
+* Modal editing
 
 ## Collaborate
 
@@ -390,13 +403,9 @@ collaborate. =)
 
 Some Unicode characters won't be rendered in the editor out of the box. You'll need to change the
 default monospace font in favor of a font that supports the characters you want to see that are not
-being rendered. For example in order to be able to use Chinese characters, you'll have to install a
-monospaced font with Chinese characters. When changing the font the editor will complain that using
-a non-monospaced font can have an important impact on the editor's performance (special characters
-like Chinese characters are never monospaced even in "monospaced" fonts) and that's one of the
-reasons why ecode is not supporting CJK fonts out of the box (negative performance impact).
-For CJK fonts (Chinese, Japanese, Korean) there are plenty of options available, I personally
-recommend [Sarasa Gothic Mono](https://picaq.github.io/sarasa/).
+being rendered. You could also change the default fallback font in the case you want to use a
+traditional monospaced font. The default fallback font should cover a wide range of languages but
+you could need some special font.
 
 ## Current Limitations
 
