@@ -372,6 +372,80 @@ any number of color schemes.
 
 The format of a color scheme can be read from [here](https://github.com/SpartanJ/eepp/blob/develop/bin/assets/colorschemes/terminalcolorschemes.conf).
 
+## Language support
+
+ecode is constantly adding more languages support and also supports extending it's language support
+via configuration files (for every feature: syntax highlighting, LSP, linter and formatter).
+
+### Language support table
+
+|     Language     | Highlight |             LSP            |   Linter   |   Formatter  |
+|       :---:      |   :---:   |            :---:           |    :---:   |     :---:    |
+| .ignore file     | Found     | None                       | None       | None         |
+| [x]it!           | Found     | None                       | None       | None         |
+| algelscript      | Found     | None                       | None       | None         |
+| bat              | Found     | None                       | None       | None         |
+| c                | Found     | clangd                     | cppcheck   | clang-format |
+| cmake            | Found     | None                       | None       | None         |
+| cpp              | Found     | clangd                     | cppcheck   | clang-format |
+| csharp           | Found     | mono                       | None       | None         |
+| css              | Found     | None                       | None       | native       |
+| d                | Found     | serve-d                    | None       | None         |
+| dart             | Found     | dart                       | None       | None         |
+| diff             | Found     | None                       | None       | None         |
+| dockerfile       | Found     | docker-langserver          | None       | None         |
+| environment file | Found     | None                       | None       | None         |
+| gdscript         | Found     | None                       | None       | None         |
+| glsl             | Found     | None                       | None       | None         |
+| go               | Found     | gopls                      | None       | gopls        |
+| haskell          | Found     | None                       | None       | None         |
+| hlsl             | Found     | None                       | None       | None         |
+| html             | Found     | html-languageserver        | None       | native       |
+| ini              | Found     | None                       | None       | None         |
+| java             | Found     | jdtls                      | None       | None         |
+| javascript       | Found     | typescript-language-server | eslint     | prettier     |
+| json             | Found     | None                       | jq         | native       |
+| jsx              | Found     | None                       | None       | None         |
+| kotlin           | Found     | kotlin-language-server     | ktlint     | ktlint       |
+| latex            | Found     | None                       | None       | None         |
+| lua              | Found     | lua-language-server        | luacheck   | None         |
+| makefile         | Found     | None                       | None       | None         |
+| markdown         | Found     | None                       | None       | None         |
+| meson            | Found     | None                       | None       | None         |
+| nelua            | Found     | None                       | nelua      | None         |
+| nim              | Found     | nimlsp                     | nim        | None         |
+| objective-c      | Found     | None                       | None       | None         |
+| odin             | Found     | ols                        | None       | None         |
+| perl             | Found     | None                       | None       | None         |
+| php              | Found     | intelephense               | php        | None         |
+| plaintext        | Found     | None                       | None       | None         |
+| po               | Found     | None                       | None       | None         |
+| powershell       | Found     | None                       | None       | None         |
+| python           | Found     | pylsp                      | ruff       | black        |
+| ruby             | Found     | solargraph                 | None       | None         |
+| rust             | Found     | rust-analyzer              | None       | rustfmt      |
+| sass             | Found     | None                       | None       | None         |
+| scala            | Found     | None                       | None       | None         |
+| shellscript      | Found     | None                       | shellcheck | None         |
+| solidity         | Found     | None                       | solhint    | None         |
+| sql              | Found     | None                       | None       | None         |
+| swift            | Found     | None                       | None       | None         |
+| teal             | Found     | None                       | tl         | None         |
+| typescript       | Found     | typescript-language-server | eslint     | prettier     |
+| vue              | Found     | vls                        | None       | None         |
+| wren             | Found     | None                       | None       | None         |
+| xml              | Found     | None                       | None       | native       |
+| yaml             | Found     | yaml-language-server       | None       | None         |
+| zig              | Found     | zls                        | zig        | None         |
+
+### Language support health
+
+ecode brings a CLI flag `ecode --health`. Use the health check flag to troubleshoot missing language
+servers, linters and formatters.
+
+Check the health of all languages with `ecode --health` or ask for details about a specific language
+with `ecode --health-lang=<lang>`.
+
 ## Custom languages support
 
 Custom languages support can be added in the languages directory found at:
@@ -491,7 +565,6 @@ Listed in no particular order:
 * Git integration (visual git diff, git blame, git status, etc)
 * Improved LSP integration (semantic highlighting, code actions, symbol viewer)
 * Improved plugin system (visual configuration, more flexibility/features)
-* Custom languages support (load language definition from files)
 * [DAP](https://microsoft.github.io/debug-adapter-protocol/) support
 * Code-folding
 * Configurable build pipelines
