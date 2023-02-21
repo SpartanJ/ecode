@@ -218,6 +218,7 @@ To configure new formatters you can create a new `formatters.json` file in the [
 * **Kotlin**: uses [ktlint](https://ktlint.github.io/) formatter
 * **Python**: uses [black](https://github.com/psf/black) formatter
 * **XML**: uses [pugixml](https://github.com/zeux/pugixml/) native formatter (no external formatter required).
+* **Zig**: uses the [zig](https://ziglang.org/download/) official binary
 
 Plus the LSP formatters available.
 
@@ -394,6 +395,7 @@ via configuration files (for every feature: syntax highlighting, LSP, linter and
 | dart             | Found     | dart                       | None       | None         |
 | diff             | Found     | None                       | None       | None         |
 | dockerfile       | Found     | docker-langserver          | None       | None         |
+| elixir           | Found     | None                       | None       | None         |
 | environment file | Found     | None                       | None       | None         |
 | gdscript         | Found     | None                       | None       | None         |
 | glsl             | Found     | None                       | None       | None         |
@@ -436,7 +438,7 @@ via configuration files (for every feature: syntax highlighting, LSP, linter and
 | wren             | Found     | None                       | None       | None         |
 | xml              | Found     | None                       | None       | native       |
 | yaml             | Found     | yaml-language-server       | None       | None         |
-| zig              | Found     | zls                        | zig        | None         |
+| zig              | Found     | zls                        | zig        | zig          |
 
 ### Language support health
 
@@ -563,7 +565,7 @@ by ecode [here](https://github.com/SpartanJ/eepp/blob/develop/src/eepp/ui/doc/sy
 Listed in no particular order:
 
 * Git integration (visual git diff, git blame, git status, etc)
-* Improved LSP integration (semantic highlighting, code actions, symbol viewer)
+* Improved LSP integration (semantic highlighting, symbol viewer)
 * Improved plugin system (visual configuration, more flexibility/features)
 * [DAP](https://microsoft.github.io/debug-adapter-protocol/) support
 * Code-folding
