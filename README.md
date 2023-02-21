@@ -218,6 +218,7 @@ To configure new formatters you can create a new `formatters.json` file in the [
 * **Kotlin**: uses [ktlint](https://ktlint.github.io/) formatter
 * **Python**: uses [black](https://github.com/psf/black) formatter
 * **XML**: uses [pugixml](https://github.com/zeux/pugixml/) native formatter (no external formatter required).
+* **Zig**: uses the [zig](https://ziglang.org/download/) official binary
 
 Plus the LSP formatters available.
 
@@ -354,7 +355,6 @@ Custom editor color schemes can be added in the user color schemes directory fou
 * *macOS*: uses `Application Support` folder in `HOME`, usually translates to `~/Library/Application Support/ecode/editor/colorschemes`
 * *Windows*: uses `APPDATA`, usually translates to `C:\Users\{username}\AppData\Roaming\ecode\editor\colorschemes`
 
-The directory will not exist by default, the user will need to create it.
 Any file written in the directory will be treated as an editor color scheme file. Each file can contain
 any number of color schemes.
 
@@ -368,20 +368,205 @@ Custom terminal color schemes can be added in the user color schemes directory f
 * *macOS*: uses `Application Support` folder in `HOME`, usually translates to `~/Library/Application Support/ecode/terminal/colorschemes`
 * *Windows*: uses `APPDATA`, usually translates to `C:\Users\{username}\AppData\Roaming\ecode\terminal\colorschemes`
 
-The directory will not exist by default, the user will need to create it.
 Any file written in the directory will be treated as a terminal color scheme file. Each file can contain
 any number of color schemes.
 
 The format of a color scheme can be read from [here](https://github.com/SpartanJ/eepp/blob/develop/bin/assets/colorschemes/terminalcolorschemes.conf).
+
+## Language support
+
+ecode is constantly adding more languages support and also supports extending it's language support
+via configuration files (for every feature: syntax highlighting, LSP, linter and formatter).
+
+### Language support table
+
+|     Language     | Highlight |             LSP            |   Linter   |   Formatter  |
+|       :---:      |   :---:   |            :---:           |    :---:   |     :---:    |
+| .ignore file     | Found     | None                       | None       | None         |
+| [x]it!           | Found     | None                       | None       | None         |
+| algelscript      | Found     | None                       | None       | None         |
+| bat              | Found     | None                       | None       | None         |
+| c                | Found     | clangd                     | cppcheck   | clang-format |
+| cmake            | Found     | None                       | None       | None         |
+| cpp              | Found     | clangd                     | cppcheck   | clang-format |
+| csharp           | Found     | mono                       | None       | None         |
+| css              | Found     | None                       | None       | native       |
+| d                | Found     | serve-d                    | None       | None         |
+| dart             | Found     | dart                       | None       | None         |
+| diff             | Found     | None                       | None       | None         |
+| dockerfile       | Found     | docker-langserver          | None       | None         |
+| elixir           | Found     | None                       | None       | None         |
+| environment file | Found     | None                       | None       | None         |
+| gdscript         | Found     | None                       | None       | None         |
+| glsl             | Found     | None                       | None       | None         |
+| go               | Found     | gopls                      | None       | gopls        |
+| haskell          | Found     | None                       | None       | None         |
+| hlsl             | Found     | None                       | None       | None         |
+| html             | Found     | html-languageserver        | None       | native       |
+| ini              | Found     | None                       | None       | None         |
+| java             | Found     | jdtls                      | None       | None         |
+| javascript       | Found     | typescript-language-server | eslint     | prettier     |
+| json             | Found     | None                       | jq         | native       |
+| jsx              | Found     | None                       | None       | None         |
+| kotlin           | Found     | kotlin-language-server     | ktlint     | ktlint       |
+| latex            | Found     | None                       | None       | None         |
+| lua              | Found     | lua-language-server        | luacheck   | None         |
+| makefile         | Found     | None                       | None       | None         |
+| markdown         | Found     | None                       | None       | None         |
+| meson            | Found     | None                       | None       | None         |
+| nelua            | Found     | None                       | nelua      | None         |
+| nim              | Found     | nimlsp                     | nim        | None         |
+| objective-c      | Found     | None                       | None       | None         |
+| odin             | Found     | ols                        | None       | None         |
+| perl             | Found     | None                       | None       | None         |
+| php              | Found     | intelephense               | php        | None         |
+| plaintext        | Found     | None                       | None       | None         |
+| po               | Found     | None                       | None       | None         |
+| powershell       | Found     | None                       | None       | None         |
+| python           | Found     | pylsp                      | ruff       | black        |
+| ruby             | Found     | solargraph                 | None       | None         |
+| rust             | Found     | rust-analyzer              | None       | rustfmt      |
+| sass             | Found     | None                       | None       | None         |
+| scala            | Found     | None                       | None       | None         |
+| shellscript      | Found     | None                       | shellcheck | None         |
+| solidity         | Found     | None                       | solhint    | None         |
+| sql              | Found     | None                       | None       | None         |
+| swift            | Found     | None                       | None       | None         |
+| teal             | Found     | None                       | tl         | None         |
+| typescript       | Found     | typescript-language-server | eslint     | prettier     |
+| vue              | Found     | vls                        | None       | None         |
+| wren             | Found     | None                       | None       | None         |
+| xml              | Found     | None                       | None       | native       |
+| yaml             | Found     | yaml-language-server       | None       | None         |
+| zig              | Found     | zls                        | zig        | zig          |
+
+### Language support health
+
+ecode brings a CLI flag `ecode --health`. Use the health check flag to troubleshoot missing language
+servers, linters and formatters.
+
+Check the health of all languages with `ecode --health` or ask for details about a specific language
+with `ecode --health-lang=<lang>`.
+
+## Custom languages support
+
+Custom languages support can be added in the languages directory found at:
+
+* *Linux*: uses `XDG_CONFIG_HOME`, usually translates to `~/.config/ecode/terminal/languages`
+* *macOS*: uses `Application Support` folder in `HOME`, usually translates to `~/Library/Application Support/ecode/terminal/languages`
+* *Windows*: uses `APPDATA`, usually translates to `C:\Users\{username}\AppData\Roaming\ecode\terminal\languages`
+
+ecode will read each file located at that directory with `json` extension. Each file can contain one
+or several languages. In order to set several languages the root element of the json file should be
+an array, containing one object for each language, otherwise if the root element is an object, it
+should contain the language definition.
+
+### Language definition format
+
+```json
+{
+	"name": "language_name",
+	"files": [ "Array of file extensions supported" ],
+	"comment": "Sets the comment string used for auto-comment functionality.",
+	"patterns": [
+		{ "pattern": "lua_pattern", "type": "type_name" },
+		{ "pattern": ["lua_pattern_start", "lua_pattern_end", "escape_character"], "type": "type_name" }
+	],
+	"symbols": [
+		{ "symbol_name": "type_name" }
+	],
+	"visible": true, /* sets if the language is visible as a main language in the editor, optional parameter, true by default */
+	"auto_close_xml_tag": false, /* sets if the language defined supports auto close XML tags, optional parameter, false by default */
+	"lsp_name": "sets the LSP name assigned for the language, optional parameter, it will use the _name_ in lowercase if not set"
+}
+```
+
+### Language definition example
+
+```json
+{
+  "name": "Elixir",
+  "files": [ "%.ex$", "%.exs$" ],
+  "comment": "#",
+  "patterns": [
+    { "pattern": "#.*\n",                "type": "comment"  },
+    { "pattern": [ ":\"", "\"", "\\" ],    "type": "number"   },
+    { "pattern": [ "\"\"\"", "\"\"\"", "\\" ], "type": "string"   },
+    { "pattern": [ "\"", "\"", "\\" ],     "type": "string"   },
+    { "pattern": [ "'", "'", "\\" ],     "type": "string"   },
+    { "pattern": [ "~%a[/\"|'%(%[%{<]", "[/\"|'%)%]%}>]", "\\" ], "type": "string"},
+    { "pattern": "-?0x%x+",              "type": "number"   },
+    { "pattern": "-?%d+[%d%.eE]*f?",     "type": "number"   },
+    { "pattern": "-?%.?%d+f?",           "type": "number"   },
+    { "pattern": ":\"?[%a_][%w_]*\"?",     "type": "number"   },
+    { "pattern": "[%a][%w_!?]*%f[(]",    "type": "function" },
+    { "pattern": "%u%w+",                "type": "normal"   },
+    { "pattern": "@[%a_][%w_]*",         "type": "keyword2" },
+    { "pattern": "_%a[%w_]*",            "type": "keyword2" },
+    { "pattern": "[%+%-=/%*<>!|&]",      "type": "operator" },
+    { "pattern": "[%a_][%w_]*",          "type": "symbol"   }
+  ],
+  "symbols": [
+    {"def": "keyword"},
+    {"defp": "keyword"},
+    {"defguard": "keyword"},
+    {"defguardp": "keyword"},
+    {"defmodule": "keyword"},
+    {"defprotocol": "keyword"},
+    {"defimpl": "keyword"},
+    {"defrecord": "keyword"},
+    {"defrecordp": "keyword"},
+    {"defmacro": "keyword"},
+    {"defmacrop": "keyword"},
+    {"defdelegate": "keyword"},
+    {"defoverridable": "keyword"},
+    {"defexception": "keyword"},
+    {"defcallback": "keyword"},
+    {"defstruct": "keyword"},
+    {"for": "keyword"},
+    {"case": "keyword"},
+    {"when": "keyword"},
+    {"with": "keyword"},
+    {"cond": "keyword"},
+    {"if": "keyword"},
+    {"unless": "keyword"},
+    {"try": "keyword"},
+    {"receive": "keyword"},
+    {"after": "keyword"},
+    {"raise": "keyword"},
+    {"rescue": "keyword"},
+    {"catch": "keyword"},
+    {"else": "keyword"},
+    {"quote": "keyword"},
+    {"unquote": "keyword"},
+    {"super": "keyword"},
+    {"unquote_splicing": "keyword"},
+    {"do": "keyword"},
+    {"end": "keyword"},
+    {"fn": "keyword"},
+    {"import": "keyword2"},
+    {"alias": "keyword2"},
+    {"use": "keyword2"},
+    {"require": "keyword2"},
+    {"and": "operator"},
+    {"or": "operator"},
+    {"true": "literal"},
+    {"false": "literal"},
+    {"nil": "literal"}
+  ]
+}
+```
+
+For more complex syntax definitions please see the definition of all the native languages supported
+by ecode [here](https://github.com/SpartanJ/eepp/blob/develop/src/eepp/ui/doc/syntaxdefinitionmanager.cpp).
 
 ## Planned Features
 
 Listed in no particular order:
 
 * Git integration (visual git diff, git blame, git status, etc)
-* Improved LSP integration (semantic highlighting, code actions, symbol viewer)
+* Improved LSP integration (semantic highlighting, symbol viewer)
 * Improved plugin system (visual configuration, more flexibility/features)
-* Custom languages support (load language definition from files)
 * [DAP](https://microsoft.github.io/debug-adapter-protocol/) support
 * Code-folding
 * Configurable build pipelines
