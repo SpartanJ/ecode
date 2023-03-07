@@ -315,6 +315,8 @@ This means that it must be on `PATH` environment variable or the path to the bin
 * **lsp-go-to-declaration**: Keybinding to "Go to Declaration"
 * **lsp-go-to-implementation**: Keybinding to "Go to Implementation"
 * **lsp-go-to-type-definition**: Keybinding to "Go to Type Definition"
+* **lsp-symbol-references**: Keybinding to "Find References to Symbol Under Cursor"
+* **lsp-symbol-code-action**: Keybinding to "Code Action"
 * **lsp-switch-header-source**: Keybinding to "Switch Header/Source" (only available for C and C++)
 
 #### LSP Client JSON object keys
@@ -362,7 +364,7 @@ The format of a color scheme can be read from [here](https://github.com/SpartanJ
 
 ### Custom terminal color schemes
 
-Custom terminal color schemes can be added in the user color schemes directory found at:
+Custom terminal color schemes can be added in the user terminal color schemes directory found at:
 
 * *Linux*: uses `XDG_CONFIG_HOME`, usually translates to `~/.config/ecode/terminal/colorschemes`
 * *macOS*: uses `Application Support` folder in `HOME`, usually translates to `~/Library/Application Support/ecode/terminal/colorschemes`
@@ -373,6 +375,47 @@ any number of color schemes.
 
 The format of a color scheme can be read from [here](https://github.com/SpartanJ/eepp/blob/develop/bin/assets/colorschemes/terminalcolorschemes.conf).
 
+### Custom UI themes
+
+Custom UI schemes can be added in the user UI themes directory found at:
+
+* *Linux*: uses `XDG_CONFIG_HOME`, usually translates to `~/.config/ecode/editor/themes`
+* *macOS*: uses `Application Support` folder in `HOME`, usually translates to `~/Library/Application Support/ecode/editor/themes`
+* *Windows*: uses `APPDATA`, usually translates to `C:\Users\{username}\AppData\Roaming\ecode\editor\themes`
+
+A custom UI theme file must have the extension `.css`, ecode will look for all the files with `.css`
+extension in the directory, the UI theme name is the file name without the extension. The new theme
+will appear in `Settings -> Window -> UI Theme`.
+
+Custom UI themes allow customizing the editor at the user's will. Since ecode uses CSS to style all the
+elements of the UI, creating new themes is quite easy. It's possible to customize only the color palette
+but it's also possible to customize all the UI elements if desired. Customizing the whole UI theme can
+be extensive, but customizing the colors is as simple as changing the values of the CSS variables used
+to color the UI. For reference, the complete base UI theme used by ecode can be seen [here](https://github.com/SpartanJ/eepp/blob/develop/bin/assets/ui/breeze.css).
+The most important selector would be the `:root` selector, where all the variables are defined. Color 
+variables can be easily extracted from that file.
+
+A simple example of a custom UI theme that changes only the tint colors, let's call it `Breeze Light Red.css`:
+
+```css
+:root {
+	--inherit-base-theme: true;
+	--primary: #e93d66;
+	--scrollbar-button: #a94074;
+	--item-hover: #502834;
+	--tab-hover: #5e3347;
+}
+```
+
+That effectively would create/add a new UI theme with light red colors.
+A very important detail is that if the UI theme must inherit the complete definition of the default theme,
+we must add `--inherit-base-theme: true` to the `:root` element, otherwise the UI theme must be defined
+completely, which means, every widget must be styled from scratch (not recommended given its complexity).
+It's also possible to override the style of the different widgets redefining their properties with the 
+usual rules that apply to the well-known CSS specification (A.K.A. using adequate
+[specificity](https://developer.mozilla.org/en-US/docs/Web/CSS/Specificity) and probably abusing the
+[!important](https://developer.mozilla.org/en-US/docs/Web/CSS/important) flag).
+
 ## Language support
 
 ecode is constantly adding more languages support and also supports extending it's language support
@@ -380,65 +423,75 @@ via configuration files (for every feature: syntax highlighting, LSP, linter and
 
 ### Language support table
 
-|     Language     | Highlight |             LSP            |   Linter   |   Formatter  |
-|       :---:      |   :---:   |            :---:           |    :---:   |     :---:    |
-| .ignore file     | Found     | None                       | None       | None         |
-| [x]it!           | Found     | None                       | None       | None         |
-| algelscript      | Found     | None                       | None       | None         |
-| bat              | Found     | None                       | None       | None         |
-| c                | Found     | clangd                     | cppcheck   | clang-format |
-| cmake            | Found     | None                       | None       | None         |
-| cpp              | Found     | clangd                     | cppcheck   | clang-format |
-| csharp           | Found     | mono                       | None       | None         |
-| css              | Found     | None                       | None       | native       |
-| d                | Found     | serve-d                    | None       | None         |
-| dart             | Found     | dart                       | None       | None         |
-| diff             | Found     | None                       | None       | None         |
-| dockerfile       | Found     | docker-langserver          | None       | None         |
-| elixir           | Found     | None                       | None       | None         |
-| environment file | Found     | None                       | None       | None         |
-| gdscript         | Found     | None                       | None       | None         |
-| glsl             | Found     | None                       | None       | None         |
-| go               | Found     | gopls                      | None       | gopls        |
-| haskell          | Found     | None                       | None       | None         |
-| hlsl             | Found     | None                       | None       | None         |
-| html             | Found     | html-languageserver        | None       | native       |
-| ini              | Found     | None                       | None       | None         |
-| java             | Found     | jdtls                      | None       | None         |
-| javascript       | Found     | typescript-language-server | eslint     | prettier     |
-| json             | Found     | None                       | jq         | native       |
-| jsx              | Found     | None                       | None       | None         |
-| kotlin           | Found     | kotlin-language-server     | ktlint     | ktlint       |
-| latex            | Found     | None                       | None       | None         |
-| lua              | Found     | lua-language-server        | luacheck   | None         |
-| makefile         | Found     | None                       | None       | None         |
-| markdown         | Found     | None                       | None       | None         |
-| meson            | Found     | None                       | None       | None         |
-| nelua            | Found     | None                       | nelua      | None         |
-| nim              | Found     | nimlsp                     | nim        | None         |
-| objective-c      | Found     | None                       | None       | None         |
-| odin             | Found     | ols                        | None       | None         |
-| perl             | Found     | None                       | None       | None         |
-| php              | Found     | intelephense               | php        | None         |
-| plaintext        | Found     | None                       | None       | None         |
-| po               | Found     | None                       | None       | None         |
-| powershell       | Found     | None                       | None       | None         |
-| python           | Found     | pylsp                      | ruff       | black        |
-| ruby             | Found     | solargraph                 | None       | None         |
-| rust             | Found     | rust-analyzer              | None       | rustfmt      |
-| sass             | Found     | None                       | None       | None         |
-| scala            | Found     | None                       | None       | None         |
-| shellscript      | Found     | None                       | shellcheck | None         |
-| solidity         | Found     | None                       | solhint    | None         |
-| sql              | Found     | None                       | None       | None         |
-| swift            | Found     | None                       | None       | None         |
-| teal             | Found     | None                       | tl         | None         |
-| typescript       | Found     | typescript-language-server | eslint     | prettier     |
-| vue              | Found     | vls                        | None       | None         |
-| wren             | Found     | None                       | None       | None         |
-| xml              | Found     | None                       | None       | native       |
-| yaml             | Found     | yaml-language-server       | None       | None         |
-| zig              | Found     | zls                        | zig        | zig          |
+|         Language        | Highlight |             LSP            |   Linter   |   Formatter  |
+|          :---:          |   :---:   |            :---:           |    :---:   |     :---:    |
+| .htaccess               | Found     | None                       | None       | None         |
+| .ignore file            | Found     | None                       | None       | None         |
+| [x]it!                  | Found     | None                       | None       | None         |
+| algelscript             | Found     | None                       | None       | None         |
+| bat                     | Found     | None                       | None       | None         |
+| c                       | Found     | clangd                     | cppcheck   | clang-format |
+| cmake                   | Found     | None                       | None       | None         |
+| cpp                     | Found     | clangd                     | cppcheck   | clang-format |
+| crystal                 | Found     | None                       | None       | None         |
+| csharp                  | Found     | OmniSharp                  | None       | None         |
+| css                     | Found     | None                       | None       | native       |
+| d                       | Found     | serve-d                    | None       | None         |
+| dart                    | Found     | dart                       | None       | None         |
+| diff                    | Found     | None                       | None       | None         |
+| dockerfile              | Found     | docker-langserver          | None       | None         |
+| elixir                  | Found     | None                       | None       | None         |
+| elm                     | Found     | None                       | None       | None         |
+| environment file        | Found     | None                       | None       | None         |
+| fstab                   | Found     | None                       | None       | None         |
+| gdscript                | Found     | None                       | None       | None         |
+| glsl                    | Found     | None                       | None       | None         |
+| go                      | Found     | gopls                      | None       | gopls        |
+| haskell                 | Found     | None                       | None       | None         |
+| haxe                    | Found     | None                       | None       | None         |
+| haxe compiler arguments | Found     | None                       | None       | None         |
+| hlsl                    | Found     | None                       | None       | None         |
+| html                    | Found     | html-languageserver        | None       | native       |
+| ini                     | Found     | None                       | None       | None         |
+| java                    | Found     | jdtls                      | None       | None         |
+| javascript              | Found     | typescript-language-server | eslint     | prettier     |
+| json                    | Found     | None                       | jq         | native       |
+| jsx                     | Found     | None                       | eslint     | prettier     |
+| julia                   | Found     | None                       | None       | None         |
+| kotlin                  | Found     | kotlin-language-server     | ktlint     | ktlint       |
+| latex                   | Found     | None                       | None       | None         |
+| lua                     | Found     | lua-language-server        | luacheck   | None         |
+| makefile                | Found     | None                       | None       | None         |
+| markdown                | Found     | None                       | None       | None         |
+| meson                   | Found     | None                       | None       | None         |
+| nelua                   | Found     | None                       | nelua      | None         |
+| nim                     | Found     | nimlsp                     | nim        | None         |
+| objective-c             | Found     | None                       | None       | None         |
+| odin                    | Found     | ols                        | None       | None         |
+| perl                    | Found     | None                       | None       | None         |
+| php                     | Found     | intelephense               | php        | None         |
+| plaintext               | Found     | None                       | None       | None         |
+| po                      | Found     | None                       | None       | None         |
+| powershell              | Found     | None                       | None       | None         |
+| python                  | Found     | pylsp                      | ruff       | black        |
+| r                       | Found     | None                       | None       | None         |
+| ruby                    | Found     | solargraph                 | None       | None         |
+| rust                    | Found     | rust-analyzer              | None       | rustfmt      |
+| sass                    | Found     | None                       | None       | None         |
+| scala                   | Found     | None                       | None       | None         |
+| shellscript             | Found     | None                       | shellcheck | None         |
+| solidity                | Found     | solc                       | solhint    | None         |
+| sql                     | Found     | None                       | None       | None         |
+| swift                   | Found     | None                       | None       | None         |
+| teal                    | Found     | None                       | tl         | None         |
+| toml                    | Found     | None                       | None       | None         |
+| typescript              | Found     | typescript-language-server | eslint     | prettier     |
+| v                       | Found     | None                       | None       | None         |
+| vue                     | Found     | vls                        | None       | None         |
+| wren                    | Found     | None                       | None       | None         |
+| xml                     | Found     | None                       | None       | native       |
+| yaml                    | Found     | yaml-language-server       | None       | None         |
+| zig                     | Found     | zls                        | zig        | zig          |
 
 ### Language support health
 
