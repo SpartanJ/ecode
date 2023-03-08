@@ -147,7 +147,7 @@ That's all we need to have a working linter in *ecode*. Linters executables must
 by the user, linters will not come with the editor, and they also need to be visible to the executable.
 This means that it must be on `PATH` environment variable or the path to the binary must be absolute.
 
-#### Currently supported linters and languages supported
+#### Currently supported linters
 
 * **C and C++**: uses [cppcheck](https://github.com/danmar/cppcheck/)
 * **JavaScript and TypeScript**: [eslint](https://eslint.org/)
@@ -208,7 +208,7 @@ To configure new formatters you can create a new `formatters.json` file in the [
 }
 ```
 
-#### Currently supported formatters and languages supported
+#### Currently supported formatters
 
 * **C and C++**: uses [clang-format](https://clang.llvm.org/docs/ClangFormat.html) formatter
 * **CSS**: uses the eepp CSS native formatter (no external formatter required).
@@ -282,7 +282,7 @@ That's all we need to have a working LSP in *ecode*. LSPs executables must be in
 by the user, LSPs will not come with the editor, and they also need to be visible to the executable.
 This means that it must be on `PATH` environment variable or the path to the binary must be absolute.
 
-#### Currently supported LSPs and languages supported
+#### Currently supported LSPs
 
 * **C and C++**: uses [clangd](https://clangd.llvm.org/)
 * **C#**: uses [OmniSharp](https://github.com/OmniSharp/omnisharp-roslyn)
@@ -392,7 +392,7 @@ elements of the UI, creating new themes is quite easy. It's possible to customiz
 but it's also possible to customize all the UI elements if desired. Customizing the whole UI theme can
 be extensive, but customizing the colors is as simple as changing the values of the CSS variables used
 to color the UI. For reference, the complete base UI theme used by ecode can be seen [here](https://github.com/SpartanJ/eepp/blob/develop/bin/assets/ui/breeze.css).
-The most important selector would be the `:root` selector, where all the variables are defined. Color 
+The most important selector would be the `:root` selector, where all the variables are defined. Color
 variables can be easily extracted from that file.
 
 A simple example of a custom UI theme that changes only the tint colors, let's call it `Breeze Light Red.css`:
@@ -411,7 +411,7 @@ That effectively would create/add a new UI theme with light red colors.
 A very important detail is that if the UI theme must inherit the complete definition of the default theme,
 we must add `--inherit-base-theme: true` to the `:root` element, otherwise the UI theme must be defined
 completely, which means, every widget must be styled from scratch (not recommended given its complexity).
-It's also possible to override the style of the different widgets redefining their properties with the 
+It's also possible to override the style of the different widgets redefining their properties with the
 usual rules that apply to the well-known CSS specification (A.K.A. using adequate
 [specificity](https://developer.mozilla.org/en-US/docs/Web/CSS/Specificity) and probably abusing the
 [!important](https://developer.mozilla.org/en-US/docs/Web/CSS/important) flag).
