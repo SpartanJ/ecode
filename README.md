@@ -149,7 +149,7 @@ This means that it must be on `PATH` environment variable or the path to the bin
 
 #### Currently supported linters and languages supported
 
-* **C++**: uses [cppcheck](https://github.com/danmar/cppcheck/)
+* **C and C++**: uses [cppcheck](https://github.com/danmar/cppcheck/)
 * **JavaScript and TypeScript**: [eslint](https://eslint.org/)
 * **JSON**: linted with [jq](https://stedolan.github.io/jq/)
 * **Kotlin**: uses [ktlint](https://ktlint.github.io/)
@@ -210,7 +210,7 @@ To configure new formatters you can create a new `formatters.json` file in the [
 
 #### Currently supported formatters and languages supported
 
-* **C++**: uses [clang-format](https://clang.llvm.org/docs/ClangFormat.html) formatter
+* **C and C++**: uses [clang-format](https://clang.llvm.org/docs/ClangFormat.html) formatter
 * **CSS**: uses the eepp CSS native formatter (no external formatter required).
 * **Go**: uses [gopls](https://github.com/golang/tools/blob/master/gopls/README.md) formatter
 * **JavaScript and TypeScript**: uses [prettier](https://prettier.io) formatter
