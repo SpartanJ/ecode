@@ -103,6 +103,94 @@ The project name is always *ecode* (so if you are building with make, you'll nee
 * *macOS* build script can be found [here](https://github.com/SpartanJ/eepp/tree/develop/projects/macos/ecode). Running `build.app.sh` will create `ecode.app`.
 * *Windows* cross-compiling build script can be found [here](https://github.com/SpartanJ/eepp/tree/develop/projects/mingw32/ecode). Running `build.app.sh` will create a `zip` file with the zipped application package.
 
+## Language support
+
+ecode is constantly adding more languages support and also supports extending it's language support
+via configuration files (for every feature: syntax highlighting, LSP, linter and formatter).
+
+### Language support table
+
+|         Language        | Highlight |             LSP            |   Linter   |   Formatter  |
+|          :---:          |   :---:   |            :---:           |    :---:   |     :---:    |
+| .htaccess               | ✓       | None                       | None       | None         |
+| .ignore file            | ✓       | None                       | None       | None         |
+| [x]it!                  | ✓       | None                       | None       | None         |
+| algelscript             | ✓       | None                       | None       | None         |
+| bat                     | ✓       | None                       | None       | None         |
+| c                       | ✓       | clangd                     | cppcheck   | clang-format |
+| cmake                   | ✓       | cmake-language-server      | None       | None         |
+| cpp                     | ✓       | clangd                     | cppcheck   | clang-format |
+| crystal                 | ✓       | crystalline                | None       | None         |
+| csharp                  | ✓       | OmniSharp                  | None       | None         |
+| css                     | ✓       | None                       | None       | native       |
+| d                       | ✓       | serve-d                    | None       | None         |
+| dart                    | ✓       | dart language-server       | None       | None         |
+| diff                    | ✓       | None                       | None       | None         |
+| dockerfile              | ✓       | docker-langserver          | None       | None         |
+| elixir                  | ✓       | elixir-ls                  | None       | None         |
+| elm                     | ✓       | elm-language-server        | None       | None         |
+| environment file        | ✓       | None                       | None       | None         |
+| fstab                   | ✓       | None                       | None       | None         |
+| gdscript                | ✓       | None                       | None       | None         |
+| glsl                    | ✓       | None                       | None       | None         |
+| go                      | ✓       | gopls                      | None       | gopls        |
+| haskell                 | ✓       | haskell-language-server    | hlint      | ormolu       |
+| haxe                    | ✓       | None                       | None       | None         |
+| haxe compiler arguments | ✓       | None                       | None       | None         |
+| hlsl                    | ✓       | None                       | None       | None         |
+| html                    | ✓       | vscode-html-languageserver | None       | native       |
+| ini                     | ✓       | None                       | None       | None         |
+| java                    | ✓       | jdtls                      | None       | None         |
+| javascript              | ✓       | typescript-language-server | eslint     | prettier     |
+| json                    | ✓       | None                       | jq         | native       |
+| jsx                     | ✓       | None                       | eslint     | prettier     |
+| julia                   | ✓       | None                       | None       | None         |
+| kotlin                  | ✓       | kotlin-language-server     | ktlint     | ktlint       |
+| latex                   | ✓       | None                       | None       | None         |
+| lua                     | ✓       | lua-language-server        | luacheck   | None         |
+| makefile                | ✓       | None                       | None       | None         |
+| markdown                | ✓       | None                       | None       | None         |
+| meson                   | ✓       | None                       | None       | None         |
+| nelua                   | ✓       | None                       | nelua      | None         |
+| nim                     | ✓       | nimlsp                     | nim        | None         |
+| objective-c             | ✓       | clangd                     | None       | clang-format |
+| odin                    | ✓       | ols                        | None       | None         |
+| perl                    | ✓       | None                       | None       | None         |
+| php                     | ✓       | intelephense               | php        | None         |
+| pico-8                  | ✓       | None                       | None       | None         |
+| plaintext               | ✓       | None                       | None       | None         |
+| po                      | ✓       | None                       | None       | None         |
+| postgresql              | ✓       | None                       | None       | None         |
+| powershell              | ✓       | None                       | None       | None         |
+| python                  | ✓       | pylsp                      | ruff       | black        |
+| r                       | ✓       | r languageserver           | None       | None         |
+| ruby                    | ✓       | solargraph                 | None       | None         |
+| rust                    | ✓       | rust-analyzer              | None       | rustfmt      |
+| sass                    | ✓       | None                       | None       | None         |
+| scala                   | ✓       | metals                     | None       | None         |
+| shellscript             | ✓       | None                       | shellcheck | None         |
+| solidity                | ✓       | solc                       | solhint    | None         |
+| sql                     | ✓       | None                       | None       | None         |
+| swift                   | ✓       | sourcekit-lsp              | None       | None         |
+| teal                    | ✓       | None                       | tl         | None         |
+| toml                    | ✓       | None                       | None       | None         |
+| typescript              | ✓       | typescript-language-server | eslint     | prettier     |
+| v                       | ✓       | vls                        | None       | v            |
+| vue                     | ✓       | vls                        | None       | None         |
+| wren                    | ✓       | None                       | None       | None         |
+| x86 assembly            | ✓       | None                       | None       | None         |
+| xml                     | ✓       | None                       | None       | native       |
+| yaml                    | ✓       | yaml-language-server       | None       | None         |
+| zig                     | ✓       | zls                        | zig        | zig          |
+
+### Language support health
+
+ecode brings a CLI flag `ecode --health`. Use the health check flag to troubleshoot missing language
+servers, linters and formatters.
+
+Check the health of all languages with `ecode --health` or ask for details about a specific language
+with `ecode --health-lang=<lang>`.
+
 ## Plugins
 
 Plugins extend the base code editor functionality. Currently all plugins are enabled by default, but
@@ -415,91 +503,6 @@ It's also possible to override the style of the different widgets redefining the
 usual rules that apply to the well-known CSS specification (A.K.A. using adequate
 [specificity](https://developer.mozilla.org/en-US/docs/Web/CSS/Specificity) and probably abusing the
 [!important](https://developer.mozilla.org/en-US/docs/Web/CSS/important) flag).
-
-## Language support
-
-ecode is constantly adding more languages support and also supports extending it's language support
-via configuration files (for every feature: syntax highlighting, LSP, linter and formatter).
-
-### Language support table
-
-|         Language        | Highlight |             LSP            |   Linter   |   Formatter  |
-|          :---:          |   :---:   |            :---:           |    :---:   |     :---:    |
-| .htaccess               | Found     | None                       | None       | None         |
-| .ignore file            | Found     | None                       | None       | None         |
-| [x]it!                  | Found     | None                       | None       | None         |
-| algelscript             | Found     | None                       | None       | None         |
-| bat                     | Found     | None                       | None       | None         |
-| c                       | Found     | clangd                     | cppcheck   | clang-format |
-| cmake                   | Found     | None                       | None       | None         |
-| cpp                     | Found     | clangd                     | cppcheck   | clang-format |
-| crystal                 | Found     | None                       | None       | None         |
-| csharp                  | Found     | OmniSharp                  | None       | None         |
-| css                     | Found     | None                       | None       | native       |
-| d                       | Found     | serve-d                    | None       | None         |
-| dart                    | Found     | dart                       | None       | None         |
-| diff                    | Found     | None                       | None       | None         |
-| dockerfile              | Found     | docker-langserver          | None       | None         |
-| elixir                  | Found     | None                       | None       | None         |
-| elm                     | Found     | None                       | None       | None         |
-| environment file        | Found     | None                       | None       | None         |
-| fstab                   | Found     | None                       | None       | None         |
-| gdscript                | Found     | None                       | None       | None         |
-| glsl                    | Found     | None                       | None       | None         |
-| go                      | Found     | gopls                      | None       | gopls        |
-| haskell                 | Found     | None                       | None       | None         |
-| haxe                    | Found     | None                       | None       | None         |
-| haxe compiler arguments | Found     | None                       | None       | None         |
-| hlsl                    | Found     | None                       | None       | None         |
-| html                    | Found     | html-languageserver        | None       | native       |
-| ini                     | Found     | None                       | None       | None         |
-| java                    | Found     | jdtls                      | None       | None         |
-| javascript              | Found     | typescript-language-server | eslint     | prettier     |
-| json                    | Found     | None                       | jq         | native       |
-| jsx                     | Found     | None                       | eslint     | prettier     |
-| julia                   | Found     | None                       | None       | None         |
-| kotlin                  | Found     | kotlin-language-server     | ktlint     | ktlint       |
-| latex                   | Found     | None                       | None       | None         |
-| lua                     | Found     | lua-language-server        | luacheck   | None         |
-| makefile                | Found     | None                       | None       | None         |
-| markdown                | Found     | None                       | None       | None         |
-| meson                   | Found     | None                       | None       | None         |
-| nelua                   | Found     | None                       | nelua      | None         |
-| nim                     | Found     | nimlsp                     | nim        | None         |
-| objective-c             | Found     | None                       | None       | None         |
-| odin                    | Found     | ols                        | None       | None         |
-| perl                    | Found     | None                       | None       | None         |
-| php                     | Found     | intelephense               | php        | None         |
-| plaintext               | Found     | None                       | None       | None         |
-| po                      | Found     | None                       | None       | None         |
-| powershell              | Found     | None                       | None       | None         |
-| python                  | Found     | pylsp                      | ruff       | black        |
-| r                       | Found     | None                       | None       | None         |
-| ruby                    | Found     | solargraph                 | None       | None         |
-| rust                    | Found     | rust-analyzer              | None       | rustfmt      |
-| sass                    | Found     | None                       | None       | None         |
-| scala                   | Found     | None                       | None       | None         |
-| shellscript             | Found     | None                       | shellcheck | None         |
-| solidity                | Found     | solc                       | solhint    | None         |
-| sql                     | Found     | None                       | None       | None         |
-| swift                   | Found     | None                       | None       | None         |
-| teal                    | Found     | None                       | tl         | None         |
-| toml                    | Found     | None                       | None       | None         |
-| typescript              | Found     | typescript-language-server | eslint     | prettier     |
-| v                       | Found     | None                       | None       | None         |
-| vue                     | Found     | vls                        | None       | None         |
-| wren                    | Found     | None                       | None       | None         |
-| xml                     | Found     | None                       | None       | native       |
-| yaml                    | Found     | yaml-language-server       | None       | None         |
-| zig                     | Found     | zls                        | zig        | zig          |
-
-### Language support health
-
-ecode brings a CLI flag `ecode --health`. Use the health check flag to troubleshoot missing language
-servers, linters and formatters.
-
-Check the health of all languages with `ecode --health` or ask for details about a specific language
-with `ecode --health-lang=<lang>`.
 
 ## Custom languages support
 
