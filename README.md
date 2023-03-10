@@ -134,7 +134,7 @@ via configuration files (for every feature: syntax highlighting, LSP, linter and
 | gdscript                | ✓       | None                                                                                                 | None       | None         |
 | glsl                    | ✓       | None                                                                                                 | None       | None         |
 | go                      | ✓       | [gopls](https://golang.org/x/tools/gopls)                                                            | None       | gopls        |
-| haskell                 | ✓       | [haskell-language-server](https://github.com/haskell/haskell-language-server --lsp)                  | hlint      | ormolu       |
+| haskell                 | ✓       | [haskell-language-server](https://github.com/haskell/haskell-language-server)                        | hlint      | ormolu       |
 | haxe                    | ✓       | None                                                                                                 | None       | None         |
 | haxe compiler arguments | ✓       | None                                                                                                 | None       | None         |
 | hlsl                    | ✓       | None                                                                                                 | None       | None         |
