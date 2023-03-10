@@ -110,78 +110,78 @@ via configuration files (for every feature: syntax highlighting, LSP, linter and
 
 ### Language support table
 
-|         Language        | Highlight |             LSP            |   Linter   |   Formatter  |
-|          :---:          |   :---:   |            :---:           |    :---:   |     :---:    |
-| .htaccess               | ✓       | None                       | None       | None         |
-| .ignore file            | ✓       | None                       | None       | None         |
-| [x]it!                  | ✓       | None                       | None       | None         |
-| algelscript             | ✓       | None                       | None       | None         |
-| bat                     | ✓       | None                       | None       | None         |
-| c                       | ✓       | clangd                     | cppcheck   | clang-format |
-| cmake                   | ✓       | cmake-language-server      | None       | None         |
-| cpp                     | ✓       | clangd                     | cppcheck   | clang-format |
-| crystal                 | ✓       | crystalline                | None       | None         |
-| csharp                  | ✓       | OmniSharp                  | None       | None         |
-| css                     | ✓       | None                       | None       | native       |
-| d                       | ✓       | serve-d                    | None       | None         |
-| dart                    | ✓       | dart language-server       | None       | None         |
-| diff                    | ✓       | None                       | None       | None         |
-| dockerfile              | ✓       | docker-langserver          | None       | None         |
-| elixir                  | ✓       | elixir-ls                  | None       | None         |
-| elm                     | ✓       | elm-language-server        | None       | None         |
-| environment file        | ✓       | None                       | None       | None         |
-| fstab                   | ✓       | None                       | None       | None         |
-| gdscript                | ✓       | None                       | None       | None         |
-| glsl                    | ✓       | None                       | None       | None         |
-| go                      | ✓       | gopls                      | None       | gopls        |
-| haskell                 | ✓       | haskell-language-server    | hlint      | ormolu       |
-| haxe                    | ✓       | None                       | None       | None         |
-| haxe compiler arguments | ✓       | None                       | None       | None         |
-| hlsl                    | ✓       | None                       | None       | None         |
-| html                    | ✓       | vscode-html-languageserver | None       | native       |
-| ini                     | ✓       | None                       | None       | None         |
-| java                    | ✓       | jdtls                      | None       | None         |
-| javascript              | ✓       | typescript-language-server | eslint     | prettier     |
-| json                    | ✓       | None                       | jq         | native       |
-| jsx                     | ✓       | None                       | eslint     | prettier     |
-| julia                   | ✓       | None                       | None       | None         |
-| kotlin                  | ✓       | kotlin-language-server     | ktlint     | ktlint       |
-| latex                   | ✓       | None                       | None       | None         |
-| lua                     | ✓       | lua-language-server        | luacheck   | None         |
-| makefile                | ✓       | None                       | None       | None         |
-| markdown                | ✓       | None                       | None       | None         |
-| meson                   | ✓       | None                       | None       | None         |
-| nelua                   | ✓       | None                       | nelua      | None         |
-| nim                     | ✓       | nimlsp                     | nim        | None         |
-| objective-c             | ✓       | clangd                     | None       | clang-format |
-| odin                    | ✓       | ols                        | None       | None         |
-| perl                    | ✓       | None                       | None       | None         |
-| php                     | ✓       | intelephense               | php        | None         |
-| pico-8                  | ✓       | None                       | None       | None         |
-| plaintext               | ✓       | None                       | None       | None         |
-| po                      | ✓       | None                       | None       | None         |
-| postgresql              | ✓       | None                       | None       | None         |
-| powershell              | ✓       | None                       | None       | None         |
-| python                  | ✓       | pylsp                      | ruff       | black        |
-| r                       | ✓       | r languageserver           | None       | None         |
-| ruby                    | ✓       | solargraph                 | None       | None         |
-| rust                    | ✓       | rust-analyzer              | None       | rustfmt      |
-| sass                    | ✓       | None                       | None       | None         |
-| scala                   | ✓       | metals                     | None       | None         |
-| shellscript             | ✓       | None                       | shellcheck | None         |
-| solidity                | ✓       | solc                       | solhint    | None         |
-| sql                     | ✓       | None                       | None       | None         |
-| swift                   | ✓       | sourcekit-lsp              | None       | None         |
-| teal                    | ✓       | None                       | tl         | None         |
-| toml                    | ✓       | None                       | None       | None         |
-| typescript              | ✓       | typescript-language-server | eslint     | prettier     |
-| v                       | ✓       | vls                        | None       | v            |
-| vue                     | ✓       | vls                        | None       | None         |
-| wren                    | ✓       | None                       | None       | None         |
-| x86 assembly            | ✓       | None                       | None       | None         |
-| xml                     | ✓       | None                       | None       | native       |
-| yaml                    | ✓       | yaml-language-server       | None       | None         |
-| zig                     | ✓       | zls                        | zig        | zig          |
+|         Language        | Highlight |                                                  LSP                                                 |   Linter   |   Formatter  |
+|          :---:          |   :---:   |                                                 :---:                                                |    :---:   |     :---:    |
+| .htaccess               | ✓       | None                                                                                                 | None       | None         |
+| .ignore file            | ✓       | None                                                                                                 | None       | None         |
+| [x]it!                  | ✓       | None                                                                                                 | None       | None         |
+| algelscript             | ✓       | None                                                                                                 | None       | None         |
+| bat                     | ✓       | None                                                                                                 | None       | None         |
+| c                       | ✓       | [clangd](https://clang.llvm.org/extra/clangd/)                                                       | cppcheck   | clang-format |
+| cmake                   | ✓       | [cmake-language-server](https://github.com/regen100/cmake-language-server)                           | None       | None         |
+| cpp                     | ✓       | [clangd](https://clang.llvm.org/extra/clangd/)                                                       | cppcheck   | clang-format |
+| crystal                 | ✓       | [crystalline](https://github.com/elbywan/crystalline)                                                | None       | None         |
+| csharp                  | ✓       | [OmniSharp](https://github.com/OmniSharp/omnisharp-roslyn)                                           | None       | None         |
+| css                     | ✓       | None                                                                                                 | None       | native       |
+| d                       | ✓       | [serve-d](https://github.com/Pure-D/serve-d)                                                         | None       | None         |
+| dart                    | ✓       | [dart language-server](https://github.com/dart-lang/sdk/blob/main/pkg/analysis_server/tool/lsp_spec) | None       | None         |
+| diff                    | ✓       | None                                                                                                 | None       | None         |
+| dockerfile              | ✓       | [docker-langserver](https://github.com/rcjsuen/dockerfile-language-server-nodejs)                    | None       | None         |
+| elixir                  | ✓       | [elixir-ls](https://github.com/elixir-lsp/elixir-ls)                                                 | None       | None         |
+| elm                     | ✓       | [elm-language-server](https://github.com/elm-tooling/elm-language-server)                            | None       | None         |
+| environment file        | ✓       | None                                                                                                 | None       | None         |
+| fstab                   | ✓       | None                                                                                                 | None       | None         |
+| gdscript                | ✓       | None                                                                                                 | None       | None         |
+| glsl                    | ✓       | None                                                                                                 | None       | None         |
+| go                      | ✓       | [gopls](https://golang.org/x/tools/gopls)                                                            | None       | gopls        |
+| haskell                 | ✓       | [haskell-language-server](https://github.com/haskell/haskell-language-server --lsp)                  | hlint      | ormolu       |
+| haxe                    | ✓       | None                                                                                                 | None       | None         |
+| haxe compiler arguments | ✓       | None                                                                                                 | None       | None         |
+| hlsl                    | ✓       | None                                                                                                 | None       | None         |
+| html                    | ✓       | [vscode-html-languageserver](https://github.com/vscode-langservers/vscode-html-languageserver-bin)   | None       | native       |
+| ini                     | ✓       | None                                                                                                 | None       | None         |
+| java                    | ✓       | [jdtls](https://github.com/eclipse/eclipse.jdt.ls)                                                   | None       | None         |
+| javascript              | ✓       | [typescript-language-server](https://github.com/theia-ide/typescript-language-server)                | eslint     | prettier     |
+| json                    | ✓       | None                                                                                                 | jq         | native       |
+| jsx                     | ✓       | None                                                                                                 | eslint     | prettier     |
+| julia                   | ✓       | None                                                                                                 | None       | None         |
+| kotlin                  | ✓       | [kotlin-language-server](https://github.com/fwcd/kotlin-language-server)                             | ktlint     | ktlint       |
+| latex                   | ✓       | None                                                                                                 | None       | None         |
+| lua                     | ✓       | [lua-language-server](https://github.com/sumneko/lua-language-server)                                | luacheck   | None         |
+| makefile                | ✓       | None                                                                                                 | None       | None         |
+| markdown                | ✓       | None                                                                                                 | None       | None         |
+| meson                   | ✓       | None                                                                                                 | None       | None         |
+| nelua                   | ✓       | None                                                                                                 | nelua      | None         |
+| nim                     | ✓       | [nimlsp](https://github.com/PMunch/nimlsp)                                                           | nim        | None         |
+| objective-c             | ✓       | [clangd](https://clang.llvm.org/extra/clangd/)                                                       | None       | clang-format |
+| odin                    | ✓       | [ols](https://github.com/DanielGavin/ols)                                                            | None       | None         |
+| perl                    | ✓       | None                                                                                                 | None       | None         |
+| php                     | ✓       | [intelephense](https://intelephense.com/)                                                            | php        | None         |
+| pico-8                  | ✓       | None                                                                                                 | None       | None         |
+| plaintext               | ✓       | None                                                                                                 | None       | None         |
+| po                      | ✓       | None                                                                                                 | None       | None         |
+| postgresql              | ✓       | None                                                                                                 | None       | None         |
+| powershell              | ✓       | None                                                                                                 | None       | None         |
+| python                  | ✓       | [pylsp](https://github.com/python-lsp/python-lsp-server)                                             | ruff       | black        |
+| r                       | ✓       | [r languageserver](https://github.com/REditorSupport/languageserver)                                 | None       | None         |
+| ruby                    | ✓       | [solargraph](https://solargraph.org)                                                                 | None       | None         |
+| rust                    | ✓       | [rust-analyzer](https://rust-analyzer.github.io)                                                     | None       | rustfmt      |
+| sass                    | ✓       | None                                                                                                 | None       | None         |
+| scala                   | ✓       | [metals](https://github.com/scalameta/metals)                                                        | None       | None         |
+| shellscript             | ✓       | None                                                                                                 | shellcheck | None         |
+| solidity                | ✓       | [solc](https://soliditylang.org)                                                                     | solhint    | None         |
+| sql                     | ✓       | None                                                                                                 | None       | None         |
+| swift                   | ✓       | [sourcekit-lsp](https://github.com/apple/sourcekit-lsp)                                              | None       | None         |
+| teal                    | ✓       | None                                                                                                 | tl         | None         |
+| toml                    | ✓       | None                                                                                                 | None       | None         |
+| typescript              | ✓       | [typescript-language-server](https://github.com/theia-ide/typescript-language-server)                | eslint     | prettier     |
+| v                       | ✓       | [vls](https://github.com/vlang/vls)                                                                  | None       | v            |
+| vue                     | ✓       | [vls](https://github.com/vuejs/vetur/tree/master/server)                                             | None       | None         |
+| wren                    | ✓       | None                                                                                                 | None       | None         |
+| x86 assembly            | ✓       | None                                                                                                 | None       | None         |
+| xml                     | ✓       | None                                                                                                 | None       | native       |
+| yaml                    | ✓       | [yaml-language-server](https://github.com/redhat-developer/yaml-language-server)                     | None       | None         |
+| zig                     | ✓       | [zls](https://github.com/zigtools/zls)                                                               | zig        | zig          |
 
 ### Language support health
 
