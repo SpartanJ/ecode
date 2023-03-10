@@ -237,7 +237,7 @@ This means that it must be on `PATH` environment variable or the path to the bin
 
 #### Currently supported linters
 
-Please check the [language support table](#language-support-health)
+Please check the [language support table](#language-support-table)
 
 #### Linter config object keys
 
@@ -287,7 +287,7 @@ To configure new formatters you can create a new `formatters.json` file in the [
 
 #### Currently supported formatters
 
-Please check the [language support table](#language-support-health)
+Please check the [language support table](#language-support-table)
 
 #### Formatter config object keys
 
@@ -351,7 +351,7 @@ This means that it must be on `PATH` environment variable or the path to the bin
 
 #### Currently supported LSPs
 
-Please check the [language support table](#language-support-health)
+Please check the [language support table](#language-support-table)
 
 #### LSP Client config object keys
 
