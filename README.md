@@ -237,18 +237,7 @@ This means that it must be on `PATH` environment variable or the path to the bin
 
 #### Currently supported linters
 
-* **C and C++**: uses [cppcheck](https://github.com/danmar/cppcheck/)
-* **JavaScript and TypeScript**: [eslint](https://eslint.org/)
-* **JSON**: linted with [jq](https://stedolan.github.io/jq/)
-* **Kotlin**: uses [ktlint](https://ktlint.github.io/)
-* **Lua**: uses [luacheck](https://github.com/mpeterv/luacheck)
-* **PHP**: uses the [php](https://php.net) official binary
-* **Python**: uses [pycodestyle](https://github.com/pycqa/pycodestyle)
-* **sh**: uses [shellcheck](https://github.com/koalaman/shellcheck)
-* **Solidity**: uses [solhint](https://protofire.github.io/solhint/)
-* **Nelua**: uses the [nelua](https://nelua.io/installing/) official binary
-* **Nim**: uses the [nim](https://nim-lang.org/install.html) official binary
-* **Zig**: uses the [zig](https://ziglang.org/download/) official binary
+Please check the [language support table](#language-support-health)
 
 #### Linter config object keys
 
@@ -298,17 +287,7 @@ To configure new formatters you can create a new `formatters.json` file in the [
 
 #### Currently supported formatters
 
-* **C and C++**: uses [clang-format](https://clang.llvm.org/docs/ClangFormat.html) formatter
-* **CSS**: uses the eepp CSS native formatter (no external formatter required).
-* **Go**: uses [gopls](https://github.com/golang/tools/blob/master/gopls/README.md) formatter
-* **JavaScript and TypeScript**: uses [prettier](https://prettier.io) formatter
-* **JSON**: uses [JSON for Modern C++](https://github.com/nlohmann/json) native formatter (no external formatter required).
-* **Kotlin**: uses [ktlint](https://ktlint.github.io/) formatter
-* **Python**: uses [black](https://github.com/psf/black) formatter
-* **XML**: uses [pugixml](https://github.com/zeux/pugixml/) native formatter (no external formatter required).
-* **Zig**: uses the [zig](https://ziglang.org/download/) official binary
-
-Plus the LSP formatters available.
+Please check the [language support table](#language-support-health)
 
 #### Formatter config object keys
 
@@ -372,24 +351,7 @@ This means that it must be on `PATH` environment variable or the path to the bin
 
 #### Currently supported LSPs
 
-* **C and C++**: uses [clangd](https://clangd.llvm.org/)
-* **C#**: uses [OmniSharp](https://github.com/OmniSharp/omnisharp-roslyn)
-* **D**: uses [serve-d](https://github.com/Pure-D/serve-d)
-* **Dart**: uses [dart native LSP](https://github.com/dart-lang/sdk/blob/main/pkg/analysis_server/tool/lsp_spec)
-* **Go**: uses [gopls](https://golang.org/x/tools/gopls)
-* **Java**: uses [eclipse.jdt.ls](https://github.com/eclipse/eclipse.jdt.ls)
-* **JavaScript and TypeScript**: [typescript-language-server](https://github.com/theia-ide/typescript-language-server)
-* **Kotlin**: uses [kotlin-language-server](https://github.com/fwcd/kotlin-language-server)
-* **Lua**: uses [lua-language-server](https://github.com/sumneko/lua-language-server)
-* **nim**: uses [nimlsp](https://github.com/PMunch/nimlsp)
-* **Odin**: uses [ols](https://github.com/DanielGavin/ols)
-* **PHP**: uses [intelephense](https://intelephense.com)
-* **Python**: uses [pylsp](https://github.com/python-lsp/python-lsp-server)
-* **Ruby**: uses [solargraph](https://solargraph.org/)
-* **Rust**: uses the [rust-analyzer](https://rust-analyzer.github.io)
-* **Vue**: uses [vls](https://github.com/vuejs/vetur/tree/master/server)
-* **YAML**: uses [yaml-language-server](https://github.com/redhat-developer/yaml-language-server)
-* **Zig**: uses [zls](https://github.com/zigtools/zls)
+Please check the [language support table](#language-support-health)
 
 #### LSP Client config object keys
 
