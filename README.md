@@ -379,9 +379,9 @@ The format of a color scheme can be read from [here](https://github.com/SpartanJ
 
 Custom UI schemes can be added in the user UI themes directory found at:
 
-* *Linux*: uses `XDG_CONFIG_HOME`, usually translates to `~/.config/ecode/editor/themes`
-* *macOS*: uses `Application Support` folder in `HOME`, usually translates to `~/Library/Application Support/ecode/editor/themes`
-* *Windows*: uses `APPDATA`, usually translates to `C:\Users\{username}\AppData\Roaming\ecode\editor\themes`
+* *Linux*: uses `XDG_CONFIG_HOME`, usually translates to `~/.config/ecode/themes`
+* *macOS*: uses `Application Support` folder in `HOME`, usually translates to `~/Library/Application Support/ecode/themes`
+* *Windows*: uses `APPDATA`, usually translates to `C:\Users\{username}\AppData\Roaming\ecode\themes`
 
 A custom UI theme file must have the extension `.css`, ecode will look for all the files with `.css`
 extension in the directory, the UI theme name is the file name without the extension. The new theme
