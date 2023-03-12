@@ -122,7 +122,7 @@ via configuration files (for every feature: syntax highlighting, LSP, linter and
 | cpp                     | ✓       | [clangd](https://clang.llvm.org/extra/clangd/)                                                       | [cppcheck](https://github.com/danmar/cppcheck)  | [clang-format](https://clang.llvm.org/docs/ClangFormat.html) |
 | crystal                 | ✓       | [crystalline](https://github.com/elbywan/crystalline)                                                | None                                            | None                                                         |
 | csharp                  | ✓       | [OmniSharp](https://github.com/OmniSharp/omnisharp-roslyn)                                           | None                                            | None                                                         |
-| css                     | ✓       | None                                                                                                 | None                                            | native                                                       |
+| css                     | ✓       | None                                                                                                 | None                                            | [native](#native)                                            |
 | d                       | ✓       | [serve-d](https://github.com/Pure-D/serve-d)                                                         | None                                            | None                                                         |
 | dart                    | ✓       | [dart language-server](https://github.com/dart-lang/sdk/blob/main/pkg/analysis_server/tool/lsp_spec) | None                                            | None                                                         |
 | diff                    | ✓       | None                                                                                                 | None                                            | None                                                         |
@@ -138,11 +138,11 @@ via configuration files (for every feature: syntax highlighting, LSP, linter and
 | haxe                    | ✓       | None                                                                                                 | None                                            | None                                                         |
 | haxe compiler arguments | ✓       | None                                                                                                 | None                                            | None                                                         |
 | hlsl                    | ✓       | None                                                                                                 | None                                            | None                                                         |
-| html                    | ✓       | [vscode-html-languageserver](https://github.com/vscode-langservers/vscode-html-languageserver-bin)   | None                                            | native                                                       |
+| html                    | ✓       | [vscode-html-languageserver](https://github.com/vscode-langservers/vscode-html-languageserver-bin)   | None                                            | [native](#native)                                            |
 | ini                     | ✓       | None                                                                                                 | None                                            | None                                                         |
 | java                    | ✓       | [jdtls](https://github.com/eclipse/eclipse.jdt.ls)                                                   | None                                            | None                                                         |
 | javascript              | ✓       | [typescript-language-server](https://github.com/theia-ide/typescript-language-server)                | [eslint](https://eslint.org)                    | [prettier](https://prettier.io)                              |
-| json                    | ✓       | None                                                                                                 | [jq](https://stedolan.github.io/jq/)            | native                                                       |
+| json                    | ✓       | None                                                                                                 | [jq](https://stedolan.github.io/jq/)            | [native](#native)                                            |
 | jsx                     | ✓       | None                                                                                                 | [eslint](https://eslint.org)                    | [prettier](https://prettier.io)                              |
 | julia                   | ✓       | None                                                                                                 | None                                            | None                                                         |
 | kotlin                  | ✓       | [kotlin-language-server](https://github.com/fwcd/kotlin-language-server)                             | [ktlint](https://pinterest.github.io/ktlint/)   | [ktlint](https://pinterest.github.io/ktlint/)                |
@@ -179,9 +179,14 @@ via configuration files (for every feature: syntax highlighting, LSP, linter and
 | vue                     | ✓       | [vls](https://github.com/vuejs/vetur/tree/master/server)                                             | None                                            | None                                                         |
 | wren                    | ✓       | None                                                                                                 | None                                            | None                                                         |
 | x86 assembly            | ✓       | None                                                                                                 | None                                            | None                                                         |
-| xml                     | ✓       | None                                                                                                 | None                                            | native                                                       |
+| xml                     | ✓       | None                                                                                                 | None                                            | [native](#native)                                            |
 | yaml                    | ✓       | [yaml-language-server](https://github.com/redhat-developer/yaml-language-server)                     | None                                            | None                                                         |
 | zig                     | ✓       | [zls](https://github.com/zigtools/zls)                                                               | [zig](https://ziglang.org)                      | [zig](https://ziglang.org)                                   |
+
+#### native
+
+Native tag means that the feature is supported natively by ecode and it doesn't need any external tool
+to function.
 
 ### Language support health
 
