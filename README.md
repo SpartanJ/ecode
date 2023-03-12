@@ -110,78 +110,78 @@ via configuration files (for every feature: syntax highlighting, LSP, linter and
 
 ### Language support table
 
-|         Language        | Highlight |                                                  LSP                                                 |   Linter   |   Formatter  |
-|          :---:          |   :---:   |                                                 :---:                                                |    :---:   |     :---:    |
-| .htaccess               | ✓       | None                                                                                                 | None       | None         |
-| .ignore file            | ✓       | None                                                                                                 | None       | None         |
-| [x]it!                  | ✓       | None                                                                                                 | None       | None         |
-| algelscript             | ✓       | None                                                                                                 | None       | None         |
-| bat                     | ✓       | None                                                                                                 | None       | None         |
-| c                       | ✓       | [clangd](https://clang.llvm.org/extra/clangd/)                                                       | cppcheck   | clang-format |
-| cmake                   | ✓       | [cmake-language-server](https://github.com/regen100/cmake-language-server)                           | None       | None         |
-| cpp                     | ✓       | [clangd](https://clang.llvm.org/extra/clangd/)                                                       | cppcheck   | clang-format |
-| crystal                 | ✓       | [crystalline](https://github.com/elbywan/crystalline)                                                | None       | None         |
-| csharp                  | ✓       | [OmniSharp](https://github.com/OmniSharp/omnisharp-roslyn)                                           | None       | None         |
-| css                     | ✓       | None                                                                                                 | None       | native       |
-| d                       | ✓       | [serve-d](https://github.com/Pure-D/serve-d)                                                         | None       | None         |
-| dart                    | ✓       | [dart language-server](https://github.com/dart-lang/sdk/blob/main/pkg/analysis_server/tool/lsp_spec) | None       | None         |
-| diff                    | ✓       | None                                                                                                 | None       | None         |
-| dockerfile              | ✓       | [docker-langserver](https://github.com/rcjsuen/dockerfile-language-server-nodejs)                    | None       | None         |
-| elixir                  | ✓       | [elixir-ls](https://github.com/elixir-lsp/elixir-ls)                                                 | None       | None         |
-| elm                     | ✓       | [elm-language-server](https://github.com/elm-tooling/elm-language-server)                            | None       | None         |
-| environment file        | ✓       | None                                                                                                 | None       | None         |
-| fstab                   | ✓       | None                                                                                                 | None       | None         |
-| gdscript                | ✓       | None                                                                                                 | None       | None         |
-| glsl                    | ✓       | None                                                                                                 | None       | None         |
-| go                      | ✓       | [gopls](https://golang.org/x/tools/gopls)                                                            | None       | gopls        |
-| haskell                 | ✓       | [haskell-language-server](https://github.com/haskell/haskell-language-server)                        | hlint      | ormolu       |
-| haxe                    | ✓       | None                                                                                                 | None       | None         |
-| haxe compiler arguments | ✓       | None                                                                                                 | None       | None         |
-| hlsl                    | ✓       | None                                                                                                 | None       | None         |
-| html                    | ✓       | [vscode-html-languageserver](https://github.com/vscode-langservers/vscode-html-languageserver-bin)   | None       | native       |
-| ini                     | ✓       | None                                                                                                 | None       | None         |
-| java                    | ✓       | [jdtls](https://github.com/eclipse/eclipse.jdt.ls)                                                   | None       | None         |
-| javascript              | ✓       | [typescript-language-server](https://github.com/theia-ide/typescript-language-server)                | eslint     | prettier     |
-| json                    | ✓       | None                                                                                                 | jq         | native       |
-| jsx                     | ✓       | None                                                                                                 | eslint     | prettier     |
-| julia                   | ✓       | None                                                                                                 | None       | None         |
-| kotlin                  | ✓       | [kotlin-language-server](https://github.com/fwcd/kotlin-language-server)                             | ktlint     | ktlint       |
-| latex                   | ✓       | None                                                                                                 | None       | None         |
-| lua                     | ✓       | [lua-language-server](https://github.com/sumneko/lua-language-server)                                | luacheck   | None         |
-| makefile                | ✓       | None                                                                                                 | None       | None         |
-| markdown                | ✓       | None                                                                                                 | None       | None         |
-| meson                   | ✓       | None                                                                                                 | None       | None         |
-| nelua                   | ✓       | None                                                                                                 | nelua      | None         |
-| nim                     | ✓       | [nimlsp](https://github.com/PMunch/nimlsp)                                                           | nim        | None         |
-| objective-c             | ✓       | [clangd](https://clang.llvm.org/extra/clangd/)                                                       | None       | clang-format |
-| odin                    | ✓       | [ols](https://github.com/DanielGavin/ols)                                                            | None       | None         |
-| perl                    | ✓       | None                                                                                                 | None       | None         |
-| php                     | ✓       | [intelephense](https://intelephense.com/)                                                            | php        | None         |
-| pico-8                  | ✓       | None                                                                                                 | None       | None         |
-| plaintext               | ✓       | None                                                                                                 | None       | None         |
-| po                      | ✓       | None                                                                                                 | None       | None         |
-| postgresql              | ✓       | None                                                                                                 | None       | None         |
-| powershell              | ✓       | None                                                                                                 | None       | None         |
-| python                  | ✓       | [pylsp](https://github.com/python-lsp/python-lsp-server)                                             | ruff       | black        |
-| r                       | ✓       | [r languageserver](https://github.com/REditorSupport/languageserver)                                 | None       | None         |
-| ruby                    | ✓       | [solargraph](https://solargraph.org)                                                                 | None       | None         |
-| rust                    | ✓       | [rust-analyzer](https://rust-analyzer.github.io)                                                     | None       | rustfmt      |
-| sass                    | ✓       | None                                                                                                 | None       | None         |
-| scala                   | ✓       | [metals](https://github.com/scalameta/metals)                                                        | None       | None         |
-| shellscript             | ✓       | None                                                                                                 | shellcheck | None         |
-| solidity                | ✓       | [solc](https://soliditylang.org)                                                                     | solhint    | None         |
-| sql                     | ✓       | None                                                                                                 | None       | None         |
-| swift                   | ✓       | [sourcekit-lsp](https://github.com/apple/sourcekit-lsp)                                              | None       | None         |
-| teal                    | ✓       | None                                                                                                 | tl         | None         |
-| toml                    | ✓       | None                                                                                                 | None       | None         |
-| typescript              | ✓       | [typescript-language-server](https://github.com/theia-ide/typescript-language-server)                | eslint     | prettier     |
-| v                       | ✓       | [vls](https://github.com/vlang/vls)                                                                  | None       | v            |
-| vue                     | ✓       | [vls](https://github.com/vuejs/vetur/tree/master/server)                                             | None       | None         |
-| wren                    | ✓       | None                                                                                                 | None       | None         |
-| x86 assembly            | ✓       | None                                                                                                 | None       | None         |
-| xml                     | ✓       | None                                                                                                 | None       | native       |
-| yaml                    | ✓       | [yaml-language-server](https://github.com/redhat-developer/yaml-language-server)                     | None       | None         |
-| zig                     | ✓       | [zls](https://github.com/zigtools/zls)                                                               | zig        | zig          |
+|         Language        | Highlight |                                                  LSP                                                 |                      Linter                     |                           Formatter                          |
+|          :---:          |   :---:   |                                                 :---:                                                |                      :---:                      |                             :---:                            |
+| .htaccess               | ✓       | None                                                                                                 | None                                            | None                                                         |
+| .ignore file            | ✓       | None                                                                                                 | None                                            | None                                                         |
+| [x]it!                  | ✓       | None                                                                                                 | None                                            | None                                                         |
+| algelscript             | ✓       | None                                                                                                 | None                                            | None                                                         |
+| bat                     | ✓       | None                                                                                                 | None                                            | None                                                         |
+| c                       | ✓       | [clangd](https://clang.llvm.org/extra/clangd/)                                                       | [cppcheck](https://github.com/danmar/cppcheck)  | [clang-format](https://clang.llvm.org/docs/ClangFormat.html) |
+| cmake                   | ✓       | [cmake-language-server](https://github.com/regen100/cmake-language-server)                           | None                                            | None                                                         |
+| cpp                     | ✓       | [clangd](https://clang.llvm.org/extra/clangd/)                                                       | [cppcheck](https://github.com/danmar/cppcheck)  | [clang-format](https://clang.llvm.org/docs/ClangFormat.html) |
+| crystal                 | ✓       | [crystalline](https://github.com/elbywan/crystalline)                                                | None                                            | None                                                         |
+| csharp                  | ✓       | [OmniSharp](https://github.com/OmniSharp/omnisharp-roslyn)                                           | None                                            | None                                                         |
+| css                     | ✓       | None                                                                                                 | None                                            | native                                                       |
+| d                       | ✓       | [serve-d](https://github.com/Pure-D/serve-d)                                                         | None                                            | None                                                         |
+| dart                    | ✓       | [dart language-server](https://github.com/dart-lang/sdk/blob/main/pkg/analysis_server/tool/lsp_spec) | None                                            | None                                                         |
+| diff                    | ✓       | None                                                                                                 | None                                            | None                                                         |
+| dockerfile              | ✓       | [docker-langserver](https://github.com/rcjsuen/dockerfile-language-server-nodejs)                    | None                                            | None                                                         |
+| elixir                  | ✓       | [elixir-ls](https://github.com/elixir-lsp/elixir-ls)                                                 | None                                            | None                                                         |
+| elm                     | ✓       | [elm-language-server](https://github.com/elm-tooling/elm-language-server)                            | None                                            | None                                                         |
+| environment file        | ✓       | None                                                                                                 | None                                            | None                                                         |
+| fstab                   | ✓       | None                                                                                                 | None                                            | None                                                         |
+| gdscript                | ✓       | None                                                                                                 | None                                            | None                                                         |
+| glsl                    | ✓       | None                                                                                                 | None                                            | None                                                         |
+| go                      | ✓       | [gopls](https://golang.org/x/tools/gopls)                                                            | None                                            | [gopls](https://pkg.go.dev/golang.org/x/tools/gopls)         |
+| haskell                 | ✓       | [haskell-language-server](https://github.com/haskell/haskell-language-server)                        | [hlint](https://github.com/ndmitchell/hlint)    | [ormolu](https://github.com/tweag/ormolu)                    |
+| haxe                    | ✓       | None                                                                                                 | None                                            | None                                                         |
+| haxe compiler arguments | ✓       | None                                                                                                 | None                                            | None                                                         |
+| hlsl                    | ✓       | None                                                                                                 | None                                            | None                                                         |
+| html                    | ✓       | [vscode-html-languageserver](https://github.com/vscode-langservers/vscode-html-languageserver-bin)   | None                                            | native                                                       |
+| ini                     | ✓       | None                                                                                                 | None                                            | None                                                         |
+| java                    | ✓       | [jdtls](https://github.com/eclipse/eclipse.jdt.ls)                                                   | None                                            | None                                                         |
+| javascript              | ✓       | [typescript-language-server](https://github.com/theia-ide/typescript-language-server)                | [eslint](https://eslint.org)                    | [prettier](https://prettier.io)                              |
+| json                    | ✓       | None                                                                                                 | [jq](https://stedolan.github.io/jq/)            | native                                                       |
+| jsx                     | ✓       | None                                                                                                 | [eslint](https://eslint.org)                    | [prettier](https://prettier.io)                              |
+| julia                   | ✓       | None                                                                                                 | None                                            | None                                                         |
+| kotlin                  | ✓       | [kotlin-language-server](https://github.com/fwcd/kotlin-language-server)                             | [ktlint](https://pinterest.github.io/ktlint/)   | [ktlint](https://pinterest.github.io/ktlint/)                |
+| latex                   | ✓       | None                                                                                                 | None                                            | None                                                         |
+| lua                     | ✓       | [lua-language-server](https://github.com/sumneko/lua-language-server)                                | [luacheck](https://github.com/mpeterv/luacheck) | None                                                         |
+| makefile                | ✓       | None                                                                                                 | None                                            | None                                                         |
+| markdown                | ✓       | None                                                                                                 | None                                            | None                                                         |
+| meson                   | ✓       | None                                                                                                 | None                                            | None                                                         |
+| nelua                   | ✓       | None                                                                                                 | [nelua](https://nelua.io)                       | None                                                         |
+| nim                     | ✓       | [nimlsp](https://github.com/PMunch/nimlsp)                                                           | [nim](https://nim-lang.org)                     | None                                                         |
+| objective-c             | ✓       | [clangd](https://clang.llvm.org/extra/clangd/)                                                       | None                                            | [clang-format](https://clang.llvm.org/docs/ClangFormat.html) |
+| odin                    | ✓       | [ols](https://github.com/DanielGavin/ols)                                                            | None                                            | None                                                         |
+| perl                    | ✓       | None                                                                                                 | None                                            | None                                                         |
+| php                     | ✓       | [intelephense](https://intelephense.com/)                                                            | [php](https://www.php.net)                      | None                                                         |
+| pico-8                  | ✓       | None                                                                                                 | None                                            | None                                                         |
+| plaintext               | ✓       | None                                                                                                 | None                                            | None                                                         |
+| po                      | ✓       | None                                                                                                 | None                                            | None                                                         |
+| postgresql              | ✓       | None                                                                                                 | None                                            | None                                                         |
+| powershell              | ✓       | None                                                                                                 | None                                            | None                                                         |
+| python                  | ✓       | [pylsp](https://github.com/python-lsp/python-lsp-server)                                             | [ruff](https://ruff.rs)                         | [black](https://black.readthedocs.io/en/stable/)             |
+| r                       | ✓       | [r languageserver](https://github.com/REditorSupport/languageserver)                                 | None                                            | None                                                         |
+| ruby                    | ✓       | [solargraph](https://solargraph.org)                                                                 | None                                            | None                                                         |
+| rust                    | ✓       | [rust-analyzer](https://rust-analyzer.github.io)                                                     | None                                            | [rustfmt](https://rust-lang.github.io/rustfmt/)              |
+| sass                    | ✓       | None                                                                                                 | None                                            | None                                                         |
+| scala                   | ✓       | [metals](https://github.com/scalameta/metals)                                                        | None                                            | None                                                         |
+| shellscript             | ✓       | None                                                                                                 | [shellcheck](https://www.shellcheck.net)        | None                                                         |
+| solidity                | ✓       | [solc](https://soliditylang.org)                                                                     | [solhint](https://protofire.github.io/solhint/) | None                                                         |
+| sql                     | ✓       | None                                                                                                 | None                                            | None                                                         |
+| swift                   | ✓       | [sourcekit-lsp](https://github.com/apple/sourcekit-lsp)                                              | None                                            | None                                                         |
+| teal                    | ✓       | None                                                                                                 | [tl](https://github.com/teal-language/tl)       | None                                                         |
+| toml                    | ✓       | None                                                                                                 | None                                            | None                                                         |
+| typescript              | ✓       | [typescript-language-server](https://github.com/theia-ide/typescript-language-server)                | [eslint](https://eslint.org)                    | [prettier](https://prettier.io)                              |
+| v                       | ✓       | [vls](https://github.com/vlang/vls)                                                                  | None                                            | [v](https://vlang.io)                                        |
+| vue                     | ✓       | [vls](https://github.com/vuejs/vetur/tree/master/server)                                             | None                                            | None                                                         |
+| wren                    | ✓       | None                                                                                                 | None                                            | None                                                         |
+| x86 assembly            | ✓       | None                                                                                                 | None                                            | None                                                         |
+| xml                     | ✓       | None                                                                                                 | None                                            | native                                                       |
+| yaml                    | ✓       | [yaml-language-server](https://github.com/redhat-developer/yaml-language-server)                     | None                                            | None                                                         |
+| zig                     | ✓       | [zls](https://github.com/zigtools/zls)                                                               | [zig](https://ziglang.org)                      | [zig](https://ziglang.org)                                   |
 
 ### Language support health
 
@@ -210,7 +210,7 @@ To configure new linters you can create a new `linters.json` file in the [defaul
 #### `linters.json` format
 
 The format is a very simple JSON object with a config object and array of objects containing the file
-formats supported, the Lua pattern to find any error printed by the linter to the stdout, the position
+formats supported, the [Lua pattern](https://www.lua.org/manual/5.4/manual.html#6.4.1) to find any error printed by the linter to the stdout, the position
 of each group of the pattern, and the command to execute. It also supports some optional extra object keys.
 
 JavaScript linter example (using [eslint](https://eslint.org/))
@@ -248,8 +248,8 @@ Please check the [language support table](#language-support-table)
 
 #### Linter JSON object keys
 
-* **file_patterns**: Array of Lua Patterns representing the file extensions that must use the linter
-* **warning_pattern**: Lua Pattern to be parsed from the executable stdout
+* **file_patterns**: Array of [Lua Patterns](https://www.lua.org/manual/5.4/manual.html#6.4.1) representing the file extensions that must use the linter
+* **warning_pattern**: [Lua Pattern](https://www.lua.org/manual/5.4/manual.html#6.4.1) to be parsed from the executable stdout
 * **warning_pattern_order**: The order where the line, column, error/warning/notice message, and the type of the message (warning, error, notice, info) are read. The pattern must have at least 3 groups (line, message, and type). The error type is auto-detected from its name.
 * **command**: The command to execute to run the linter. $FILENAME represents the file path.
 * **expected_exitcodes**: Array of integer numbers accepted as parseable exit codes (optional)
@@ -299,7 +299,7 @@ Please check the [language support table](#language-support-table)
 
 #### Formatter JSON object keys
 
-* **file_patterns**: Array of Lua Patterns representing the file extensions that must use the formatter
+* **file_patterns**: Array of [Lua Patterns](https://www.lua.org/manual/5.4/manual.html#6.4.1) representing the file extensions that must use the formatter
 * **command**: The command to execute to run the formatter. $FILENAME represents the file path
 * **type**: Indicates the mode that which the formatter outputs the results. Supported two possible options: "inplace" (file is replaced with the formatted version), "output" (newly formatted file is the stdout of the program, default option) or "native" (uses the formatter provided by ecode)
 
@@ -375,7 +375,7 @@ Please check the [language support table](#language-support-table)
 * **name**: The name of the language server
 * **url** (optional): The web page URL of the language server
 * **use** (optional): A server can be inherit the configuration from other server. This must be the name of the server configuration that inherits (useful for LSPs that support several languages like clang and typescript-language-server).
-* **file_patterns**: Array of Lua Patterns representing the file extensions that must use the LSP client
+* **file_patterns**: Array of [Lua Patterns](https://www.lua.org/manual/5.4/manual.html#6.4.1) representing the file extensions that must use the LSP client
 * **command**: The command to execute to run the LSP. It's possible to override the default LSP command by declaring the server in the `lspclient.json` config.
 * **rootIndicationFileNames** (optional): Some languages need to indicate the project root path to the LSP work correctly. This is an array of files that might indicate where the root path is. Usually this is resolver by the LSP itself, but it might help in some situations.
 * **initializationOptions** (optional): These are custom initialization options that can be passed to the LSP. Usually not required, but it will allow the user to configure the LSP. More information can be found [here](https://microsoft.github.io/language-server-protocol/specifications/lsp/3.17/specification/#initialize).
@@ -498,6 +498,15 @@ should contain the language definition.
 	"lsp_name": "sets the LSP name assigned for the language, optional parameter, it will use the _name_ in lowercase if not set"
 }
 ```
+
+### Porting language definitions
+
+ecode uses the same format for language definition as [lite](https://github.com/rxi/lite) and [lite-xl](https://github.com/lite-xl/lite-xl) editors.
+This makes much easier to add new languages to ecode. There's also a helper tool that can be download from
+ecode repository located [here](https://github.com/SpartanJ/ecode/tree/develop/tools/data-migration/lite/language)
+that allows to directly export a lite language definition to the JSON file format used in ecode.
+*A minor clarification:* ecode does not currently support regex for pattern matching that it's supported
+by lite-xl (it might be added in the near future).
 
 ### Language definition example
 
