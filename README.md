@@ -681,6 +681,8 @@ using the editor daily and is stable enough for me, but use it at your own risk.
 
 * Andreas Kling for [SerenityOS](https://github.com/SerenityOS/serenity)
 
+* [iqskpduswupkcjqg](https://github.com/iqskpduswupkcjqg) for Pascal and Objeck syntax highlighting
+
 * And a **lot** more people!
 
 ## Code License
