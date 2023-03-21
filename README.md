@@ -260,6 +260,7 @@ Please check the [language support table](#language-support-table)
 * **warning_pattern**: [Lua Pattern](https://www.lua.org/manual/5.4/manual.html#6.4.1) to be parsed from the executable stdout
 * **warning_pattern_order**: The order where the line, column, error/warning/notice message, and the type of the message (warning, error, notice, info) are read. The pattern must have at least 3 groups (line, message, and type). The error type is auto-detected from its name.
 * **command**: The command to execute to run the linter. $FILENAME represents the file path.
+* **url** (optional): The web page URL of the linter
 * **expected_exitcodes**: Array of integer numbers accepted as parseable exit codes (optional)
 * **no_errors_exit_code**: Integer number representing the exit code that means that no errors were found (optional).
 * **deduplicate**: In case the linter outputs duplicated errors, this boolean will ignore duplicated errors (optional, boolean true/false)
@@ -310,6 +311,7 @@ Please check the [language support table](#language-support-table)
 * **file_patterns**: Array of [Lua Patterns](https://www.lua.org/manual/5.4/manual.html#6.4.1) representing the file extensions that must use the formatter
 * **command**: The command to execute to run the formatter. $FILENAME represents the file path
 * **type**: Indicates the mode that which the formatter outputs the results. Supported two possible options: "inplace" (file is replaced with the formatted version), "output" (newly formatted file is the stdout of the program, default option) or "native" (uses the formatter provided by ecode)
+* **url** (optional): The web page URL of the formatter
 
 ### LSP Client
 
@@ -384,9 +386,11 @@ Please check the [language support table](#language-support-table)
 * **url** (optional): The web page URL of the language server
 * **use** (optional): A server can be inherit the configuration from other server. This must be the name of the server configuration that inherits (useful for LSPs that support several languages like clang and typescript-language-server).
 * **file_patterns**: Array of [Lua Patterns](https://www.lua.org/manual/5.4/manual.html#6.4.1) representing the file extensions that must use the LSP client
-* **command**: The command to execute to run the LSP. It's possible to override the default LSP command by declaring the server in the `lspclient.json` config.
+* **command**: The command to execute to run the LSP. It's possible to override the default LSP command by declaring the server in the `lspclient.json` config. It's also possible to specify a different command for each platform, given that it might change in some ocassions per-platform. In that case an object should be used, with each key being a platform, and there's also a wildcard platform "other" to specify any other platform that does not match the platform definition. For example, `sourcekit-lsp` uses: `"command": {"macos": "xcrun sourcekit-lsp","other": "sourcekit-lsp"}`
 * **rootIndicationFileNames** (optional): Some languages need to indicate the project root path to the LSP work correctly. This is an array of files that might indicate where the root path is. Usually this is resolver by the LSP itself, but it might help in some situations.
 * **initializationOptions** (optional): These are custom initialization options that can be passed to the LSP. Usually not required, but it will allow the user to configure the LSP. More information can be found [here](https://microsoft.github.io/language-server-protocol/specifications/lsp/3.17/specification/#initialize).
+* **host** (optional): It's possible to connect to LSP servers via TCP. This is the host location of the LSP. When using TCP connections *command* can be empty or can be used to initialize the LSP server. And then use the LSP through a TCP connection.
+* **port** (optional): It's possible to connect to LSP servers via TCP. This is the post location of the LSP.
 
 ### Plugins configuration files location
 
