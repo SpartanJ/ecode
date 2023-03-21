@@ -1,4 +1,7 @@
-# ecode
+<h1 align="center">
+  <img src="https://raw.githubusercontent.com/SpartanJ/eepp/develop/bin/assets/icon/ecode-icon-web.svg" width=128 height=128/><br>
+  ecode
+</h1>
 
 *ecode* is a lightweight multi-platform code editor designed for modern hardware with a focus on
 responsiveness and performance. It has been developed with the hardware-accelerated [eepp GUI](https://github.com/SpartanJ/eepp/),
