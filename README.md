@@ -20,7 +20,7 @@ For more screenshots checkout [running on macOS](https://user-images.githubuserc
 * Lightweight
 * Portable
 * Minimalist GUI
-* Syntax Highlighting (including nested syntax highlighting, supporting over 50 languages)
+* Syntax Highlighting (including nested syntax highlighting, supporting over 50 languages and LSP semantic highlighting)
 * Multi-cursor support
 * Terminal support
 * Command Palette
@@ -367,6 +367,7 @@ Please check the [language support table](#language-support-table)
 
 * **hover_delay**: The time the editor must wait to show symbol information when hovering any piece of code.
 * **server_close_after_idle_time**: The time the LSP Server will keep alive after all documents that consumes that LSP Server were closed. LSP Servers are spawned and killed on demand.
+* **semantic_highlighting**: Enable/Disable semantic highlighting (disabled by default, boolean)
 
 #### LSP Client keybindings object keys
 
@@ -604,7 +605,7 @@ by ecode [here](https://github.com/SpartanJ/eepp/blob/develop/src/eepp/ui/doc/sy
 Listed in no particular order:
 
 * Git integration (visual git diff, git blame, git status, etc)
-* Improved LSP integration (semantic highlighting, symbol viewer)
+* Improved LSP integration
 * Improved plugin system (visual configuration, more flexibility/features)
 * [DAP](https://microsoft.github.io/debug-adapter-protocol/) support
 * Code-folding
