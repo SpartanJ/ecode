@@ -392,6 +392,7 @@ Please check the [language support table](#language-support-table)
 * **initializationOptions** (optional): These are custom initialization options that can be passed to the LSP. Usually not required, but it will allow the user to configure the LSP. More information can be found [here](https://microsoft.github.io/language-server-protocol/specifications/lsp/3.17/specification/#initialize).
 * **host** (optional): It's possible to connect to LSP servers via TCP. This is the host location of the LSP. When using TCP connections *command* can be empty or can be used to initialize the LSP server. And then use the LSP through a TCP connection.
 * **port** (optional): It's possible to connect to LSP servers via TCP. This is the post location of the LSP.
+* **env** (optional): Array of strings with environment variables added to the process environment.
 
 ### Plugins configuration files location
 
@@ -604,14 +605,14 @@ by ecode [here](https://github.com/SpartanJ/eepp/blob/develop/src/eepp/ui/doc/sy
 
 Listed in no particular order:
 
+* [DAP](https://microsoft.github.io/debug-adapter-protocol/) support
 * Git integration (visual git diff, git blame, git status, etc)
 * Improved LSP integration
 * Improved plugin system (visual configuration, more flexibility/features)
-* [DAP](https://microsoft.github.io/debug-adapter-protocol/) support
-* Code-folding
 * Configurable build pipelines
+* Code-folding
 
-### Long Term Features
+### Long Term Planned Features
 
 * Remote development support
 * Modal editing
