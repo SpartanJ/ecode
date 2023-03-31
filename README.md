@@ -156,8 +156,10 @@ via configuration files (for every feature: syntax highlighting, LSP, linter and
 | meson                   | ✓       | None                                                                                                 | None                                            | None                                                         |
 | nelua                   | ✓       | None                                                                                                 | [nelua](https://nelua.io)                       | None                                                         |
 | nim                     | ✓       | [nimlsp](https://github.com/PMunch/nimlsp)                                                           | [nim](https://nim-lang.org)                     | None                                                         |
+| objeck                  | ✓       | None                                                                                                 | None                                            | None                                                         |
 | objective-c             | ✓       | [clangd](https://clang.llvm.org/extra/clangd/)                                                       | None                                            | [clang-format](https://clang.llvm.org/docs/ClangFormat.html) |
 | odin                    | ✓       | [ols](https://github.com/DanielGavin/ols)                                                            | None                                            | None                                                         |
+| pascal                  | ✓       | None                                                                                                 | None                                            | None                                                         |
 | perl                    | ✓       | None                                                                                                 | None                                            | None                                                         |
 | php                     | ✓       | [intelephense](https://intelephense.com/)                                                            | [php](https://www.php.net)                      | None                                                         |
 | pico-8                  | ✓       | None                                                                                                 | None                                            | None                                                         |
@@ -179,6 +181,7 @@ via configuration files (for every feature: syntax highlighting, LSP, linter and
 | toml                    | ✓       | None                                                                                                 | None                                            | None                                                         |
 | typescript              | ✓       | [typescript-language-server](https://github.com/theia-ide/typescript-language-server)                | [eslint](https://eslint.org)                    | [prettier](https://prettier.io)                              |
 | v                       | ✓       | [vls](https://github.com/vlang/vls)                                                                  | None                                            | [v](https://vlang.io)                                        |
+| visual basic            | ✓       | None                                                                                                 | None                                            | None                                                         |
 | vue                     | ✓       | [vls](https://github.com/vuejs/vetur/tree/master/server)                                             | None                                            | None                                                         |
 | wren                    | ✓       | None                                                                                                 | None                                            | None                                                         |
 | x86 assembly            | ✓       | None                                                                                                 | None                                            | None                                                         |
@@ -610,7 +613,9 @@ Listed in no particular order:
 * Improved LSP integration
 * Improved plugin system (visual configuration, more flexibility/features)
 * Configurable build pipelines
+* [Tree-sitter](https://github.com/tree-sitter/tree-sitter) support
 * Code-folding
+* Soft-wrap
 
 ### Long Term Planned Features
 
