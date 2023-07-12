@@ -11,7 +11,7 @@ eepp GUI library as part of one of its main objectives.
 
 ## Screenshots
 
-![ecode - Code Editor](https://user-images.githubusercontent.com/650416/211463167-03ca716c-2049-4614-b874-446a03adb78f.png)
+![ecode - Code Editor](https://github.com/SpartanJ/ecode/assets/650416/34645f30-d962-47eb-a805-2d9be4054848)
 
 For more screenshots checkout [running on macOS](https://user-images.githubusercontent.com/650416/172517957-c28d23a5-ee6b-4e96-a0a3-b7252a2b23bb.png), [running on Windows](https://user-images.githubusercontent.com/650416/172760308-30d5335c-d5f7-4dbe-94ce-2e556d858909.png), [running on Haiku](https://user-images.githubusercontent.com/650416/172760331-799b7d16-104b-4cac-ba34-c0cf60ba4374.png), [low dpi](https://user-images.githubusercontent.com/650416/172519582-1aab1e94-8d69-4c2c-b4ba-de9f2d8729cf.png), [code completion](https://user-images.githubusercontent.com/650416/172521557-f68aa855-0534-49c9-b33e-8f9f8b47b9d2.png), [terminal](https://user-images.githubusercontent.com/650416/180109676-a1f9dbc6-d170-4e67-a19c-611cff9f04dd.png), [file locator](https://user-images.githubusercontent.com/650416/172521593-bb8fde13-2600-44e5-87d2-3fc41370fc77.png), [file formats](https://user-images.githubusercontent.com/650416/172521619-ac1aeb82-80e5-49fd-894e-afc780d4c0fd.png), [global find](https://user-images.githubusercontent.com/650416/172523164-2ca9b988-7d2d-4b8c-b6d2-10e593d7fc14.png), [global replace](https://user-images.githubusercontent.com/650416/172523195-00451552-2a56-4595-8b3a-cf8071b36dc6.png), [linter](https://user-images.githubusercontent.com/650416/172523272-45c267af-2585-4c54-86e0-739b5202569e.png).
 
@@ -30,6 +30,7 @@ For more screenshots checkout [running on macOS](https://user-images.githubuserc
 * Customizable Formatter support
 * Customizable Color-Schemes
 * Customizable keyboard bindings
+* Configurable build pipelines
 * Unlimited editor splitting
 * Minimap
 * Fast global search (and replace)
@@ -391,6 +392,7 @@ Please check the [language support table](#language-support-table)
 * **use** (optional): A server can be inherit the configuration from other server. This must be the name of the server configuration that inherits (useful for LSPs that support several languages like clang and typescript-language-server).
 * **file_patterns**: Array of [Lua Patterns](https://www.lua.org/manual/5.4/manual.html#6.4.1) representing the file extensions that must use the LSP client
 * **command**: The command to execute to run the LSP. It's possible to override the default LSP command by declaring the server in the `lspclient.json` config. It's also possible to specify a different command for each platform, given that it might change in some ocassions per-platform. In that case an object should be used, with each key being a platform, and there's also a wildcard platform "other" to specify any other platform that does not match the platform definition. For example, `sourcekit-lsp` uses: `"command": {"macos": "xcrun sourcekit-lsp","other": "sourcekit-lsp"}`
+* **command_parameters** (optional): The command parameters. Parameters can be set from the **command** also, unless the command needs to run a binary with name with spaces. Also command_parameters can be used to add more parameters to the original command. The lsp configuration can be overriden from the lspclient.json in the user configuration. For example: a user trying to append some command line arguments to clang would need to do something like: `{"name": "clangd","command_parameters": "--background-index-priority=background --malloc-trim"}`
 * **rootIndicationFileNames** (optional): Some languages need to indicate the project root path to the LSP work correctly. This is an array of files that might indicate where the root path is. Usually this is resolver by the LSP itself, but it might help in some situations.
 * **initializationOptions** (optional): These are custom initialization options that can be passed to the LSP. Usually not required, but it will allow the user to configure the LSP. More information can be found [here](https://microsoft.github.io/language-server-protocol/specifications/lsp/3.17/specification/#initialize).
 * **host** (optional): It's possible to connect to LSP servers via TCP. This is the host location of the LSP. When using TCP connections *command* can be empty or can be used to initialize the LSP server. And then use the LSP through a TCP connection.
@@ -612,7 +614,6 @@ Listed in no particular order:
 * Git integration (visual git diff, git blame, git status, etc)
 * Improved LSP integration
 * Improved plugin system (visual configuration, more flexibility/features)
-* Configurable build pipelines
 * [Tree-sitter](https://github.com/tree-sitter/tree-sitter) support
 * Code-folding
 * Soft-wrap
