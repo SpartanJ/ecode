@@ -136,7 +136,7 @@ via configuration files (for every feature: syntax highlighting, LSP, linter and
 | environment file        | ✓       | None                                                                                                 | None                                            | None                                                         |
 | fstab                   | ✓       | None                                                                                                 | None                                            | None                                                         |
 | gdscript                | ✓       | None                                                                                                 | None                                            | None                                                         |
-| glsl                    | ✓       | None                                                                                                 | None                                            | None                                                         |
+| glsl                    | ✓       | [glsl_analyzer](https://github.com/nolanderc/glsl_analyzer)                                          | None                                            | None                                                         |
 | go                      | ✓       | [gopls](https://golang.org/x/tools/gopls)                                                            | None                                            | [gopls](https://pkg.go.dev/golang.org/x/tools/gopls)         |
 | hare                    | ✓       | None                                                                                                 | None                                            | None                                                         |
 | haskell                 | ✓       | [haskell-language-server](https://github.com/haskell/haskell-language-server)                        | [hlint](https://github.com/ndmitchell/hlint)    | [ormolu](https://github.com/tweag/ormolu)                    |
@@ -153,6 +153,7 @@ via configuration files (for every feature: syntax highlighting, LSP, linter and
 | julia                   | ✓       | None                                                                                                 | None                                            | None                                                         |
 | kotlin                  | ✓       | [kotlin-language-server](https://github.com/fwcd/kotlin-language-server)                             | [ktlint](https://pinterest.github.io/ktlint/)   | [ktlint](https://pinterest.github.io/ktlint/)                |
 | latex                   | ✓       | None                                                                                                 | None                                            | None                                                         |
+| lobster                 | ✓       | None                                                                                                 | None                                            | None                                                         |
 | lua                     | ✓       | [lua-language-server](https://github.com/sumneko/lua-language-server)                                | [luacheck](https://github.com/mpeterv/luacheck) | None                                                         |
 | makefile                | ✓       | None                                                                                                 | None                                            | None                                                         |
 | markdown                | ✓       | None                                                                                                 | None                                            | None                                                         |
@@ -376,7 +377,8 @@ Please check the [language support table](#language-support-table)
 * **hover_delay**: The time the editor must wait to show symbol information when hovering any piece of code.
 * **server_close_after_idle_time**: The time the LSP Server will keep alive after all documents that consumes that LSP Server were closed. LSP Servers are spawned and killed on demand.
 * **semantic_highlighting**: Enable/Disable semantic highlighting (disabled by default, boolean)
-* **silent**: Enable/Disable specific LSP logs (it won't disable critical logs)
+* **silent**: Enable/Disable non-critical LSP logs
+* **trim_logs**: If logs are enabled and trim_logs is enabled it will trim the line log size at maximum 1 KiB per line (useful for debugging)
 
 #### LSP Client keybindings object keys
 
