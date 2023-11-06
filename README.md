@@ -121,9 +121,9 @@ via configuration files (for every feature: syntax highlighting, LSP, linter and
 | [x]it!                  | ✓       | None                                                                                                 | None                                            | None                                                         |
 | angelscript             | ✓       | None                                                                                                 | None                                            | None                                                         |
 | bat                     | ✓       | None                                                                                                 | None                                            | None                                                         |
-| c                       | ✓       | [clangd](https://clang.llvm.org/extra/clangd/)                                                       | [cppcheck](https://github.com/danmar/cppcheck)  | [clang-format](https://clang.llvm.org/docs/ClangFormat.html) |
+| c                       | ✓       | [clangd](https://clangd.llvm.org/)                                                                   | [cppcheck](https://github.com/danmar/cppcheck)  | [clang-format](https://clang.llvm.org/docs/ClangFormat.html) |
 | cmake                   | ✓       | [cmake-language-server](https://github.com/regen100/cmake-language-server)                           | None                                            | None                                                         |
-| cpp                     | ✓       | [clangd](https://clang.llvm.org/extra/clangd/)                                                       | [cppcheck](https://github.com/danmar/cppcheck)  | [clang-format](https://clang.llvm.org/docs/ClangFormat.html) |
+| cpp                     | ✓       | [clangd](https://clangd.llvm.org/)                                                                   | [cppcheck](https://github.com/danmar/cppcheck)  | [clang-format](https://clang.llvm.org/docs/ClangFormat.html) |
 | crystal                 | ✓       | [crystalline](https://github.com/elbywan/crystalline)                                                | None                                            | None                                                         |
 | csharp                  | ✓       | [OmniSharp](https://github.com/OmniSharp/omnisharp-roslyn)                                           | None                                            | None                                                         |
 | css                     | ✓       | None                                                                                                 | None                                            | [native](#native)                                            |
@@ -136,21 +136,24 @@ via configuration files (for every feature: syntax highlighting, LSP, linter and
 | environment file        | ✓       | None                                                                                                 | None                                            | None                                                         |
 | fstab                   | ✓       | None                                                                                                 | None                                            | None                                                         |
 | gdscript                | ✓       | None                                                                                                 | None                                            | None                                                         |
-| glsl                    | ✓       | None                                                                                                 | None                                            | None                                                         |
+| glsl                    | ✓       | [glsl_analyzer](https://github.com/nolanderc/glsl_analyzer)                                          | None                                            | None                                                         |
 | go                      | ✓       | [gopls](https://golang.org/x/tools/gopls)                                                            | None                                            | [gopls](https://pkg.go.dev/golang.org/x/tools/gopls)         |
+| hare                    | ✓       | None                                                                                                 | None                                            | None                                                         |
 | haskell                 | ✓       | [haskell-language-server](https://github.com/haskell/haskell-language-server)                        | [hlint](https://github.com/ndmitchell/hlint)    | [ormolu](https://github.com/tweag/ormolu)                    |
 | haxe                    | ✓       | None                                                                                                 | None                                            | None                                                         |
 | haxe compiler arguments | ✓       | None                                                                                                 | None                                            | None                                                         |
 | hlsl                    | ✓       | None                                                                                                 | None                                            | None                                                         |
 | html                    | ✓       | [vscode-html-languageserver](https://github.com/vscode-langservers/vscode-html-languageserver-bin)   | None                                            | [native](#native)                                            |
 | ini                     | ✓       | None                                                                                                 | None                                            | None                                                         |
+| jai                     | ✓       | None                                                                                                 | None                                            | None                                                         |
 | java                    | ✓       | [jdtls](https://github.com/eclipse/eclipse.jdt.ls)                                                   | None                                            | None                                                         |
 | javascript              | ✓       | [typescript-language-server](https://github.com/theia-ide/typescript-language-server)                | [eslint](https://eslint.org)                    | [prettier](https://prettier.io)                              |
 | json                    | ✓       | None                                                                                                 | [jq](https://stedolan.github.io/jq/)            | [native](#native)                                            |
-| jsx                     | ✓       | None                                                                                                 | [eslint](https://eslint.org)                    | [prettier](https://prettier.io)                              |
+| jsx                     | ✓       | [typescript-language-server](https://github.com/theia-ide/typescript-language-server)                | None                                            | None                                                         |
 | julia                   | ✓       | None                                                                                                 | None                                            | None                                                         |
 | kotlin                  | ✓       | [kotlin-language-server](https://github.com/fwcd/kotlin-language-server)                             | [ktlint](https://pinterest.github.io/ktlint/)   | [ktlint](https://pinterest.github.io/ktlint/)                |
 | latex                   | ✓       | None                                                                                                 | None                                            | None                                                         |
+| lobster                 | ✓       | None                                                                                                 | None                                            | None                                                         |
 | lua                     | ✓       | [lua-language-server](https://github.com/sumneko/lua-language-server)                                | [luacheck](https://github.com/mpeterv/luacheck) | None                                                         |
 | makefile                | ✓       | None                                                                                                 | None                                            | None                                                         |
 | markdown                | ✓       | None                                                                                                 | None                                            | None                                                         |
@@ -158,11 +161,11 @@ via configuration files (for every feature: syntax highlighting, LSP, linter and
 | nelua                   | ✓       | None                                                                                                 | [nelua](https://nelua.io)                       | None                                                         |
 | nim                     | ✓       | [nimlsp](https://github.com/PMunch/nimlsp)                                                           | [nim](https://nim-lang.org)                     | None                                                         |
 | objeck                  | ✓       | None                                                                                                 | None                                            | None                                                         |
-| objective-c             | ✓       | [clangd](https://clang.llvm.org/extra/clangd/)                                                       | None                                            | [clang-format](https://clang.llvm.org/docs/ClangFormat.html) |
+| objective-c             | ✓       | [clangd](https://clangd.llvm.org/)                                                                   | None                                            | [clang-format](https://clang.llvm.org/docs/ClangFormat.html) |
 | odin                    | ✓       | [ols](https://github.com/DanielGavin/ols)                                                            | None                                            | None                                                         |
 | pascal                  | ✓       | None                                                                                                 | None                                            | None                                                         |
 | perl                    | ✓       | None                                                                                                 | None                                            | None                                                         |
-| php                     | ✓       | [intelephense](https://intelephense.com/)                                                            | [php](https://www.php.net)                      | None                                                         |
+| php                     | ✓       | [phpactor](https://phpactor.readthedocs.io)                                                          | [php](https://www.php.net)                      | None                                                         |
 | pico-8                  | ✓       | None                                                                                                 | None                                            | None                                                         |
 | plaintext               | ✓       | None                                                                                                 | None                                            | None                                                         |
 | po                      | ✓       | None                                                                                                 | None                                            | None                                                         |
@@ -174,14 +177,16 @@ via configuration files (for every feature: syntax highlighting, LSP, linter and
 | rust                    | ✓       | [rust-analyzer](https://rust-analyzer.github.io)                                                     | None                                            | [rustfmt](https://rust-lang.github.io/rustfmt/)              |
 | sass                    | ✓       | None                                                                                                 | None                                            | None                                                         |
 | scala                   | ✓       | [metals](https://github.com/scalameta/metals)                                                        | None                                            | None                                                         |
-| shellscript             | ✓       | [bash-language-server](https://github.com/bash-lsp/bash-language-server)                             | [shellcheck](https://www.shellcheck.net)        | None                                                         |
+| shellscript             | ✓       | [bash-language-server](https://github.com/bash-lsp/bash-language-server)                             | None                                            | None                                                         |
 | solidity                | ✓       | [solc](https://soliditylang.org)                                                                     | [solhint](https://protofire.github.io/solhint/) | None                                                         |
 | sql                     | ✓       | None                                                                                                 | None                                            | None                                                         |
 | swift                   | ✓       | [sourcekit-lsp](https://github.com/apple/sourcekit-lsp)                                              | None                                            | None                                                         |
 | teal                    | ✓       | None                                                                                                 | [tl](https://github.com/teal-language/tl)       | None                                                         |
 | toml                    | ✓       | None                                                                                                 | None                                            | None                                                         |
+| tsx                     | ✓       | [typescript-language-server](https://github.com/theia-ide/typescript-language-server)                | None                                            | None                                                         |
 | typescript              | ✓       | [typescript-language-server](https://github.com/theia-ide/typescript-language-server)                | [eslint](https://eslint.org)                    | [prettier](https://prettier.io)                              |
-| v                       | ✓       | [vls](https://github.com/vlang/vls)                                                                  | None                                            | [v](https://vlang.io)                                        |
+| v                       | ✓       | [v-analyzer](https://github.com/v-analyzer/v-analyzer)                                               | None                                            | [v](https://vlang.io)                                        |
+| verilog                 | ✓       | None                                                                                                 | None                                            | None                                                         |
 | visual basic            | ✓       | None                                                                                                 | None                                            | None                                                         |
 | vue                     | ✓       | [vls](https://github.com/vuejs/vetur/tree/master/server)                                             | None                                            | None                                                         |
 | wren                    | ✓       | None                                                                                                 | None                                            | None                                                         |
@@ -372,6 +377,8 @@ Please check the [language support table](#language-support-table)
 * **hover_delay**: The time the editor must wait to show symbol information when hovering any piece of code.
 * **server_close_after_idle_time**: The time the LSP Server will keep alive after all documents that consumes that LSP Server were closed. LSP Servers are spawned and killed on demand.
 * **semantic_highlighting**: Enable/Disable semantic highlighting (disabled by default, boolean)
+* **silent**: Enable/Disable non-critical LSP logs
+* **trim_logs**: If logs are enabled and trim_logs is enabled it will trim the line log size at maximum 1 KiB per line (useful for debugging)
 
 #### LSP Client keybindings object keys
 
@@ -507,6 +514,7 @@ should contain the language definition.
 	"comment": "Sets the comment string used for auto-comment functionality.",
 	"patterns": [
 		{ "pattern": "lua_pattern", "type": "type_name" },
+		{ "pattern": "no_capture(pattern_capture_1)(pattern_capture_2)", "type": { "no_capture_type_name", "capture_1_type_name", "capture_2_type_name" } },
 		{ "pattern": ["lua_pattern_start", "lua_pattern_end", "escape_character"], "type": "type_name" }
 	],
 	"symbols": [
@@ -604,7 +612,8 @@ by lite-xl (it might be added in the near future).
 ```
 
 For more complex syntax definitions please see the definition of all the native languages supported
-by ecode [here](https://github.com/SpartanJ/eepp/blob/develop/src/eepp/ui/doc/syntaxdefinitionmanager.cpp).
+by ecode [here](https://github.com/SpartanJ/eepp/blob/develop/src/eepp/ui/doc/syntaxdefinitionmanager.cpp) and
+[here](https://github.com/SpartanJ/eepp/tree/develop/src/eepp/ui/doc/languages).
 
 ## Planned Features
 
@@ -647,8 +656,7 @@ you could need some special font.
 * No ligatures support \*4
 * No VIM-mode / modal editing \*5
 * English only (internationalization pending). It should be implemented soon.
-* Limited Unicode support. No [text-shaping](https://harfbuzz.github.io/why-do-i-need-a-shaping-engine.html). Limited support for non-romance languages (Arabic, Chinese, Korean, Hebrew, Hindi, Japanese, etc) in editor (supported in the UI elements and terminal). Emojis are supported. \*2 \*6
-* No tree-sitter support \*7
+* No [text-shaping](https://harfbuzz.github.io/why-do-i-need-a-shaping-engine.html). \*2 \*6
 
 _\*1_ I don't see the point of supporting more encodings for the moment. UTF8 is kind of the defacto industry standard.
 
@@ -662,11 +670,9 @@ _\*5_ I'm not a VIM user, si I'm not qualified to implement the VIM mode or any 
 
 _\*6_ Better Unicode support will come with time, but with no rush for the moment. eepp architecture is ready to add HarfBuzz support.
 
-_\*7_ Tree-sitters might be implemented at some point, but I'm still not 100% sure if it's worth it (yes, I know many of you might think the contrary)
-
 ## Author comments
 
-This editor has a deeply rooted inspiration from the lite, lite-xl, and sublime_text editors. It also
+This editor has a deeply rooted inspiration from the lite, lite-xl, and Sublime Text editors. It also
 takes some inspiration from QtCreator (the current IDE used to develop eepp and ecode).
 Several features were developed based on the lite/lite-xl implementations. Some features can be ported
 directly from lite: color-schemes and syntax-highlighting patterns (eepp implementation expands original
