@@ -25,6 +25,7 @@ For more screenshots checkout [running on macOS](https://user-images.githubuserc
 * Terminal support
 * Command Palette
 * [LSP](https://microsoft.github.io/language-server-protocol/) support
+* [Git](https://git-scm.com/) integration
 * Auto-Completion
 * Customizable Linter support
 * Customizable Formatter support
@@ -143,13 +144,13 @@ via configuration files (for every feature: syntax highlighting, LSP, linter and
 | haxe                    | ✓       | None                                                                                                 | None                                            | None                                                         |
 | haxe compiler arguments | ✓       | None                                                                                                 | None                                            | None                                                         |
 | hlsl                    | ✓       | None                                                                                                 | None                                            | None                                                         |
-| html                    | ✓       | [vscode-html-languageserver](https://github.com/vscode-langservers/vscode-html-languageserver-bin)   | None                                            | [native](#native)                                            |
+| html                    | ✓       | [vscode-html-languageserver](https://github.com/vscode-langservers/vscode-html-languageserver-bin)   | None                                            | [prettier](https://prettier.io)                              |
 | ini                     | ✓       | None                                                                                                 | None                                            | None                                                         |
 | jai                     | ✓       | None                                                                                                 | None                                            | None                                                         |
 | java                    | ✓       | [jdtls](https://github.com/eclipse/eclipse.jdt.ls)                                                   | None                                            | None                                                         |
 | javascript              | ✓       | [typescript-language-server](https://github.com/theia-ide/typescript-language-server)                | [eslint](https://eslint.org)                    | [prettier](https://prettier.io)                              |
 | json                    | ✓       | None                                                                                                 | [jq](https://stedolan.github.io/jq/)            | [native](#native)                                            |
-| jsx                     | ✓       | [typescript-language-server](https://github.com/theia-ide/typescript-language-server)                | None                                            | None                                                         |
+| jsx                     | ✓       | [typescript-language-server](https://github.com/theia-ide/typescript-language-server)                | [eslint](https://eslint.org)                    | [prettier](https://prettier.io)                              |
 | julia                   | ✓       | None                                                                                                 | None                                            | None                                                         |
 | kotlin                  | ✓       | [kotlin-language-server](https://github.com/fwcd/kotlin-language-server)                             | [ktlint](https://pinterest.github.io/ktlint/)   | [ktlint](https://pinterest.github.io/ktlint/)                |
 | latex                   | ✓       | None                                                                                                 | None                                            | None                                                         |
@@ -169,6 +170,7 @@ via configuration files (for every feature: syntax highlighting, LSP, linter and
 | pico-8                  | ✓       | None                                                                                                 | None                                            | None                                                         |
 | plaintext               | ✓       | None                                                                                                 | None                                            | None                                                         |
 | po                      | ✓       | None                                                                                                 | None                                            | None                                                         |
+| pony                    | ✓       | None                                                                                                 | None                                            | None                                                         |
 | postgresql              | ✓       | None                                                                                                 | None                                            | None                                                         |
 | powershell              | ✓       | None                                                                                                 | None                                            | None                                                         |
 | python                  | ✓       | [pylsp](https://github.com/python-lsp/python-lsp-server)                                             | [ruff](https://ruff.rs)                         | [black](https://black.readthedocs.io/en/stable/)             |
@@ -183,7 +185,7 @@ via configuration files (for every feature: syntax highlighting, LSP, linter and
 | swift                   | ✓       | [sourcekit-lsp](https://github.com/apple/sourcekit-lsp)                                              | None                                            | None                                                         |
 | teal                    | ✓       | None                                                                                                 | [tl](https://github.com/teal-language/tl)       | None                                                         |
 | toml                    | ✓       | None                                                                                                 | None                                            | None                                                         |
-| tsx                     | ✓       | [typescript-language-server](https://github.com/theia-ide/typescript-language-server)                | None                                            | None                                                         |
+| tsx                     | ✓       | [typescript-language-server](https://github.com/theia-ide/typescript-language-server)                | [eslint](https://eslint.org)                    | [prettier](https://prettier.io)                              |
 | typescript              | ✓       | [typescript-language-server](https://github.com/theia-ide/typescript-language-server)                | [eslint](https://eslint.org)                    | [prettier](https://prettier.io)                              |
 | v                       | ✓       | [v-analyzer](https://github.com/v-analyzer/v-analyzer)                                               | None                                            | [v](https://vlang.io)                                        |
 | verilog                 | ✓       | None                                                                                                 | None                                            | None                                                         |
@@ -324,8 +326,7 @@ Please check the [language support table](#language-support-table)
 
 ### LSP Client
 
-LSP support is provided by executing already stablished LSP from each language. It's currently being
-developed and many features aren't present at the moment.
+LSP support is provided by executing already stablished LSP from each language.
 *ecode* provides support for several languages by default and can be extended easily by expanding the
 `lspclient.json` configuration. `lspclient.json` default configuration can be obtained from [here](https://raw.githubusercontent.com/SpartanJ/eepp/develop/bin/assets/plugins/lspclient.json).
 To configure new LSPs you can create a new `lspclient.json` file in the [default configuration path](#plugins-configuration-files-location) of *ecode*.
@@ -405,6 +406,49 @@ Please check the [language support table](#language-support-table)
 * **host** (optional): It's possible to connect to LSP servers via TCP. This is the host location of the LSP. When using TCP connections *command* can be empty or can be used to initialize the LSP server. And then use the LSP through a TCP connection.
 * **port** (optional): It's possible to connect to LSP servers via TCP. This is the post location of the LSP.
 * **env** (optional): Array of strings with environment variables added to the process environment.
+
+### Git integration
+
+*ecode* provides some basic Git integration (more features will come in the future). Its main purpose
+is to help the user to do the most basics operations with Git. Some of the current features supported:
+git status and stats visualization (files states), commit, push, checkout, pull, fetch, fast-forward
+merge, creating+renaming+deleting branches. All stats will be automatically updated/refreshed in real
+time. There's also some basic configuration available.
+The plugin requires the user to have a `git` binary installed and available in `PATH` environment variable.
+
+#### `git.json` format
+
+The format follows the same pattern that all previous configuration files. Configuration is represented
+in a JSON file with three main keys: `config`, `keybindings`, `servers`.
+
+C and C++ LSP server example (using [clangd](https://clangd.llvm.org/))
+
+```json
+{
+  "config": {
+    "silent": false,
+    "status_recurse_submodules": true,
+    "statusbar_display_branch": true,
+    "statusbar_display_modifications": true,
+    "ui_refresh_frequency": "5s"
+  },
+  "keybindings": {
+    "git-blame": "alt+shift+b"
+  }
+}
+```
+
+#### Git config object keys
+
+* **silent**: Enable/Disable non-critical Git logs.
+* **status_recurse_submodules**: Enables/disables recursing sub-modules for the file status report.
+* **statusbar_display_branch**: Enables/disables an always visible status on the bottom statusbar.
+* **statusbar_display_modifications**: Enables/disables if the number of lines affected is displayed in the statusbar.
+* **ui_refresh_frequency**: Indicates the frequency in which the status is updated (it will only trigger updates if changes are detected inside the `.git` directory).
+
+#### Git keybindings object keys
+
+* **git-blame**: Keybinding to display the a git blame summary over the current positioned line.
 
 ### Plugins configuration files location
 
@@ -620,10 +664,8 @@ by ecode [here](https://github.com/SpartanJ/eepp/blob/develop/src/eepp/ui/doc/sy
 Listed in no particular order:
 
 * [DAP](https://microsoft.github.io/debug-adapter-protocol/) support
-* Git integration (visual git diff, git blame, git status, etc)
-* Improved LSP integration
-* Improved plugin system (visual configuration, more flexibility/features)
 * [Tree-sitter](https://github.com/tree-sitter/tree-sitter) support
+* Improved plugin system (visual configuration, more flexibility/features)
 * Code-folding
 * Soft-wrap
 
@@ -646,7 +688,7 @@ Some Unicode characters won't be rendered in the editor out of the box. You'll n
 default monospace font in favor of a font that supports the characters you want to see that are not
 being rendered. You could also change the default fallback font in the case you want to use a
 traditional monospaced font. The default fallback font should cover a wide range of languages but
-you could need some special font.
+you could need some special font (currently covers CJK languages).
 
 ## Current Limitations
 
@@ -666,7 +708,7 @@ _\*3_ I'm not a fan of sub-pixel hinting. But I'm more than willing to implement
 
 _\*4_ I don't really like ligatures. I'm open to PRs implementing them.
 
-_\*5_ I'm not a VIM user, si I'm not qualified to implement the VIM mode or any modal editing. PRs are welcome to support this.
+_\*5_ I'm not a VIM user, and I'm not qualified to implement the VIM mode or any modal editing. PRs are welcome to support this.
 
 _\*6_ Better Unicode support will come with time, but with no rush for the moment. eepp architecture is ready to add HarfBuzz support.
 
@@ -678,7 +720,7 @@ Several features were developed based on the lite/lite-xl implementations. Some 
 directly from lite: color-schemes and syntax-highlighting patterns (eepp implementation expands original
 lite implementation to add many more features).
 
-*ecode* is being used almost exclusively in Linux, it's not well tested in macOS and Windows OS.
+*ecode* is being used mostly in Linux and macOS, it's not well tested in Windows.
 If you find any issues with the editor please report it [here](https://github.com/SpartanJ/ecode/issues).
 
 This is a work in progress, stability is not guaranteed. Please don't use it for critical tasks. I'm
