@@ -412,8 +412,8 @@ Please check the [language support table](#language-support-table)
 *ecode* provides some basic Git integration (more features will come in the future). Its main purpose
 is to help the user to do the most basics operations with Git. Some of the current features supported:
 git status and stats visualization (files states), commit, push, checkout, pull, fetch, fast-forward
-merge, creating+renaming+deleting branches. All stats will be automatically updated/refreshed in real
-time. There's also some basic configuration available.
+merge, creating+renaming+deleting branches, managing stashes. All stats will be automatically
+updated/refreshed in real time. There's also some basic configuration available.
 The plugin requires the user to have a `git` binary installed and available in `PATH` environment variable.
 
 #### `git.json` format
