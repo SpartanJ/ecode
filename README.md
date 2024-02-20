@@ -64,7 +64,7 @@ with files that are not officially supported.
 
 Some points to illustrate the project philosophy:
 
-* Extendable functionality but in a controlled environment. New features and new plugins are accepted, but the author will supervise any new content that might affect the product quality and performance.
+* Extendable functionality but in a controlled environment. New features and new plugins are accepted, but the author will supervise any new content that might affect the application quality and performance.
 * Load as few files and resources as possible and load asynchronously as many resources as possible. Startup time of the application is considered critical.
 * Use the machine resources but not abuse them.
 * The editor implementation will try to prioritize performance and memory usage over simplicity.
@@ -122,6 +122,7 @@ via configuration files (for every feature: syntax highlighting, LSP, linter and
 | [x]it!                  | ✓       | None                                                                                                 | None                                            | None                                                         |
 | angelscript             | ✓       | None                                                                                                 | None                                            | None                                                         |
 | bat                     | ✓       | None                                                                                                 | None                                            | None                                                         |
+| blueprint               | ✓       | None                                                                                                 | None                                            | None                                                         |
 | c                       | ✓       | [clangd](https://clangd.llvm.org/)                                                                   | [cppcheck](https://github.com/danmar/cppcheck)  | [clang-format](https://clang.llvm.org/docs/ClangFormat.html) |
 | cmake                   | ✓       | [cmake-language-server](https://github.com/regen100/cmake-language-server)                           | None                                            | None                                                         |
 | cpp                     | ✓       | [clangd](https://clangd.llvm.org/)                                                                   | [cppcheck](https://github.com/danmar/cppcheck)  | [clang-format](https://clang.llvm.org/docs/ClangFormat.html) |
@@ -139,6 +140,7 @@ via configuration files (for every feature: syntax highlighting, LSP, linter and
 | gdscript                | ✓       | None                                                                                                 | None                                            | None                                                         |
 | glsl                    | ✓       | [glsl_analyzer](https://github.com/nolanderc/glsl_analyzer)                                          | None                                            | None                                                         |
 | go                      | ✓       | [gopls](https://golang.org/x/tools/gopls)                                                            | None                                            | [gopls](https://pkg.go.dev/golang.org/x/tools/gopls)         |
+| graphql                 | ✓       | None                                                                                                 | None                                            | None                                                         |
 | hare                    | ✓       | None                                                                                                 | None                                            | None                                                         |
 | haskell                 | ✓       | [haskell-language-server](https://github.com/haskell/haskell-language-server)                        | [hlint](https://github.com/ndmitchell/hlint)    | [ormolu](https://github.com/tweag/ormolu)                    |
 | haxe                    | ✓       | None                                                                                                 | None                                            | None                                                         |
@@ -159,6 +161,7 @@ via configuration files (for every feature: syntax highlighting, LSP, linter and
 | makefile                | ✓       | None                                                                                                 | None                                            | None                                                         |
 | markdown                | ✓       | None                                                                                                 | None                                            | None                                                         |
 | meson                   | ✓       | None                                                                                                 | None                                            | None                                                         |
+| moonscript              | ✓       | None                                                                                                 | None                                            | None                                                         |
 | nelua                   | ✓       | None                                                                                                 | [nelua](https://nelua.io)                       | None                                                         |
 | nim                     | ✓       | [nimlsp](https://github.com/PMunch/nimlsp)                                                           | [nim](https://nim-lang.org)                     | None                                                         |
 | objeck                  | ✓       | None                                                                                                 | None                                            | None                                                         |
@@ -204,8 +207,9 @@ to function.
 
 ### Language support health
 
-ecode brings a CLI flag `ecode --health`. Use the health check flag to troubleshoot missing language
-servers, linters and formatters.
+ecode brings a tool to display the current language support health. From ecode you can check its health
+status from `Settings -> Tools -> Check Language Health`, and from CLI you can use the `--health` flag: `ecode --health`.
+Use the health check flag to troubleshoot missing language servers, linters and formatters.
 
 Check the health of all languages with `ecode --health` or ask for details about a specific language
 with `ecode --health-lang=<lang>`.
@@ -445,6 +449,8 @@ C and C++ LSP server example (using [clangd](https://clangd.llvm.org/))
 * **statusbar_display_branch**: Enables/disables an always visible status on the bottom statusbar.
 * **statusbar_display_modifications**: Enables/disables if the number of lines affected is displayed in the statusbar.
 * **ui_refresh_frequency**: Indicates the frequency in which the status is updated (it will only trigger updates if changes are detected inside the `.git` directory).
+* **filetree_highlight_changes**: Enables/disables the highlighting of changes on the file-tree.
+* **filetree_highlight_style_color**: Allows to change the highlight color in the file-tree.
 
 #### Git keybindings object keys
 
@@ -692,7 +698,6 @@ you could need some special font (currently covers CJK languages).
 
 ## Current Limitations
 
-* UTF-8 files only support (with BOM included) \*1
 * No font sub-pixel hinting \*2 \*3
 * No BiDi support \*2
 * No ligatures support \*4
