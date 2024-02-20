@@ -11,9 +11,9 @@ eepp GUI library as part of one of its main objectives.
 
 ## Screenshots
 
-![ecode - Code Editor](https://github.com/SpartanJ/ecode/assets/650416/34645f30-d962-47eb-a805-2d9be4054848)
+![ecode - Code Editor](https://github.com/SpartanJ/ecode/assets/650416/7926c3f3-1b3b-4fe5-859a-3099df73b7e8)
 
-For more screenshots checkout [running on macOS](https://user-images.githubusercontent.com/650416/172517957-c28d23a5-ee6b-4e96-a0a3-b7252a2b23bb.png), [running on Windows](https://user-images.githubusercontent.com/650416/172760308-30d5335c-d5f7-4dbe-94ce-2e556d858909.png), [running on Haiku](https://user-images.githubusercontent.com/650416/172760331-799b7d16-104b-4cac-ba34-c0cf60ba4374.png), [low dpi](https://user-images.githubusercontent.com/650416/172519582-1aab1e94-8d69-4c2c-b4ba-de9f2d8729cf.png), [code completion](https://user-images.githubusercontent.com/650416/172521557-f68aa855-0534-49c9-b33e-8f9f8b47b9d2.png), [terminal](https://user-images.githubusercontent.com/650416/180109676-a1f9dbc6-d170-4e67-a19c-611cff9f04dd.png), [file locator](https://user-images.githubusercontent.com/650416/172521593-bb8fde13-2600-44e5-87d2-3fc41370fc77.png), [file formats](https://user-images.githubusercontent.com/650416/172521619-ac1aeb82-80e5-49fd-894e-afc780d4c0fd.png), [global find](https://user-images.githubusercontent.com/650416/172523164-2ca9b988-7d2d-4b8c-b6d2-10e593d7fc14.png), [global replace](https://user-images.githubusercontent.com/650416/172523195-00451552-2a56-4595-8b3a-cf8071b36dc6.png), [linter](https://user-images.githubusercontent.com/650416/172523272-45c267af-2585-4c54-86e0-739b5202569e.png).
+For more screenshots checkout [running on macOS](https://github.com/SpartanJ/ecode/assets/650416/9e8e00a7-fbcc-479b-8588-0023d8f86a9a), [running on Windows](https://user-images.githubusercontent.com/650416/172760308-30d5335c-d5f7-4dbe-94ce-2e556d858909.png), [running on Haiku](https://user-images.githubusercontent.com/650416/172760331-799b7d16-104b-4cac-ba34-c0cf60ba4374.png), [low dpi](https://user-images.githubusercontent.com/650416/172519582-1aab1e94-8d69-4c2c-b4ba-de9f2d8729cf.png), [code completion](https://user-images.githubusercontent.com/650416/172521557-f68aa855-0534-49c9-b33e-8f9f8b47b9d2.png), [terminal](https://user-images.githubusercontent.com/650416/180109676-a1f9dbc6-d170-4e67-a19c-611cff9f04dd.png), [file locator](https://user-images.githubusercontent.com/650416/172521593-bb8fde13-2600-44e5-87d2-3fc41370fc77.png), [file formats](https://user-images.githubusercontent.com/650416/172521619-ac1aeb82-80e5-49fd-894e-afc780d4c0fd.png), [global find](https://user-images.githubusercontent.com/650416/172523164-2ca9b988-7d2d-4b8c-b6d2-10e593d7fc14.png), [global replace](https://user-images.githubusercontent.com/650416/172523195-00451552-2a56-4595-8b3a-cf8071b36dc6.png), [linter](https://user-images.githubusercontent.com/650416/172523272-45c267af-2585-4c54-86e0-739b5202569e.png).
 
 ## Notable Features
 
@@ -670,7 +670,6 @@ by ecode [here](https://github.com/SpartanJ/eepp/blob/develop/src/eepp/ui/doc/sy
 Listed in no particular order:
 
 * [DAP](https://microsoft.github.io/debug-adapter-protocol/) support
-* [Tree-sitter](https://github.com/tree-sitter/tree-sitter) support
 * Improved plugin system (visual configuration, more flexibility/features)
 * Code-folding
 * Soft-wrap
@@ -679,6 +678,7 @@ Listed in no particular order:
 
 * Remote development support
 * Modal editing
+* Maybe [Tree-sitter](https://github.com/tree-sitter/tree-sitter) support
 
 ## Collaborate
 
