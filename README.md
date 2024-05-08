@@ -598,7 +598,7 @@ that allows to directly export a lite language definition to the JSON file forma
 *A minor clarification:* ecode does not currently support regex for pattern matching that it's supported
 by lite-xl (it might be added in the near future).
 
-### Extending language definitions
+### Extending language definitions
 
 It's possible to easily extend any language definition by exporting it using the CLI arguments provided:
 `--export-lang` and `--export-lang-path`. A user wanting to extend or improve a language definition can
