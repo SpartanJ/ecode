@@ -32,9 +32,10 @@ For more screenshots checkout [running on macOS](https://github.com/SpartanJ/eco
 * Customizable Color-Schemes
 * Customizable keyboard bindings
 * Configurable build pipelines
-* Unlimited editor splitting
-* Minimap
 * Fast global search (and replace)
+* Minimap
+* Unlimited editor splitting
+* Easily extendable language support
 * Customizable and scalable (non-integer) GUI (thanks to [eepp GUI](https://github.com/SpartanJ/eepp/))
 * Dark & Light Mode
 * File system Tree View (with real-time file system changes)
@@ -557,14 +558,15 @@ usual rules that apply to the well-known CSS specification (A.K.A. using adequat
 
 Custom languages support can be added in the languages directory found at:
 
-* *Linux*: uses `XDG_CONFIG_HOME`, usually translates to `~/.config/ecode/terminal/languages`
-* *macOS*: uses `Application Support` folder in `HOME`, usually translates to `~/Library/Application Support/ecode/terminal/languages`
-* *Windows*: uses `APPDATA`, usually translates to `C:\Users\{username}\AppData\Roaming\ecode\terminal\languages`
+* *Linux*: uses `XDG_CONFIG_HOME`, usually translates to `~/.config/ecode/languages`
+* *macOS*: uses `Application Support` folder in `HOME`, usually translates to `~/Library/Application Support/ecode/languages`
+* *Windows*: uses `APPDATA`, usually translates to `C:\Users\{username}\AppData\Roaming\ecode\languages`
 
 ecode will read each file located at that directory with `json` extension. Each file can contain one
 or several languages. In order to set several languages the root element of the json file should be
 an array, containing one object for each language, otherwise if the root element is an object, it
-should contain the language definition.
+should contain the language definition. Language definitions can override any currently supported
+definition. ecode will prioritize user defined definitions.
 
 ### Language definition format
 
@@ -595,6 +597,15 @@ ecode repository located [here](https://github.com/SpartanJ/ecode/tree/develop/t
 that allows to directly export a lite language definition to the JSON file format used in ecode.
 *A minor clarification:* ecode does not currently support regex for pattern matching that it's supported
 by lite-xl (it might be added in the near future).
+
+### Extending language definitions
+
+It's possible to easily extend any language definition by exporting it using the CLI arguments provided:
+`--export-lang` and `--export-lang-path`. A user wanting to extend or improve a language definition can
+export it, modify it and install the definition with a `.json` extension in the [custom languages path](#custom-languages-support).
+For example, to extend the language `vue` you will need to run:
+`ecode --export-lang=vue --export-lang-path=./vue.json`, exit the exported file and move it to the
+[custom languages path](#custom-languages-support).
 
 ### Language definition example
 
@@ -673,8 +684,7 @@ by lite-xl (it might be added in the near future).
 ```
 
 For more complex syntax definitions please see the definition of all the native languages supported
-by ecode [here](https://github.com/SpartanJ/eepp/blob/develop/src/eepp/ui/doc/syntaxdefinitionmanager.cpp) and
-[here](https://github.com/SpartanJ/eepp/tree/develop/src/eepp/ui/doc/languages).
+by ecode [here](https://github.com/SpartanJ/eepp/tree/develop/src/eepp/ui/doc/languages).
 
 ## Planned Features
 
@@ -709,29 +719,26 @@ you could need some special font (currently covers CJK languages).
 
 ## Current Limitations
 
-* No font sub-pixel hinting \*2 \*3
-* No BiDi support \*2
-* No ligatures support \*4
-* No VIM-mode / modal editing \*5
-* English only (internationalization pending). It should be implemented soon.
-* No [text-shaping](https://harfbuzz.github.io/why-do-i-need-a-shaping-engine.html). \*2 \*6
+* No font sub-pixel hinting \*1 \*2
+* No BiDi support \*1
+* No ligatures support \*3
+* No VIM-mode / modal editing \*4
+* No [text-shaping](https://harfbuzz.github.io/why-do-i-need-a-shaping-engine.html) support. \*1 \*5
 
-_\*1_ I don't see the point of supporting more encodings for the moment. UTF8 is kind of the defacto industry standard.
+_\*1_ Current eepp feature limitations.
 
-_\*2_ Current eepp feature limitations.
+_\*2_ I'm not a fan of sub-pixel hinting. But I'm more than willing to implement it, I'm not very versed in the matter, so any help will be appreciated.
 
-_\*3_ I'm not a fan of sub-pixel hinting. But I'm more than willing to implement it, I'm not very versed in the matter, so any help will be appreciated.
+_\*3_ I don't really like ligatures. I'm open to PRs implementing them.
 
-_\*4_ I don't really like ligatures. I'm open to PRs implementing them.
+_\*4_ I'm not a VIM user, and I'm not qualified to implement the VIM mode or any modal editing. PRs are welcome to support this.
 
-_\*5_ I'm not a VIM user, and I'm not qualified to implement the VIM mode or any modal editing. PRs are welcome to support this.
-
-_\*6_ Better Unicode support will come with time, but with no rush for the moment. eepp architecture is ready to add HarfBuzz support.
+_\*5_ Better Unicode support will come with time, but with no rush for the moment. eepp architecture is ready to add HarfBuzz support.
 
 ## Author comments
 
-This editor has a deeply rooted inspiration from the lite, lite-xl, and Sublime Text editors. It also
-takes some inspiration from QtCreator (the current IDE used to develop eepp and ecode).
+This editor has a deeply rooted inspiration from the lite, lite-xl, QtCreator, and Sublime Text
+editors. It also
 Several features were developed based on the lite/lite-xl implementations. Some features can be ported
 directly from lite: color-schemes and syntax-highlighting patterns (eepp implementation expands original
 lite implementation to add many more features).
@@ -759,8 +766,6 @@ using the editor daily and is stable enough for me, but use it at your own risk.
 * franko and all the collaborators for [lite-xl](https://github.com/lite-xl/lite-xl)
 
 * Andreas Kling for [SerenityOS](https://github.com/SerenityOS/serenity)
-
-* [iqskpduswupkcjqg](https://github.com/iqskpduswupkcjqg) for Pascal and Objeck syntax highlighting
 
 * And a **lot** more people!
 
