@@ -46,6 +46,7 @@ For more screenshots checkout [running on macOS](https://github.com/SpartanJ/eco
 * Multiline search and replace
 * Project/Folder state persist between sessions
 * Soft-wrap
+* Code-folding
 * [Lua pattern searches](https://www.lua.org/manual/5.4/manual.html#6.4.1) support
 * Plugins support.
 
@@ -693,7 +694,6 @@ Listed in no particular order:
 
 * [DAP](https://microsoft.github.io/debug-adapter-protocol/) support
 * Improved plugin system (visual configuration, more flexibility/features)
-* Code-folding
 
 ### Long Term Planned Features
 
