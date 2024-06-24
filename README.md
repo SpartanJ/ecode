@@ -720,10 +720,10 @@ you could need some special font (currently covers CJK languages).
 ## Current Limitations
 
 * No font sub-pixel hinting \*1 \*2
-* No BiDi support \*1
-* No ligatures support \*3
 * No VIM-mode / modal editing \*4
 * No [text-shaping](https://harfbuzz.github.io/why-do-i-need-a-shaping-engine.html) support. \*1 \*5
+* No ligatures support (requires text-shaping) \*1 \*3
+* No BiDi support (requires text-shaping) \*1
 
 _\*1_ Current eepp feature limitations.
 
@@ -733,13 +733,12 @@ _\*3_ I don't really like ligatures. I'm open to PRs implementing them.
 
 _\*4_ I'm not a VIM user, and I'm not qualified to implement the VIM mode or any modal editing. PRs are welcome to support this.
 
-_\*5_ Better Unicode support will come with time, but with no rush for the moment. eepp architecture is ready to add HarfBuzz support.
+_\*5_ Better text-shaping support will come with time, but with no rush for the moment. eepp architecture is ready to add HarfBuzz support.
 
 ## Author comments
 
 This editor has a deeply rooted inspiration from the lite, lite-xl, QtCreator, and Sublime Text
-editors. It also
-Several features were developed based on the lite/lite-xl implementations. Some features can be ported
+editors. Several features were developed based on the lite/lite-xl implementations. Some features can be ported
 directly from lite: color-schemes and syntax-highlighting patterns (eepp implementation expands original
 lite implementation to add many more features).
 
