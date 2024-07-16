@@ -47,6 +47,7 @@ For more screenshots checkout [running on macOS](https://github.com/SpartanJ/eco
 * Project/Folder state persist between sessions
 * Soft-wrap
 * Code-folding
+* Session Snapshot & Periodic Backup
 * [Lua pattern searches](https://www.lua.org/manual/5.4/manual.html#6.4.1) support
 * Plugins support.
 
