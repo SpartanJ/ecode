@@ -45,6 +45,9 @@ For more screenshots checkout [running on macOS](https://github.com/SpartanJ/eco
 * Smart and fast project file locator
 * Multiline search and replace
 * Project/Folder state persist between sessions
+* Soft-wrap
+* Code-folding
+* Session Snapshot & Periodic Backup
 * [Lua pattern searches](https://www.lua.org/manual/5.4/manual.html#6.4.1) support
 * Plugins support.
 
@@ -124,6 +127,7 @@ via configuration files (for every feature: syntax highlighting, LSP, linter and
 | adept                   | ✓       | [AdeptLSP](https://github.com/AdeptLanguage/AdeptLSP)                                                | None                                            | None                                                         |
 | angelscript             | ✓       | None                                                                                                 | None                                            | None                                                         |
 | bat                     | ✓       | None                                                                                                 | None                                            | None                                                         |
+| bend                    | ✓       | None                                                                                                 | None                                            | None                                                         |
 | blueprint               | ✓       | None                                                                                                 | None                                            | None                                                         |
 | brainfuck               | ✓       | None                                                                                                 | None                                            | None                                                         |
 | buzz                    | ✓       | None                                                                                                 | None                                            | None                                                         |
@@ -158,7 +162,7 @@ via configuration files (for every feature: syntax highlighting, LSP, linter and
 | html                    | ✓       | [emmet-language-server](https://github.com/olrtg/emmet-language-server)                              | None                                            | [prettier](https://prettier.io)                              |
 | ini                     | ✓       | None                                                                                                 | None                                            | None                                                         |
 | jai                     | ✓       | None                                                                                                 | None                                            | None                                                         |
-| java                    | ✓       | [jdtls](https://github.com/eclipse/eclipse.jdt.ls)                                                   | None                                            | None                                                         |
+| java                    | ✓       | [jdtls](https://github.com/eclipse/eclipse.jdt.ls)                                                   | None                                            | [clang-format](https://clang.llvm.org/docs/ClangFormat.html) |
 | javascript              | ✓       | [typescript-language-server](https://github.com/theia-ide/typescript-language-server)                | [eslint](https://eslint.org)                    | [prettier](https://prettier.io)                              |
 | javascriptreact         | ✓       | [typescript-language-server](https://github.com/theia-ide/typescript-language-server)                | None                                            | None                                                         |
 | json                    | ✓       | None                                                                                                 | [jq](https://stedolan.github.io/jq/)            | [native](#native)                                            |
@@ -692,8 +696,6 @@ Listed in no particular order:
 
 * [DAP](https://microsoft.github.io/debug-adapter-protocol/) support
 * Improved plugin system (visual configuration, more flexibility/features)
-* Code-folding
-* Soft-wrap
 
 ### Long Term Planned Features
 
@@ -720,10 +722,10 @@ you could need some special font (currently covers CJK languages).
 ## Current Limitations
 
 * No font sub-pixel hinting \*1 \*2
-* No BiDi support \*1
-* No ligatures support \*3
 * No VIM-mode / modal editing \*4
 * No [text-shaping](https://harfbuzz.github.io/why-do-i-need-a-shaping-engine.html) support. \*1 \*5
+* No ligatures support (requires text-shaping) \*1 \*3
+* No BiDi support (requires text-shaping) \*1
 
 _\*1_ Current eepp feature limitations.
 
@@ -733,13 +735,12 @@ _\*3_ I don't really like ligatures. I'm open to PRs implementing them.
 
 _\*4_ I'm not a VIM user, and I'm not qualified to implement the VIM mode or any modal editing. PRs are welcome to support this.
 
-_\*5_ Better Unicode support will come with time, but with no rush for the moment. eepp architecture is ready to add HarfBuzz support.
+_\*5_ Better text-shaping support will come with time, but with no rush for the moment. eepp architecture is ready to add HarfBuzz support.
 
 ## Author comments
 
 This editor has a deeply rooted inspiration from the lite, lite-xl, QtCreator, and Sublime Text
-editors. It also
-Several features were developed based on the lite/lite-xl implementations. Some features can be ported
+editors. Several features were developed based on the lite/lite-xl implementations. Some features can be ported
 directly from lite: color-schemes and syntax-highlighting patterns (eepp implementation expands original
 lite implementation to add many more features).
 
