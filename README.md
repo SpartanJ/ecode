@@ -104,13 +104,15 @@ PRs for ecode will be accepted at the eepp repository.
 There are scripts for each supported platform ready to build the application.
 For *Linux* and *macOS* it is trivial to build the project, you'll just need to have GCC/Clang installed
 and also the development library from libSDL2. Windows build script is currently a cross-compiling script and it uses mingw64.
-But it also can be easily built with Visual Studio and [libSDL2 development libraries](https://www.libsdl.org/release/SDL2-devel-2.0.22-VC.zip) installed.
+But it also can be easily built with Visual Studio and [libSDL2 development libraries](https://www.libsdl.org/release/SDL2-devel-2.30.7-VC.zip) installed.
 For more information on how to build manually a project please follow the [eepp build instructions](https://github.com/SpartanJ/eepp/#how-to-build-it).
 The project name is always *ecode* (so if you are building with make, you'll need to run `make ecode`).
 
-* *Linux* build script can be found [here](https://github.com/SpartanJ/eepp/tree/develop/projects/linux/ecode). Running `build.app.sh` will try to build the `AppImage` package.
-* *macOS* build script can be found [here](https://github.com/SpartanJ/eepp/tree/develop/projects/macos/ecode). Running `build.app.sh` will create `ecode.app`.
-* *Windows* cross-compiling build script can be found [here](https://github.com/SpartanJ/eepp/tree/develop/projects/mingw32/ecode). Running `build.app.sh` will create a `zip` file with the zipped application package.
+* *Linux* build script can be found [here](https://github.com/SpartanJ/eepp/tree/develop/projects/linux/ecode). Running `build.app.sh` will try to build the `AppImage` package and `tar.gz` with the compressed application. `ecode` folder will contain the uncompressed application.
+* *macOS* build script can be found [here](https://github.com/SpartanJ/eepp/tree/develop/projects/macos/ecode). Running `build.app.sh` will create `ecode.app`. Run `create.dmg.sh` to create the `dmg` file. `ecode.app` folder will contain the uncompressed application.
+* *Windows* cross-compiling build script can be found [here](https://github.com/SpartanJ/eepp/tree/develop/projects/mingw32/ecode). Running `build.app.sh` will create a `zip` file with the zipped application package. `ecode` folder will contain the uncompressed application. To build from Windows follow the instructions [here](https://github.com/SpartanJ/eepp/?tab=readme-ov-file#windows).
+* *FreeBSD* build script can be found [here](https://github.com/SpartanJ/eepp/tree/develop/projects/freebsd/ecode). Running `build.app.sh` will try to build a `tar.gz` with the compressed application. `ecode.app` folder will contain the uncompressed application.
+* *Haiku* build script can be found [here](https://github.com/SpartanJ/eepp/tree/develop/projects/haiku/ecode). Running `build.app.sh` will try to build a `tar.gz` with the compressed application. `ecode.app` folder will contain the uncompressed application.
 
 ## Language support
 
@@ -118,7 +120,6 @@ ecode is constantly adding more languages support and also supports extending it
 via configuration files (for every feature: syntax highlighting, LSP, linter and formatter).
 
 ### Language support table
-
 |         Language        | Highlight |                                                  LSP                                                 |                      Linter                     |                           Formatter                          |
 |          :---:          |   :---:   |                                                 :---:                                                |                      :---:                      |                             :---:                            |
 | .htaccess               | ✓       | None                                                                                                 | None                                            | None                                                         |
@@ -126,6 +127,7 @@ via configuration files (for every feature: syntax highlighting, LSP, linter and
 | [x]it!                  | ✓       | None                                                                                                 | None                                            | None                                                         |
 | adept                   | ✓       | [AdeptLSP](https://github.com/AdeptLanguage/AdeptLSP)                                                | None                                            | None                                                         |
 | angelscript             | ✓       | None                                                                                                 | None                                            | None                                                         |
+| awk script              | ✓       | None                                                                                                 | None                                            | None                                                         |
 | bat                     | ✓       | None                                                                                                 | None                                            | None                                                         |
 | bend                    | ✓       | None                                                                                                 | None                                            | None                                                         |
 | blueprint               | ✓       | None                                                                                                 | None                                            | None                                                         |
@@ -284,6 +286,8 @@ Please check the [language support table](#language-support-table)
 * **enable_error_lens**: Enables error lens (prints the message inline)
 * **enable_lsp_diagnostics**: Boolean that enable/disable LSP diagnostics as part of the linting. Enabled by default.
 * **disable_lsp_languages**: Array of LSP languages disabled for LSP diagnostics. For example: `"disable_lsp_languages": ["lua", "python"]`, disables lua and python.
+* **disable_languages**: Array of linters disabled from external linter application diagnostics. For example: `"disable_languages": ["lua", "python"]`, disables luacheck and ruff respectively.
+* **goto_ignore_warnings**: Defines the behavior of the "linter-go-to-next-error" and "linter-go-to-previous-error" keybindings. If ignore warnings is true it will jump only between errors.
 
 #### Linter JSON object keys
 
@@ -398,8 +402,11 @@ Please check the [language support table](#language-support-table)
 * **hover_delay**: The time the editor must wait to show symbol information when hovering any piece of code.
 * **server_close_after_idle_time**: The time the LSP Server will keep alive after all documents that consumes that LSP Server were closed. LSP Servers are spawned and killed on demand.
 * **semantic_highlighting**: Enable/Disable semantic highlighting (disabled by default, boolean)
+* **disable_semantic_highlighting_lang**: An array of languages where semantic highlighting should be disabled
 * **silent**: Enable/Disable non-critical LSP logs
 * **trim_logs**: If logs are enabled and trim_logs is enabled it will trim the line log size at maximum 1 KiB per line (useful for debugging)
+* **breadcrumb_navigation**: Enable/Disable the breadcrumb (enabled by default)
+* **breadcrumb_height**: Defines the height of the breadcrumb in [CSS length](https://eepp.ensoft.dev/page_cssspecification.html#length-data-type)
 
 #### LSP Client keybindings object keys
 
@@ -471,6 +478,25 @@ C and C++ LSP server example (using [clangd](https://clangd.llvm.org/))
 #### Git keybindings object keys
 
 * **git-blame**: Keybinding to display the a git blame summary over the current positioned line.
+
+### Auto Complete
+
+The auto-complete plugin is in charge of providing suggestions for code-completion and signature help.
+
+#### Auto Complete config object keys
+
+* **max_label_characters**: Maximum characters displayed in the suggestion box.
+* **suggestions_syntax_highlight**: Enables/disables syntax highlighting in suggestions.
+
+### XML Tools
+
+The XML Tools plugin (disabled by default) provides some nice to have improvements when editing XML
+content.
+
+#### XML Tools config object keys
+
+* **auto_edit_match**: Automatically edits the open/close tag when the user edits the element tag name (syncs open and close element names).
+* **highlight_match**: When the user moves the cursor to an open or close tag it will highlight the matched open/close tag.
 
 ### Plugins configuration files location
 
