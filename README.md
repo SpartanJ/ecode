@@ -625,8 +625,6 @@ ecode uses the same format for language definition as [lite](https://github.com/
 This makes much easier to add new languages to ecode. There's also a helper tool that can be download from
 ecode repository located [here](https://github.com/SpartanJ/ecode/tree/develop/tools/data-migration/lite/language)
 that allows to directly export a lite language definition to the JSON file format used in ecode.
-*A minor clarification:* ecode does not currently support regex for pattern matching that it's supported
-by lite-xl (it might be added in the near future).
 
 ### Extending language definitions
 
