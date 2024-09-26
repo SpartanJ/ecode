@@ -9,7 +9,7 @@ does not support regex's).
 
 You'll need to have installed lua binary, then run:
 
-lua lite2ecode.lua lite_language_definition.lua > language_name.json
+`lua lite2ecode.lua lite_language_definition.lua > language_name.json`
 
 Then you can copy the language definition to the [ecode languages folder](https://github.com/SpartanJ/ecode/#custom-languages-support).
 
