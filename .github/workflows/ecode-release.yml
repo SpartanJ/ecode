@@ -36,14 +36,14 @@ jobs:
       - name: Update Tag
         uses: richardsimko/update-tag@v1
         with:
-          tag_name: ${{ steps.tag.outputs.version }}
+          tag_name: ecode-${{ steps.tag.outputs.version }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Create Release
         id: create_release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: ${{ steps.tag.outputs.version }}
+          tag_name: ecode-${{ steps.tag.outputs.version }}
           name: ecode ${{ steps.tag.outputs.version }}
           draft: false
           prerelease: true
