@@ -29,7 +29,7 @@ jobs:
         id: tag
         run: |
           if [[ "${{ github.event.inputs.version }}" != "" ]]; then
-            echo "version=${{ github.event.inputs.version }}" >> "$GITHUB_OUTPUT"
+            echo "version=${{ github.event.inputs.version }}" | sed 's/ecode-//' >> "$GITHUB_OUTPUT"
           else
             echo "version=${GITHUB_REF/refs\/tags\//}" | sed 's/ecode-//' >> "$GITHUB_OUTPUT"
           fi
