@@ -1,0 +1,314 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - ecode-[0-9]+.*
+
+  workflow_dispatch:
+    inputs:
+      version:
+        description: Release Version
+        default: ecode-0.6.2
+        required: true
+
+permissions: write-all
+
+jobs:
+  release:
+    name: Create Release
+    runs-on: ubuntu-20.04
+    outputs:
+      upload_url: ${{ steps.create_release.outputs.upload_url }}
+      version: ${{ steps.tag.outputs.version }}
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with: { fetch-depth: 0, submodules: 'recursive' }
+      - name: Set Tag
+        id: tag
+        run: |
+          if [[ "${{ github.event.inputs.version }}" != "" ]]; then
+            echo "version=${{ github.event.inputs.version }}" >> "$GITHUB_OUTPUT"
+          else
+            echo "version=${GITHUB_REF/refs\/tags\//}" | sed 's/ecode-//' >> "$GITHUB_OUTPUT"
+          fi
+      - name: Update Tag
+        uses: richardsimko/update-tag@v1
+        with:
+          tag_name: ${{ steps.tag.outputs.version }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Create Release
+        id: create_release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.tag.outputs.version }}
+          name: ecode ${{ steps.tag.outputs.version }}
+          draft: false
+          prerelease: true
+          generate_release_notes: true
+          body: >
+            Changelog pending
+
+  build_linux_x86_64:
+    name: Linux x86_64
+    needs: release
+    strategy:
+      matrix:
+        config:
+          - arch: x86_64
+            container: ubuntu-20.04
+    runs-on: ${{ matrix.config.container }}
+    env:
+      CC: gcc
+      CXX: g++
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with: { repository: 'SpartanJ/eepp', fetch-depth: 0, submodules: 'recursive' }
+      - name: Set Environment Variables
+        run: |
+          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
+          echo "/usr/lib/ccache" >> "$GITHUB_PATH"
+          echo "INSTALL_REF=${{ needs.release.outputs.version }}" >> "$GITHUB_ENV"
+          echo "RARCH=$(uname -m)" >> "$GITHUB_ENV"
+          echo $(ldd --version)
+          echo $(gcc --version)
+      - name: Update Packages
+        run: |
+          sudo add-apt-repository -y universe
+          sudo add-apt-repository -y multiverse
+          sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
+          sudo apt-get update
+      - name: Install dependencies
+        run: |
+          sudo apt-get install -y gcc-11 g++-11
+          sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-11 10
+          sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-11 10
+          sudo update-alternatives --install /usr/bin/cc cc /usr/bin/gcc 30
+          sudo update-alternatives --set cc /usr/bin/gcc
+          sudo update-alternatives --install /usr/bin/c++ c++ /usr/bin/g++ 30
+          sudo update-alternatives --set c++ /usr/bin/g++
+          sudo update-alternatives --config gcc
+          sudo update-alternatives --config g++
+          sudo apt-get install -y libfuse2 fuse premake4 mesa-common-dev libgl1-mesa-dev
+          bash projects/linux/scripts/install_sdl2.sh
+      - name: Build ecode
+        run: |
+          bash projects/linux/ecode/build.app.sh --arch ${{ matrix.config.arch }}
+      - name: Upload Files
+        uses: softprops/action-gh-release@v2
+        with:
+          repository: SpartanJ/ecode
+          tag_name: ${{ needs.release.outputs.version }}
+          draft: false
+          prerelease: true
+          files: |
+            projects/linux/ecode/ecode-linux-${{ env.INSTALL_REF }}-${{ env.RARCH }}.AppImage
+            projects/linux/ecode/ecode-linux-${{ env.INSTALL_REF }}-${{ env.RARCH }}.tar.gz
+
+  build_linux_arm64:
+    name: Linux arm64
+    needs: release
+    strategy:
+      matrix:
+        config:
+          - arch: aarch64
+            container: ubuntu-22.04
+    runs-on: ${{ matrix.config.container }}
+    env:
+      CC: gcc
+      CXX: g++
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with: { repository: 'SpartanJ/eepp', fetch-depth: 0, submodules: 'recursive' }
+      - name: Set Environment Variables
+        run: |
+          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
+          echo "/usr/lib/ccache" >> "$GITHUB_PATH"
+          echo "INSTALL_REF=${{ needs.release.outputs.version }}" >> "$GITHUB_ENV"
+          echo "CC=aarch64-linux-gnu-gcc" >> "$GITHUB_ENV"
+          echo "CXX=aarch64-linux-gnu-g++" >> "$GITHUB_ENV"
+          echo "AR=aarch64-linux-gnu-ar" >> "$GITHUB_ENV"
+          echo "RANLIB=aarch64-linux-gnu-ranlib" >> "$GITHUB_ENV"
+          echo "STRIP=aarch64-linux-gnu-strip" >> "$GITHUB_ENV"
+          echo "RARCH=arm64" >> "$GITHUB_ENV" >> "$GITHUB_ENV"
+          echo $(ldd --version)
+          echo $(gcc --version)
+      - name: Update Packages
+        run: |
+          codename=$(lsb_release -cs)
+          url="http://ports.ubuntu.com/ubuntu-ports"
+          repos="main restricted universe multiverse"
+          echo "deb [arch=arm64] $url $codename $repos" > arm64.list
+          echo "deb [arch=arm64] $url $codename-backports $repos" >> arm64.list
+          echo "deb [arch=arm64] $url $codename-security $repos" >> arm64.list
+          echo "deb [arch=arm64] $url $codename-updates $repos" >> arm64.list
+          sudo mv arm64.list /etc/apt/sources.list.d/
+          sudo apt-get update
+          sudo dpkg --add-architecture arm64
+      - name: Install dependencies
+        run: |
+          sudo apt-get install -y premake4 libfuse2 fuse gcc-aarch64-linux-gnu g++-aarch64-linux-gnu
+          # sudo apt-get install -y libsdl2-dev:arm64 libsdl2-2.0-0:arm64
+          bash projects/linux/scripts/install_sdl2.sh --aarch64
+      - name: Build ecode
+        run: |
+          bash projects/linux/ecode/build.app.sh --arch ${{ matrix.config.arch }}
+      - name: Upload Files
+        uses: softprops/action-gh-release@v2
+        with:
+          repository: SpartanJ/ecode
+          tag_name: ${{ needs.release.outputs.version }}
+          draft: false
+          prerelease: true
+          files: |
+            projects/linux/ecode/ecode-linux-${{ env.INSTALL_REF }}-${{ env.RARCH }}.AppImage
+            projects/linux/ecode/ecode-linux-${{ env.INSTALL_REF }}-${{ env.RARCH }}.tar.gz
+
+  build_windows_cross:
+    name: Windows x86_64
+    needs: release
+    strategy:
+      matrix:
+        config:
+          - compiler: default
+            arch: x86_64
+            container: ubuntu-22.04
+    runs-on: ${{ matrix.config.container }}
+    env:
+      CC: gcc
+      CXX: g++
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with: { repository: 'SpartanJ/eepp', fetch-depth: 0, submodules: 'recursive' }
+      - name: Set Environment Variables
+        run: |
+          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
+          echo "INSTALL_REF=${{ needs.release.outputs.version }}" >> "$GITHUB_ENV"
+          echo "RARCH=$(uname -m)" >> "$GITHUB_ENV"
+      - name: Update Packages
+        run: |
+          sudo add-apt-repository -y universe
+          sudo add-apt-repository -y multiverse
+          sudo apt-get update
+      - name: Install dependencies
+        run: |
+          sudo apt-get install -y premake4 libfuse2 fuse mingw-w64 gcc-12 g++-12
+          wget https://github.com/premake/premake-core/releases/download/v5.0.0-beta2/premake-5.0.0-beta2-linux.tar.gz
+          tar xvzf premake-5.0.0-beta2-linux.tar.gz
+          sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-12 10
+          sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-12 10
+          sudo update-alternatives --install /usr/bin/cc cc /usr/bin/gcc 30
+          sudo update-alternatives --set cc /usr/bin/gcc
+          sudo update-alternatives --install /usr/bin/c++ c++ /usr/bin/g++ 30
+          sudo update-alternatives --set c++ /usr/bin/g++
+          sudo update-alternatives --config gcc
+          sudo update-alternatives --config g++
+      - name: Build ecode
+        run: |
+          bash projects/mingw32/ecode/build.app.sh
+      - name: Upload Files
+        uses: softprops/action-gh-release@v2
+        with:
+          repository: SpartanJ/ecode
+          tag_name: ${{ needs.release.outputs.version }}
+          draft: false
+          prerelease: true
+          files: |
+            projects/mingw32/ecode/ecode-windows-${{ env.INSTALL_REF }}-${{ env.RARCH }}.zip
+
+  build_macos:
+    name: macOS arm64
+    needs: release
+    runs-on: macos-14
+    strategy:
+      matrix:
+        arch: [arm64]
+    env:
+      CC: clang
+      CXX: clang++
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with: { repository: 'SpartanJ/eepp', fetch-depth: 0, submodules: 'recursive' }
+      - name: System Information
+        run: |
+          system_profiler SPSoftwareDataType
+          bash --version
+          gcc -v
+          xcodebuild -version
+          uname -a
+      - name: Set Environment Variables
+        run: |
+          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
+          echo "INSTALL_REF=${{ needs.release.outputs.version }}" >> "$GITHUB_ENV"
+      - name: Install Dependencies
+        run: |
+          brew install bash sdl2 create-dmg premake p7zip
+      - name: Build
+        run: |
+          bash projects/macos/ecode/build.app.sh
+      - name: Create DMG Image
+        run: |
+          bash projects/macos/ecode/create.dmg.sh
+      - name: Upload Files
+        uses: softprops/action-gh-release@v2
+        with:
+          repository: SpartanJ/ecode
+          tag_name: ${{ needs.release.outputs.version }}
+          draft: false
+          prerelease: true
+          files: |
+            projects/macos/ecode/ecode-macos-${{ env.INSTALL_REF }}-arm64.dmg
+
+  build_macos_cross:
+    name: macOS x86_64
+    needs: release
+    runs-on: macos-14
+    strategy:
+      matrix:
+        arch: [arm64]
+    env:
+      CC: clang
+      CXX: clang++
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with: { repository: 'SpartanJ/eepp', fetch-depth: 0, submodules: 'recursive' }
+      - name: System Information
+        run: |
+          system_profiler SPSoftwareDataType
+          bash --version
+          gcc -v
+          xcodebuild -version
+          uname -a
+      - name: Set Environment Variables
+        run: |
+          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
+          echo "INSTALL_REF=${{ needs.release.outputs.version }}" >> "$GITHUB_ENV"
+      - name: Install Dependencies
+        run: |
+          brew install bash create-dmg premake p7zip
+          curl -OL https://github.com/libsdl-org/SDL/releases/download/release-2.30.8/SDL2-2.30.8.dmg
+          hdiutil attach SDL2-2.30.8.dmg
+          sudo cp -r /Volumes/SDL2/SDL2.framework /Library/Frameworks/
+          hdiutil detach /Volumes/SDL2
+      - name: Build
+        run: |
+          bash projects/macos/ecode/cross.build.app.sh
+      - name: Create DMG Image
+        run: |
+          bash projects/macos/ecode/cross.create.dmg.sh
+      - name: Upload Files
+        uses: softprops/action-gh-release@v2
+        with:
+          repository: SpartanJ/ecode
+          tag_name: ${{ needs.release.outputs.version }}
+          draft: false
+          prerelease: true
+          files: |
+            projects/macos/ecode/ecode-macos-${{ env.INSTALL_REF }}-x86_64.dmg
