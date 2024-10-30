@@ -70,7 +70,7 @@ jobs:
           repository: 'SpartanJ/eepp'
           fetch-depth: 0
           submodules: 'recursive'
-          ref: 'refs/tags/${{ needs.release.outputs.version }}'
+          ref: 'refs/tags/ecode-${{ needs.release.outputs.version }}'
       - name: Set Environment Variables
         run: |
           echo "$HOME/.local/bin" >> "$GITHUB_PATH"
@@ -131,7 +131,7 @@ jobs:
           repository: 'SpartanJ/eepp'
           fetch-depth: 0
           submodules: 'recursive'
-          ref: 'refs/tags/${{ needs.release.outputs.version }}'
+          ref: 'refs/tags/ecode-${{ needs.release.outputs.version }}'
       - name: Set Environment Variables
         run: |
           echo "$HOME/.local/bin" >> "$GITHUB_PATH"
@@ -196,7 +196,7 @@ jobs:
           repository: 'SpartanJ/eepp'
           fetch-depth: 0
           submodules: 'recursive'
-          ref: 'refs/tags/${{ needs.release.outputs.version }}'
+          ref: 'refs/tags/ecode-${{ needs.release.outputs.version }}'
       - name: Set Environment Variables
         run: |
           echo "$HOME/.local/bin" >> "$GITHUB_PATH"
@@ -250,7 +250,7 @@ jobs:
           repository: 'SpartanJ/eepp'
           fetch-depth: 0
           submodules: 'recursive'
-          ref: 'refs/tags/${{ needs.release.outputs.version }}'
+          ref: 'refs/tags/ecode-${{ needs.release.outputs.version }}'
       - name: Set Environment Variables
         run: |
           echo "$HOME/.local/bin" >> "$GITHUB_PATH"
@@ -294,7 +294,7 @@ jobs:
           repository: 'SpartanJ/eepp'
           fetch-depth: 0
           submodules: 'recursive'
-          ref: 'refs/tags/${{ needs.release.outputs.version }}'
+          ref: 'refs/tags/ecode-${{ needs.release.outputs.version }}'
       - name: System Information
         run: |
           system_profiler SPSoftwareDataType
@@ -342,7 +342,7 @@ jobs:
           repository: 'SpartanJ/eepp'
           fetch-depth: 0
           submodules: 'recursive'
-          ref: 'refs/tags/${{ needs.release.outputs.version }}'
+          ref: 'refs/tags/ecode-${{ needs.release.outputs.version }}'
       - name: System Information
         run: |
           system_profiler SPSoftwareDataType
