@@ -48,7 +48,7 @@ For more screenshots checkout [running on macOS](https://github.com/SpartanJ/eco
 * Soft-wrap
 * Code-folding
 * Session Snapshot & Periodic Backup
-* [Lua pattern searches](https://www.lua.org/manual/5.4/manual.html#6.4.1) support
+* Perl Regular Expressions and [Lua pattern searches](https://www.lua.org/manual/5.4/manual.html#6.4.1) support
 * Plugins support.
 
 ### Folder / Project Settings (\*)
@@ -113,6 +113,10 @@ The project name is always *ecode* (so if you are building with make, you'll nee
 * *Windows* cross-compiling build script can be found [here](https://github.com/SpartanJ/eepp/tree/develop/projects/mingw32/ecode). Running `build.app.sh` will create a `zip` file with the zipped application package. `ecode` folder will contain the uncompressed application. To build from Windows follow the instructions [here](https://github.com/SpartanJ/eepp/?tab=readme-ov-file#windows).
 * *FreeBSD* build script can be found [here](https://github.com/SpartanJ/eepp/tree/develop/projects/freebsd/ecode). Running `build.app.sh` will try to build a `tar.gz` with the compressed application. `ecode.app` folder will contain the uncompressed application.
 * *Haiku* build script can be found [here](https://github.com/SpartanJ/eepp/tree/develop/projects/haiku/ecode). Running `build.app.sh` will try to build a `tar.gz` with the compressed application. `ecode.app` folder will contain the uncompressed application.
+
+## Nightly Builds
+
+Nightly builds are being distributed [here](https://github.com/SpartanJ/eepp/releases/tag/nightly) for the more impatient users. ecode is being developed actively, nightly builds may not be stable for daily usage unless there's a pending unreleased fix required for the user.
 
 ## Language support
 
@@ -625,8 +629,6 @@ ecode uses the same format for language definition as [lite](https://github.com/
 This makes much easier to add new languages to ecode. There's also a helper tool that can be download from
 ecode repository located [here](https://github.com/SpartanJ/ecode/tree/develop/tools/data-migration/lite/language)
 that allows to directly export a lite language definition to the JSON file format used in ecode.
-*A minor clarification:* ecode does not currently support regex for pattern matching that it's supported
-by lite-xl (it might be added in the near future).
 
 ### Extending language definitions
 

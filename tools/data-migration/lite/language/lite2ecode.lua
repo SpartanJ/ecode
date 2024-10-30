@@ -48,22 +48,25 @@ for i = 1, #syntax.items do
 	syntax.items[i]["space_handling"] = nil
 	for p = 1, #syntax.items[i].patterns do
 		if type(syntax.items[i].patterns[p].type) == "table" then
-			local ptr = {}
-			local result = split(syntax.items[i].patterns[p].pattern, "()", true)
-			for _, v in ipairs(result) do
-				-- print(v)
-				table.insert(ptr, "(" .. v .. ")")
+			if syntax.items[i].patterns[p].pattern ~= nil then
+				local ptr = {}
+				local result = split(syntax.items[i].patterns[p].pattern, "()", true)
+				for _, v in ipairs(result) do
+					-- print(v)
+					table.insert(ptr, "(" .. v .. ")")
+				end
+				local new_pattern = ""
+				for z = 1, #ptr do
+					new_pattern = new_pattern .. ptr[z]
+				end
+				syntax.items[i].patterns[p].pattern = new_pattern
 			end
-			local new_pattern = ""
-			for z = 1, #ptr do
-				new_pattern = new_pattern .. ptr[z]
-			end
+
 			local new_type = {}
 			table.insert(new_type, "normal")
 			for t = 1, #syntax.items[i].patterns[p].type do
 				table.insert(new_type, syntax.items[i].patterns[p].type[t])
 			end
-			syntax.items[i].patterns[p].pattern = new_pattern
 			syntax.items[i].patterns[p].type = new_type
 		end
 	end
