@@ -9,7 +9,7 @@ on:
     inputs:
       version:
         description: Release Version
-        default: ecode-0.6.2
+        default: ecode-0.6.3
         required: true
 
 permissions: write-all
