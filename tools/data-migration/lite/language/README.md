@@ -1,10 +1,5 @@
 # Small script to migrate lite and lite-xl language definitions to ecode language definitions.
 
-There are currently some limitations but this can be used as a starting point to create a new language definition.
-Most of the languages can be migrated without any changes, but ecode currently does not support regex
-for syntax highlighting, those patterns won't be migrated (this is a feature of lite-xl, normal lite
-does not support regex's).
-
 ## Usage
 
 You'll need to have installed lua binary, then run:
