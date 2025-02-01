@@ -278,6 +278,15 @@ LSP support is provided by executing already stablished LSP from each language.
 
 For more information [read the lsp client documentation](docs/lsp.md).
 
+#### Debugger
+
+Debugger support is provided by the implementation the [Debug Adapter Protocol](https://microsoft.github.io/debug-adapter-protocol).
+ecode is able to debug any language implementing this protocol, although the protocol is generic sometimes
+requires to support some of the languages some specific adaptation is needed, so initially the support
+is limited to the languages mentoined in the support list.
+
+For more information on how to use the debugger [read the debugger documentation](docs/debugger.md).
+
 #### Git integration
 
 *ecode* provides some basic Git integration (more features will come in the future). Its main purpose
