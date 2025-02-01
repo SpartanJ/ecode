@@ -19,7 +19,7 @@ For more screenshots checkout [running on macOS](https://github.com/SpartanJ/eco
 
 * Lightweight
 * Portable
-* Minimalist GUI
+* Uncluttered GUI
 * Syntax Highlighting (including nested syntax highlighting, supporting over 90 languages and LSP semantic highlighting)
 * Multi-cursor support
 * Terminal support
@@ -252,262 +252,53 @@ the plugin communication. And, for example, the Linter plugin will consume the L
 Also the Auto Complete module will request assistance from the LSP, if available, to improve the
 completions and to provide signature help.
 
-### Linter
+#### Linter
 
 Linter support is provided by executing already stablished linters from each language.
 *ecode* provides support for several languages by default and can be extended easily by expanding the
-`linters.json` configuration. `linters.json` default configuration can be obtained from [here](https://raw.githubusercontent.com/SpartanJ/eepp/develop/bin/assets/plugins/linters.json).
-To configure new linters you can create a new `linters.json` file in the [default configuration path](#plugins-configuration-files-location) of *ecode*.
+`linters.json` configuration.
 
-#### `linters.json` format
+For more information [read the linter documentation](docs/linter.md).
 
-The format is a very simple JSON object with a config object and array of objects containing the file
-formats supported, the [Lua pattern](https://www.lua.org/manual/5.4/manual.html#6.4.1) to find any error printed by the linter to the stdout, the position
-of each group of the pattern, and the command to execute. It also supports some optional extra object keys.
 
-JavaScript linter example (using [eslint](https://eslint.org/))
-
-```json
-{
-    "config": {
-        "delay_time": "0.5s"
-    },
-    "linters": [
-      {
-        "file_patterns": ["%.js$", "%.ts$"],
-        "warning_pattern": "[^:]:(%d+):(%d+): ([^%[]+)%[([^\n]+)",
-        "warning_pattern_order": { "line": 1, "col": 2, "message": 3, "type": 4 },
-        "command": "eslint --no-ignore --format unix $FILENAME"
-      }
-    ]
-}
-```
-
-That's all we need to have a working linter in *ecode*. Linters executables must be installed manually
-by the user, linters will not come with the editor, and they also need to be visible to the executable.
-This means that it must be on `PATH` environment variable or the path to the binary must be absolute.
-
-#### Currently supported linters
-
-Please check the [language support table](#language-support-table)
-
-#### Linter config object keys
-
-* **delay_time**: Delay to run the linter after editing a document
-* **enable_error_lens**: Enables error lens (prints the message inline)
-* **enable_lsp_diagnostics**: Boolean that enable/disable LSP diagnostics as part of the linting. Enabled by default.
-* **disable_lsp_languages**: Array of LSP languages disabled for LSP diagnostics. For example: `"disable_lsp_languages": ["lua", "python"]`, disables lua and python.
-* **disable_languages**: Array of linters disabled from external linter application diagnostics. For example: `"disable_languages": ["lua", "python"]`, disables luacheck and ruff respectively.
-* **goto_ignore_warnings**: Defines the behavior of the "linter-go-to-next-error" and "linter-go-to-previous-error" keybindings. If ignore warnings is true it will jump only between errors.
-
-#### Linter JSON object keys
-
-* **file_patterns**: Array of [Lua Patterns](https://www.lua.org/manual/5.4/manual.html#6.4.1) representing the file extensions that must use the linter
-* **warning_pattern**: [Lua Pattern](https://www.lua.org/manual/5.4/manual.html#6.4.1) to be parsed from the executable stdout
-* **warning_pattern_order**: The order where the line, column, error/warning/notice message, and the type of the message (warning, error, notice, info) are read. The pattern must have at least 3 groups (line, message, and type). The error type is auto-detected from its name.
-* **command**: The command to execute to run the linter. $FILENAME represents the file path.
-* **url** (optional): The web page URL of the linter
-* **expected_exitcodes**: Array of integer numbers accepted as parseable exit codes (optional)
-* **no_errors_exit_code**: Integer number representing the exit code that means that no errors were found (optional).
-* **deduplicate**: In case the linter outputs duplicated errors, this boolean will ignore duplicated errors (optional, boolean true/false)
-* **use_tmp_folder**: Temporal files (files representing the current status of the modified file) will be written in the default temporal folder of the operating system, otherwise it will be written in the same folder path of the modified file (optional, boolean true/false).
-
-### Formatter
+#### Auto Formatter
 
 The formatter plugin works exactly like the linter plugin, but it will execute tools that auto-format code.
 *ecode* provides support for several languages by default with can be extended easily by expanding the
-`formatters.json` configuration. `formatters.json` default configuration can be obtained from [here](https://raw.githubusercontent.com/SpartanJ/eepp/develop/bin/assets/plugins/formatters.json).
-It also supports some formatters natively, this means that the formatter comes with ecode without requiring any external dependency.
-And also supports LSP text document formatting, meaning that if you're running an LSP that supports formatting documents, formatting will be available too.
-To configure new formatters you can create a new `formatters.json` file in the [default configuration path](#plugins-configuration-files-location) of *ecode*.
+`formatters.json` configuration.
 
-#### `formatters.json` format
+For more information [read the formatter documentation](docs/formatter.md).
 
-```json
-{
-    "config": {
-        "auto_format_on_save": false
-    },
-    "keybindings": {
-        "format-doc": "alt+f"
-    },
-    "formatters": [
-        {
-            "file_patterns": ["%.js$", "%.ts$"],
-            "command": "prettier $FILENAME"
-        }
-    ]
-}
-```
-
-#### Currently supported formatters
-
-Please check the [language support table](#language-support-table)
-
-#### Formatter config object keys
-
-* **auto_format_on_save**: Indicates if after saving the file it should be auto-formatted
-
-#### Formatter keybindings object keys
-
-* **format-doc**: Keybinding to format the doc with the configured language formatter
-
-#### Formatter JSON object keys
-
-* **file_patterns**: Array of [Lua Patterns](https://www.lua.org/manual/5.4/manual.html#6.4.1) representing the file extensions that must use the formatter
-* **command**: The command to execute to run the formatter. $FILENAME represents the file path
-* **type**: Indicates the mode that which the formatter outputs the results. Supported two possible options: "inplace" (file is replaced with the formatted version), "output" (newly formatted file is the stdout of the program, default option) or "native" (uses the formatter provided by ecode)
-* **url** (optional): The web page URL of the formatter
-
-### LSP Client
+#### LSP Client
 
 LSP support is provided by executing already stablished LSP from each language.
 *ecode* provides support for several languages by default and can be extended easily by expanding the
-`lspclient.json` configuration. `lspclient.json` default configuration can be obtained from [here](https://raw.githubusercontent.com/SpartanJ/eepp/develop/bin/assets/plugins/lspclient.json).
-To configure new LSPs you can create a new `lspclient.json` file in the [default configuration path](#plugins-configuration-files-location) of *ecode*.
+`lspclient.json` configuration.
 
-Important note: LSP servers can be very resource intensive and might not be always the best option for simple projects.
+For more information [read the lsp client documentation](docs/lsp.md).
 
-Implementation details: LSP servers are only loaded when needed, no process will be opened until a
-supported file is opened in the project.
-
-#### `lspclient.json` format
-
-The format follows the same pattern that all previous configuration files. Configuration is represented
-in a JSON file with three main keys: `config`, `keybindings`, `servers`.
-
-C and C++ LSP server example (using [clangd](https://clangd.llvm.org/))
-
-```json
-{
-    "config": {
-        "hover_delay": "0.5s"
-    },
-    "servers": [
-        {
-          "language": "c",
-          "name": "clangd",
-          "url": "https://clangd.llvm.org/",
-          "command": "clangd -log=error --background-index --limit-results=500 --completion-style=bundled",
-          "file_patterns": ["%.c$", "%.h$", "%.C$", "%.H$", "%.objc$"]
-        },
-        {
-          "language": "cpp",
-          "use": "clangd",
-          "file_patterns": ["%.inl$", "%.cpp$", "%.hpp$", "%.cc$", "%.cxx$", "%.c++$", "%.hh$", "%.hxx$", "%.h++$", "%.objcpp$"]
-        }
-    ]
-}
-```
-
-That's all we need to have a working LSP in *ecode*. LSPs executables must be installed manually
-by the user, LSPs will not come with the editor, and they also need to be visible to the executable.
-This means that it must be on `PATH` environment variable or the path to the binary must be absolute.
-
-#### Currently supported LSPs
-
-Please check the [language support table](#language-support-table)
-
-#### LSP Client config object keys
-
-* **hover_delay**: The time the editor must wait to show symbol information when hovering any piece of code.
-* **server_close_after_idle_time**: The time the LSP Server will keep alive after all documents that consumes that LSP Server were closed. LSP Servers are spawned and killed on demand.
-* **semantic_highlighting**: Enable/Disable semantic highlighting (disabled by default, boolean)
-* **disable_semantic_highlighting_lang**: An array of languages where semantic highlighting should be disabled
-* **silent**: Enable/Disable non-critical LSP logs
-* **trim_logs**: If logs are enabled and trim_logs is enabled it will trim the line log size at maximum 1 KiB per line (useful for debugging)
-* **breadcrumb_navigation**: Enable/Disable the breadcrumb (enabled by default)
-* **breadcrumb_height**: Defines the height of the breadcrumb in [CSS length](https://eepp.ensoft.dev/page_cssspecification.html#length-data-type)
-
-#### LSP Client keybindings object keys
-
-* **lsp-symbol-info**: Keybinding to request symbol information
-* **lsp-go-to-definition**: Keybinding to "Go to Definition"
-* **lsp-go-to-declaration**: Keybinding to "Go to Declaration"
-* **lsp-go-to-implementation**: Keybinding to "Go to Implementation"
-* **lsp-go-to-type-definition**: Keybinding to "Go to Type Definition"
-* **lsp-symbol-references**: Keybinding to "Find References to Symbol Under Cursor"
-* **lsp-symbol-code-action**: Keybinding to "Code Action"
-* **lsp-switch-header-source**: Keybinding to "Switch Header/Source" (only available for C and C++)
-
-#### LSP Client JSON object keys
-
-* **language**: The LSP language identifier. Some identifiers can be found [here](https://microsoft.github.io/language-server-protocol/specifications/lsp/3.17/specification/#textDocumentItem)
-* **name**: The name of the language server
-* **url** (optional): The web page URL of the language server
-* **use** (optional): A server can be inherit the configuration from other server. This must be the name of the server configuration that inherits (useful for LSPs that support several languages like clang and typescript-language-server).
-* **file_patterns**: Array of [Lua Patterns](https://www.lua.org/manual/5.4/manual.html#6.4.1) representing the file extensions that must use the LSP client
-* **command**: The command to execute to run the LSP. It's possible to override the default LSP command by declaring the server in the `lspclient.json` config. It's also possible to specify a different command for each platform, given that it might change in some ocassions per-platform. In that case an object should be used, with each key being a platform, and there's also a wildcard platform "other" to specify any other platform that does not match the platform definition. For example, `sourcekit-lsp` uses: `"command": {"macos": "xcrun sourcekit-lsp","other": "sourcekit-lsp"}`
-* **command_parameters** (optional): The command parameters. Parameters can be set from the **command** also, unless the command needs to run a binary with name with spaces. Also command_parameters can be used to add more parameters to the original command. The lsp configuration can be overriden from the lspclient.json in the user configuration. For example: a user trying to append some command line arguments to clang would need to do something like: `{"name": "clangd","command_parameters": "--background-index-priority=background --malloc-trim"}`
-* **rootIndicationFileNames** (optional): Some languages need to indicate the project root path to the LSP work correctly. This is an array of files that might indicate where the root path is. Usually this is resolver by the LSP itself, but it might help in some situations.
-* **initializationOptions** (optional): These are custom initialization options that can be passed to the LSP. Usually not required, but it will allow the user to configure the LSP. More information can be found [here](https://microsoft.github.io/language-server-protocol/specifications/lsp/3.17/specification/#initialize).
-* **host** (optional): It's possible to connect to LSP servers via TCP. This is the host location of the LSP. When using TCP connections *command* can be empty or can be used to initialize the LSP server. And then use the LSP through a TCP connection.
-* **port** (optional): It's possible to connect to LSP servers via TCP. This is the post location of the LSP.
-* **env** (optional): Array of strings with environment variables added to the process environment.
-
-### Git integration
+#### Git integration
 
 *ecode* provides some basic Git integration (more features will come in the future). Its main purpose
 is to help the user to do the most basics operations with Git. Some of the current features supported:
 git status and stats visualization (files states), commit, push, checkout, pull, fetch, fast-forward
 merge, creating+renaming+deleting branches, managing stashes. All stats will be automatically
 updated/refreshed in real time. There's also some basic configuration available.
-The plugin requires the user to have a `git` binary installed and available in `PATH` environment variable.
 
-#### `git.json` format
+For more information [read the git integration documentation](docs/git.md).
 
-The format follows the same pattern that all previous configuration files. Configuration is represented
-in a JSON file with three main keys: `config`, `keybindings`, `servers`.
-
-C and C++ LSP server example (using [clangd](https://clangd.llvm.org/))
-
-```json
-{
-  "config": {
-    "silent": false,
-    "status_recurse_submodules": true,
-    "statusbar_display_branch": true,
-    "statusbar_display_modifications": true,
-    "ui_refresh_frequency": "5s"
-  },
-  "keybindings": {
-    "git-blame": "alt+shift+b"
-  }
-}
-```
-
-#### Git config object keys
-
-* **silent**: Enable/Disable non-critical Git logs.
-* **status_recurse_submodules**: Enables/disables recursing sub-modules for the file status report.
-* **statusbar_display_branch**: Enables/disables an always visible status on the bottom statusbar.
-* **statusbar_display_modifications**: Enables/disables if the number of lines affected is displayed in the statusbar.
-* **ui_refresh_frequency**: Indicates the frequency in which the status is updated (it will only trigger updates if changes are detected inside the `.git` directory).
-* **filetree_highlight_changes**: Enables/disables the highlighting of changes on the file-tree.
-* **filetree_highlight_style_color**: Allows to change the highlight color in the file-tree.
-
-#### Git keybindings object keys
-
-* **git-blame**: Keybinding to display the a git blame summary over the current positioned line.
-
-### Auto Complete
+#### Auto Complete
 
 The auto-complete plugin is in charge of providing suggestions for code-completion and signature help.
 
-#### Auto Complete config object keys
-
-* **max_label_characters**: Maximum characters displayed in the suggestion box.
-* **suggestions_syntax_highlight**: Enables/disables syntax highlighting in suggestions.
+For more information [read the auto-complete documentation](docs/autocomplete.md).
 
 ### XML Tools
 
 The XML Tools plugin (disabled by default) provides some nice to have improvements when editing XML
 content.
 
-#### XML Tools config object keys
-
-* **auto_edit_match**: Automatically edits the open/close tag when the user edits the element tag name (syncs open and close element names).
-* **highlight_match**: When the user moves the cursor to an open or close tag it will highlight the matched open/close tag.
+For more information [read the xml tools documentation](docs/xmltools.md).
 
 ### Plugins configuration files location
 
@@ -526,204 +317,19 @@ configuration file. The same applies to formatters and LSPs servers.
 Plugins will always implement a "config" for plugins customization, and will always implement a
 "keybindings" key to configure custom keybindings.
 
-## Customizations
+## UI Customizations
 
-### Custom editor color schemes
+*ecode* is highly customizable and extendable thanks to its several configuration files.
+If you're interested in creating new color schemes for the editor or terminal, or in creating new
+UI themes please.
 
-Custom editor color schemes can be added in the user color schemes directory found at:
-
-* *Linux*: uses `XDG_CONFIG_HOME`, usually translates to `~/.config/ecode/editor/colorschemes`
-* *macOS*: uses `Application Support` folder in `HOME`, usually translates to `~/Library/Application Support/ecode/editor/colorschemes`
-* *Windows*: uses `APPDATA`, usually translates to `C:\Users\{username}\AppData\Roaming\ecode\editor\colorschemes`
-
-Any file written in the directory will be treated as an editor color scheme file. Each file can contain
-any number of color schemes.
-
-The format of a color scheme can be read from [here](https://github.com/SpartanJ/eepp/blob/develop/bin/assets/colorschemes/colorschemes.conf).
-
-### Custom terminal color schemes
-
-Custom terminal color schemes can be added in the user terminal color schemes directory found at:
-
-* *Linux*: uses `XDG_CONFIG_HOME`, usually translates to `~/.config/ecode/terminal/colorschemes`
-* *macOS*: uses `Application Support` folder in `HOME`, usually translates to `~/Library/Application Support/ecode/terminal/colorschemes`
-* *Windows*: uses `APPDATA`, usually translates to `C:\Users\{username}\AppData\Roaming\ecode\terminal\colorschemes`
-
-Any file written in the directory will be treated as a terminal color scheme file. Each file can contain
-any number of color schemes.
-
-The format of a color scheme can be read from [here](https://github.com/SpartanJ/eepp/blob/develop/bin/assets/colorschemes/terminalcolorschemes.conf).
-
-### Custom UI themes
-
-Custom UI schemes can be added in the user UI themes directory found at:
-
-* *Linux*: uses `XDG_CONFIG_HOME`, usually translates to `~/.config/ecode/themes`
-* *macOS*: uses `Application Support` folder in `HOME`, usually translates to `~/Library/Application Support/ecode/themes`
-* *Windows*: uses `APPDATA`, usually translates to `C:\Users\{username}\AppData\Roaming\ecode\themes`
-
-A custom UI theme file must have the extension `.css`, ecode will look for all the files with `.css`
-extension in the directory, the UI theme name is the file name without the extension. The new theme
-will appear in `Settings -> Window -> UI Theme`.
-
-Custom UI themes allow customizing the editor at the user's will. Since ecode uses CSS to style all the
-elements of the UI, creating new themes is quite easy. It's possible to customize only the color palette
-but it's also possible to customize all the UI elements if desired. Customizing the whole UI theme can
-be extensive, but customizing the colors is as simple as changing the values of the CSS variables used
-to color the UI. For reference, the complete base UI theme used by ecode can be seen [here](https://github.com/SpartanJ/eepp/blob/develop/bin/assets/ui/breeze.css).
-The most important selector would be the `:root` selector, where all the variables are defined. Color
-variables can be easily extracted from that file.
-
-A simple example of a custom UI theme that changes only the tint colors, let's call it `Breeze Light Red.css`:
-
-```css
-:root {
-	--inherit-base-theme: true;
-	--primary: #e93d66;
-	--scrollbar-button: #a94074;
-	--item-hover: #502834;
-	--tab-hover: #5e3347;
-}
-```
-
-That effectively would create/add a new UI theme with light red colors.
-A very important detail is that if the UI theme must inherit the complete definition of the default theme,
-we must add `--inherit-base-theme: true` to the `:root` element, otherwise the UI theme must be defined
-completely, which means, every widget must be styled from scratch (not recommended given its complexity).
-It's also possible to override the style of the different widgets redefining their properties with the
-usual rules that apply to the well-known CSS specification (A.K.A. using adequate
-[specificity](https://developer.mozilla.org/en-US/docs/Web/CSS/Specificity) and probably abusing the
-[!important](https://developer.mozilla.org/en-US/docs/Web/CSS/important) flag).
+For more information [read the UI Customization documentation](docs/uicustomizations.md).
 
 ## Custom languages support
 
-Custom languages support can be added in the languages directory found at:
+Users can add support for new languages with a very simple JSON file format.
 
-* *Linux*: uses `XDG_CONFIG_HOME`, usually translates to `~/.config/ecode/languages`
-* *macOS*: uses `Application Support` folder in `HOME`, usually translates to `~/Library/Application Support/ecode/languages`
-* *Windows*: uses `APPDATA`, usually translates to `C:\Users\{username}\AppData\Roaming\ecode\languages`
-
-ecode will read each file located at that directory with `json` extension. Each file can contain one
-or several languages. In order to set several languages the root element of the json file should be
-an array, containing one object for each language, otherwise if the root element is an object, it
-should contain the language definition. Language definitions can override any currently supported
-definition. ecode will prioritize user defined definitions.
-
-### Language definition format
-
-```json
-{
-	"name": "language_name",
-	"files": [ "Array of file extensions supported" ],
-	"comment": "Sets the comment string used for auto-comment functionality.",
-	"patterns": [
-		{ "pattern": "lua_pattern", "type": "type_name" },
-		{ "pattern": "no_capture(pattern_capture_1)(pattern_capture_2)", "type": { "no_capture_type_name", "capture_1_type_name", "capture_2_type_name" } },
-		{ "pattern": ["lua_pattern_start", "lua_pattern_end", "escape_character"], "type": "type_name" }
-	],
-	"symbols": [
-		{ "symbol_name": "type_name" }
-	],
-	"visible": true, /* sets if the language is visible as a main language in the editor, optional parameter, true by default */
-	"auto_close_xml_tag": false, /* sets if the language defined supports auto close XML tags, optional parameter, false by default */
-	"lsp_name": "sets the LSP name assigned for the language, optional parameter, it will use the _name_ in lowercase if not set"
-}
-```
-
-### Porting language definitions
-
-ecode uses the same format for language definition as [lite](https://github.com/rxi/lite) and [lite-xl](https://github.com/lite-xl/lite-xl) editors.
-This makes much easier to add new languages to ecode. There's also a helper tool that can be download from
-ecode repository located [here](https://github.com/SpartanJ/ecode/tree/develop/tools/data-migration/lite/language)
-that allows to directly export a lite language definition to the JSON file format used in ecode.
-
-### Extending language definitions
-
-It's possible to easily extend any language definition by exporting it using the CLI arguments provided:
-`--export-lang` and `--export-lang-path`. A user wanting to extend or improve a language definition can
-export it, modify it and install the definition with a `.json` extension in the [custom languages path](#custom-languages-support).
-For example, to extend the language `vue` you will need to run:
-`ecode --export-lang=vue --export-lang-path=./vue.json`, exit the exported file and move it to the
-[custom languages path](#custom-languages-support).
-
-### Language definition example
-
-```json
-{
-  "name": "Elixir",
-  "files": [ "%.ex$", "%.exs$" ],
-  "comment": "#",
-  "patterns": [
-    { "pattern": "#.*\n",                "type": "comment"  },
-    { "pattern": [ ":\"", "\"", "\\" ],    "type": "number"   },
-    { "pattern": [ "\"\"\"", "\"\"\"", "\\" ], "type": "string"   },
-    { "pattern": [ "\"", "\"", "\\" ],     "type": "string"   },
-    { "pattern": [ "'", "'", "\\" ],     "type": "string"   },
-    { "pattern": [ "~%a[/\"|'%(%[%{<]", "[/\"|'%)%]%}>]", "\\" ], "type": "string"},
-    { "pattern": "-?0x%x+",              "type": "number"   },
-    { "pattern": "-?%d+[%d%.eE]*f?",     "type": "number"   },
-    { "pattern": "-?%.?%d+f?",           "type": "number"   },
-    { "pattern": ":\"?[%a_][%w_]*\"?",     "type": "number"   },
-    { "pattern": "[%a][%w_!?]*%f[(]",    "type": "function" },
-    { "pattern": "%u%w+",                "type": "normal"   },
-    { "pattern": "@[%a_][%w_]*",         "type": "keyword2" },
-    { "pattern": "_%a[%w_]*",            "type": "keyword2" },
-    { "pattern": "[%+%-=/%*<>!|&]",      "type": "operator" },
-    { "pattern": "[%a_][%w_]*",          "type": "symbol"   }
-  ],
-  "symbols": [
-    {"def": "keyword"},
-    {"defp": "keyword"},
-    {"defguard": "keyword"},
-    {"defguardp": "keyword"},
-    {"defmodule": "keyword"},
-    {"defprotocol": "keyword"},
-    {"defimpl": "keyword"},
-    {"defrecord": "keyword"},
-    {"defrecordp": "keyword"},
-    {"defmacro": "keyword"},
-    {"defmacrop": "keyword"},
-    {"defdelegate": "keyword"},
-    {"defoverridable": "keyword"},
-    {"defexception": "keyword"},
-    {"defcallback": "keyword"},
-    {"defstruct": "keyword"},
-    {"for": "keyword"},
-    {"case": "keyword"},
-    {"when": "keyword"},
-    {"with": "keyword"},
-    {"cond": "keyword"},
-    {"if": "keyword"},
-    {"unless": "keyword"},
-    {"try": "keyword"},
-    {"receive": "keyword"},
-    {"after": "keyword"},
-    {"raise": "keyword"},
-    {"rescue": "keyword"},
-    {"catch": "keyword"},
-    {"else": "keyword"},
-    {"quote": "keyword"},
-    {"unquote": "keyword"},
-    {"super": "keyword"},
-    {"unquote_splicing": "keyword"},
-    {"do": "keyword"},
-    {"end": "keyword"},
-    {"fn": "keyword"},
-    {"import": "keyword2"},
-    {"alias": "keyword2"},
-    {"use": "keyword2"},
-    {"require": "keyword2"},
-    {"and": "operator"},
-    {"or": "operator"},
-    {"true": "literal"},
-    {"false": "literal"},
-    {"nil": "literal"}
-  ]
-}
-```
-
-For more complex syntax definitions please see the definition of all the native languages supported
-by ecode [here](https://github.com/SpartanJ/eepp/tree/develop/src/eepp/ui/doc/languages).
+For more information [read the custom languages documentation](docs/customlanguages.md).
 
 ## Planned Features
 
@@ -731,6 +337,7 @@ Listed in no particular order:
 
 * General polishing
 * Improved plugin system (visual configuration, more flexibility/features)
+* AI assistant plugin
 * Snippets support
 * Macros support
 * Better integration with OSes
