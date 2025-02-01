@@ -13,7 +13,17 @@ eepp GUI library as part of one of its main objectives.
 
 ![ecode - Code Editor](https://github.com/SpartanJ/ecode/assets/650416/7926c3f3-1b3b-4fe5-859a-3099df73b7e8)
 
-For more screenshots checkout [running on macOS](https://github.com/SpartanJ/ecode/assets/650416/9e8e00a7-fbcc-479b-8588-0023d8f86a9a), [running on Windows](https://user-images.githubusercontent.com/650416/172760308-30d5335c-d5f7-4dbe-94ce-2e556d858909.png), [running on Haiku](https://user-images.githubusercontent.com/650416/172760331-799b7d16-104b-4cac-ba34-c0cf60ba4374.png), [low dpi](https://user-images.githubusercontent.com/650416/172519582-1aab1e94-8d69-4c2c-b4ba-de9f2d8729cf.png), [code completion](https://user-images.githubusercontent.com/650416/172521557-f68aa855-0534-49c9-b33e-8f9f8b47b9d2.png), [terminal](https://user-images.githubusercontent.com/650416/180109676-a1f9dbc6-d170-4e67-a19c-611cff9f04dd.png), [file locator](https://user-images.githubusercontent.com/650416/172521593-bb8fde13-2600-44e5-87d2-3fc41370fc77.png), [file formats](https://user-images.githubusercontent.com/650416/172521619-ac1aeb82-80e5-49fd-894e-afc780d4c0fd.png), [global find](https://user-images.githubusercontent.com/650416/172523164-2ca9b988-7d2d-4b8c-b6d2-10e593d7fc14.png), [global replace](https://user-images.githubusercontent.com/650416/172523195-00451552-2a56-4595-8b3a-cf8071b36dc6.png), [linter](https://user-images.githubusercontent.com/650416/172523272-45c267af-2585-4c54-86e0-739b5202569e.png).
+For more screenshots checkout
+[running on macOS](https://github.com/SpartanJ/ecode/assets/650416/9e8e00a7-fbcc-479b-8588-0023d8f86a9a),
+[running on Windows](https://user-images.githubusercontent.com/650416/172760308-30d5335c-d5f7-4dbe-94ce-2e556d858909.png),
+[running on Haiku](https://user-images.githubusercontent.com/650416/172760331-799b7d16-104b-4cac-ba34-c0cf60ba4374.png),
+[low dpi](https://user-images.githubusercontent.com/650416/172519582-1aab1e94-8d69-4c2c-b4ba-de9f2d8729cf.png),
+[code completion](https://user-images.githubusercontent.com/650416/172521557-f68aa855-0534-49c9-b33e-8f9f8b47b9d2.png), [terminal](https://user-images.githubusercontent.com/650416/180109676-a1f9dbc6-d170-4e67-a19c-611cff9f04dd.png),
+[file locator](https://user-images.githubusercontent.com/650416/172521593-bb8fde13-2600-44e5-87d2-3fc41370fc77.png),
+[file formats](https://user-images.githubusercontent.com/650416/172521619-ac1aeb82-80e5-49fd-894e-afc780d4c0fd.png),
+[global find](https://user-images.githubusercontent.com/650416/172523164-2ca9b988-7d2d-4b8c-b6d2-10e593d7fc14.png),
+[global replace](https://user-images.githubusercontent.com/650416/172523195-00451552-2a56-4595-8b3a-cf8071b36dc6.png),
+[linter](https://user-images.githubusercontent.com/650416/172523272-45c267af-2585-4c54-86e0-739b5202569e.png).
 
 ## Notable Features
 
@@ -22,11 +32,11 @@ For more screenshots checkout [running on macOS](https://github.com/SpartanJ/eco
 * Uncluttered GUI
 * Syntax Highlighting (including nested syntax highlighting, supporting over 90 languages and LSP semantic highlighting)
 * Multi-cursor support
+* [LSP](https://microsoft.github.io/language-server-protocol/) support
+* Debugger support via [Debug Adapter Protocol](https://microsoft.github.io/debug-adapter-protocol)
+* [Git](https://git-scm.com/) integration
 * Terminal support
 * Command Palette
-* [LSP](https://microsoft.github.io/language-server-protocol/) support
-* [Git](https://git-scm.com/) integration
-* Debugger support via [Debug Adapter Protocol](https://microsoft.github.io/debug-adapter-protocol)
 * Auto-Completion
 * Customizable Linter support
 * Customizable Formatter support
@@ -88,7 +98,7 @@ there. But you can give it a try:
 ### Demo Clarifications
 
 * You'll need a modern browser with [SharedArrayBuffer](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/SharedArrayBuffer#browser_compatibility) support
-* Linter, Formatter and LSP plugins won't work since both work running other processes (except for the native formatters that are available)
+* Linter, Formatter,, LSP Client and Debugger plugins won't work since they work by running other processes (except for the native formatters that are available)
 * WebGL renderer isn't optimized, so it's not as fast as it could/should be (still, performance is good in chromium based browsers)
 * Demo is designed for desktop resolutions (mobile is unusable, IME keyboard won't show up due to an emscripten limitation)
 
@@ -260,15 +270,6 @@ Linter support is provided by executing already stablished linters from each lan
 
 For more information [read the linter documentation](docs/linter.md).
 
-
-#### Auto Formatter
-
-The formatter plugin works exactly like the linter plugin, but it will execute tools that auto-format code.
-*ecode* provides support for several languages by default with can be extended easily by expanding the
-`formatters.json` configuration.
-
-For more information [read the formatter documentation](docs/formatter.md).
-
 #### LSP Client
 
 LSP support is provided by executing already stablished LSP from each language.
@@ -287,13 +288,21 @@ updated/refreshed in real time. There's also some basic configuration available.
 
 For more information [read the git integration documentation](docs/git.md).
 
+#### Auto Formatter
+
+The formatter plugin works exactly like the linter plugin, but it will execute tools that auto-format code.
+*ecode* provides support for several languages by default with can be extended easily by expanding the
+`formatters.json` configuration.
+
+For more information [read the formatter documentation](docs/formatter.md).
+
 #### Auto Complete
 
 The auto-complete plugin is in charge of providing suggestions for code-completion and signature help.
 
 For more information [read the auto-complete documentation](docs/autocomplete.md).
 
-### XML Tools
+#### XML Tools
 
 The XML Tools plugin (disabled by default) provides some nice to have improvements when editing XML
 content.
@@ -321,7 +330,7 @@ Plugins will always implement a "config" for plugins customization, and will alw
 
 *ecode* is highly customizable and extendable thanks to its several configuration files.
 If you're interested in creating new color schemes for the editor or terminal, or in creating new
-UI themes please.
+UI themes please check our documentation:
 
 For more information [read the UI Customization documentation](docs/uicustomizations.md).
 
@@ -382,7 +391,7 @@ _\*4_ Some work has been done to support text-shaping but it's not ready for gen
 
 ## Author comments
 
-This editor has a deeply rooted inspiration from the lite, lite-xl, QtCreator, and Sublime Text
+This editor has a deeply rooted inspiration from the lite, lite-xl, QtCreator and Sublime Text
 editors. Several features were developed based on the lite/lite-xl implementations. Some features can be ported
 directly from lite: color-schemes and syntax-highlighting patterns (eepp implementation expands original
 lite implementation to add many more features).
