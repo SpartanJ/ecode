@@ -108,6 +108,36 @@ In addition to these standard inputs, *ecode* extends functionality with an extr
 
 These input options make custom configurations flexible and dynamic, adapting to different debugging workflows and environments.
 
+#### Variables Reference
+
+ecode supports all vscode variable substitution in debugger configuration files. Variable substitution is supported inside some key and value strings in `launch.json` files using **${variableName}** syntax.
+
+##### Predefined variables
+
+The following predefined variables are supported:
+
+- **${userHome}** - the path of the user's home folder
+- **${workspaceFolder}** - the path of the folder opened in VS Code
+- **${workspaceFolderBasename}** - the name of the folder opened in VS Code without any slashes (/)
+- **${file}** - the current opened file
+- **${fileWorkspaceFolder}** - the current opened file's workspace folder
+- **${relativeFile}** - the current opened file relative to `workspaceFolder`
+- **${relativeFileDirname}** - the current opened file's dirname relative to `workspaceFolder`
+- **${fileBasename}** - the current opened file's basename
+- **${fileBasenameNoExtension}** - the current opened file's basename with no file extension
+- **${fileExtname}** - the current opened file's extension
+- **${fileDirname}** - the current opened file's folder path
+- **${fileDirnameBasename}** - the current opened file's folder name
+- **${cwd}** - the task runner's current working directory upon the startup of VS Code
+- **${lineNumber}** - the current selected line number in the active file
+- **${selectedText}** - the current selected text in the active file
+- **${execPath}** - the path to the running VS Code executable
+- **${defaultBuildTask}** - the name of the default build task
+- **${pathSeparator}** - the character used by the operating system to separate components in file paths
+- **${/}** - shorthand for **${pathSeparator}**
+
+For more information check
+
 ### Language-Specific Configurations
 
 In addition to general configurations, *ecode* offers language-specific settings, such as loading core dumps. Each debugger and language may provide different configurations based on the debugger's capabilities and the language's characteristics.
