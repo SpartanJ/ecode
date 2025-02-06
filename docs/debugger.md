@@ -136,8 +136,6 @@ The following predefined variables are supported:
 - **${pathSeparator}** - the character used by the operating system to separate components in file paths
 - **${/}** - shorthand for **${pathSeparator}**
 
-For more information check
-
 ### Language-Specific Configurations
 
 In addition to general configurations, *ecode* offers language-specific settings, such as loading core dumps. Each debugger and language may provide different configurations based on the debugger's capabilities and the language's characteristics.
