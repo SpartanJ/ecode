@@ -139,3 +139,22 @@ The following predefined variables are supported:
 ### Language-Specific Configurations
 
 In addition to general configurations, *ecode* offers language-specific settings, such as loading core dumps. Each debugger and language may provide different configurations based on the debugger's capabilities and the language's characteristics.
+
+### Debugger keybindings object keys
+
+* **debugger-breakpoint-enable-toggle**: Toggles enable/disable current line breakpoint (if any)
+* **debugger-breakpoint-toggle**: Toggles breakpoint in current line
+* **debugger-continue-interrupt**: If debugger is running: continues or interrupt the current execution. If debugger is not running builds and run the debugger.
+* **debugger-start**: Starts the debugger
+* **debugger-start-stop**: Starts or stops the debugger (depending on its current status)
+* **debugger-step-into**: Steps into the current debugged line
+* **debugger-step-out**: Steps out the current debugged line
+* **debugger-step-over**: Steps over the current debugged line
+* **debugger-stop**: Stops the debugger
+* **toggle-status-app-debugger**: Opens/hides the debugger status bar panel
+
+### Debugger config object keys
+
+* **fetch_globals**: Enable/Disable if global variables should be fetched automatically (when available)
+* **fetch_registers**: Enable/Disable if registers should be fetched automatically (when available)
+* **silent**: Enable/Disable non-critical Debugger logs
