@@ -62,6 +62,20 @@ for i = 1, #syntax.items do
 				syntax.items[i].patterns[p].pattern = new_pattern
 			end
 
+			if syntax.items[i].patterns[p].regex ~= nil then
+				local ptr = {}
+				local result = split(syntax.items[i].patterns[p].regex, "()", true)
+				for _, v in ipairs(result) do
+					-- print(v)
+					table.insert(ptr, "(" .. v .. ")")
+				end
+				local new_regex = ""
+				for z = 1, #ptr do
+					new_regex = new_regex .. ptr[z]
+				end
+				syntax.items[i].patterns[p].regex = new_regex
+			end
+
 			local new_type = {}
 			table.insert(new_type, "normal")
 			for t = 1, #syntax.items[i].patterns[p].type do
