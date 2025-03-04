@@ -429,6 +429,8 @@ using the editor daily and is stable enough for me, but use it at your own risk.
 
 * Andreas Kling for [SerenityOS](https://github.com/SerenityOS/serenity)
 
+* [vyfor icons](https://github.com/vyfor/icons)
+
 * And a **lot** more people!
 
 ## Code License
