@@ -357,8 +357,8 @@ jobs:
       - name: Install Dependencies
         run: |
           brew install bash create-dmg premake p7zip
-          curl -OL https://github.com/libsdl-org/SDL/releases/download/release-2.30.9/SDL2-2.30.9.dmg
-          hdiutil attach SDL2-2.30.9.dmg
+          curl -OL https://github.com/libsdl-org/SDL/releases/download/release-2.32.2/SDL2-2.32.2.dmg
+          hdiutil attach SDL2-2.32.2.dmg
           sudo cp -r /Volumes/SDL2/SDL2.framework /Library/Frameworks/
           hdiutil detach /Volumes/SDL2
       - name: Build
