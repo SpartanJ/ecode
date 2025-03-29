@@ -21,10 +21,10 @@ definition. ecode will prioritize user defined definitions.
 	"comment": "Sets the comment string used for auto-comment functionality.",
 	"patterns": [
 		{ "pattern": "lua_pattern", "type": "type_name" },
-		{ "pattern": "no_capture(pattern_capture_1)(pattern_capture_2)", "type": { "no_capture_type_name", "capture_1_type_name", "capture_2_type_name" } },
+		{ "pattern": "no_capture(pattern_capture_1)(pattern_capture_2)", "type": [ "no_capture_type_name", "capture_1_type_name", "capture_2_type_name" ] },
 		{ "pattern": ["lua_pattern_start", "lua_pattern_end", "escape_character"], "type": "type_name" }
 		{ "regex": "perl_regex", "type": "type_name" },
-		{ "regex": "no_capture(pattern_capture_1)(pattern_capture_2)", "type": { "no_capture_type_name", "capture_1_type_name", "capture_2_type_name" } },
+		{ "regex": "no_capture(pattern_capture_1)(pattern_capture_2)", "type": [ "no_capture_type_name", "capture_1_type_name", "capture_2_type_name" ] },
 		{ "regex": ["regex_start", "regex_end", "escape_character"], "type": "type_name" }
 	],
 	"symbols": [
