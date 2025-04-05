@@ -87,9 +87,9 @@ jobs:
           sudo apt-get update
       - name: Install dependencies
         run: |
-          sudo apt-get install -y gcc-11 g++-11
-          sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-11 10
-          sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-11 10
+          sudo apt-get install -y gcc-13 g++-13 libdw-dev
+          sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-13 10
+          sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-13 10
           sudo update-alternatives --install /usr/bin/cc cc /usr/bin/gcc 30
           sudo update-alternatives --set cc /usr/bin/gcc
           sudo update-alternatives --install /usr/bin/c++ c++ /usr/bin/g++ 30
@@ -160,7 +160,6 @@ jobs:
       - name: Install dependencies
         run: |
           sudo apt-get install -y premake4 libfuse2 fuse gcc-aarch64-linux-gnu g++-aarch64-linux-gnu
-          # sudo apt-get install -y libsdl2-dev:arm64 libsdl2-2.0-0:arm64
           bash projects/linux/scripts/install_sdl2.sh --aarch64
       - name: Build ecode
         run: |
