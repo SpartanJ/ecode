@@ -44,6 +44,7 @@ For more screenshots checkout
 * Customizable keyboard bindings
 * Configurable build pipelines
 * Fast global search (and replace)
+* AI Assistant plugin
 * Minimap
 * Unlimited editor splitting
 * Easily extendable language support
@@ -231,6 +232,7 @@ via configuration files (for every feature: syntax highlighting, LSP, linter and
 | smallbasic              | ✓       | None                                                                                                 | None                                            | None                                                         | None                                                                                                                               |
 | solidity                | ✓       | [solc](https://soliditylang.org)                                                                     | [solhint](https://protofire.github.io/solhint/) | None                                                         | None                                                                                                                               |
 | sql                     | ✓       | None                                                                                                 | None                                            | None                                                         | None                                                                                                                               |
+| squirrel                | ✓       | None                                                                                                 | None                                            | None                                                         | None                                                                                                                               |
 | svelte                  | ✓       | None                                                                                                 | None                                            | None                                                         | None                                                                                                                               |
 | swift                   | ✓       | [sourcekit-lsp](https://github.com/apple/sourcekit-lsp)                                              | None                                            | None                                                         | None                                                                                                                               |
 | tcl                     | ✓       | None                                                                                                 | None                                            | None                                                         | None                                                                                                                               |
@@ -238,7 +240,6 @@ via configuration files (for every feature: syntax highlighting, LSP, linter and
 | toml                    | ✓       | None                                                                                                 | None                                            | None                                                         | None                                                                                                                               |
 | typescript              | ✓       | [typescript-language-server](https://github.com/theia-ide/typescript-language-server)                | [eslint](https://eslint.org)                    | [prettier](https://prettier.io)                              | None                                                                                                                               |
 | typescriptreact         | ✓       | [typescript-language-server](https://github.com/theia-ide/typescript-language-server)                | None                                            | None                                                         | None                                                                                                                               |
-| u                       | ✓       | None                                                                                                 | None                                            | None                                                         | None                                                                                                                               |
 | v                       | ✓       | [v-analyzer](https://github.com/v-analyzer/v-analyzer)                                               | None                                            | [v](https://vlang.io)                                        | None                                                                                                                               |
 | v1                      | ✓       | None                                                                                                 | None                                            | None                                                         | None                                                                                                                               |
 | vala                    | ✓       | [vala-language-server](https://github.com/vala-lang/vala-language-server)                            | None                                            | None                                                         | None                                                                                                                               |
@@ -252,6 +253,7 @@ via configuration files (for every feature: syntax highlighting, LSP, linter and
 | yaml                    | ✓       | [yaml-language-server](https://github.com/redhat-developer/yaml-language-server)                     | None                                            | None                                                         | None                                                                                                                               |
 | yuescript               | ✓       | None                                                                                                 | None                                            | None                                                         | None                                                                                                                               |
 | zig                     | ✓       | [zls](https://github.com/zigtools/zls)                                                               | [zig](https://ziglang.org)                      | [zig](https://ziglang.org)                                   | [lldb-dap](https://github.com/llvm/llvm-project/blob/main/lldb/tools/lldb-dap/README.md)                                           |
+| ü                       | ✓       | [Ü language server](https://github.com/Panzerschrek/U-00DC-Sprache)                                  | None                                            | None                                                         | None                                                                                                                               |
 
 #### native
 
@@ -324,6 +326,13 @@ For more information [read the formatter documentation](docs/formatter.md).
 The auto-complete plugin is in charge of providing suggestions for code-completion and signature help.
 
 For more information [read the auto-complete documentation](docs/autocomplete.md).
+
+#### AI Assistant
+
+The AI Assistant is a simple but effective LLM Chat UI. You'll be able to chat with different models
+from within the editor.
+
+For more information [read the AI assistant documentation](docs/aiassistant.md).
 
 #### XML Tools
 
