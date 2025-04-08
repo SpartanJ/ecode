@@ -1,4 +1,4 @@
-# ecode LLM Chat UI Documentation
+# AI Assistant
 
 This feature allows you to interact directly with various AI models from different providers within the editor.
 
