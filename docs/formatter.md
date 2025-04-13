@@ -5,7 +5,7 @@ The formatter plugin works exactly like the linter plugin, but it will execute t
 `formatters.json` configuration. `formatters.json` default configuration can be obtained from [here](https://raw.githubusercontent.com/SpartanJ/eepp/develop/bin/assets/plugins/formatters.json).
 It also supports some formatters natively, this means that the formatter comes with ecode without requiring any external dependency.
 And also supports LSP text document formatting, meaning that if you're running an LSP that supports formatting documents, formatting will be available too.
-To configure new formatters you can create a new `formatters.json` file in the [default configuration path](#plugins-configuration-files-location) of *ecode*.
+To configure new formatters you can create a new `formatters.json` file in the [default configuration path](../README.md##plugins-configuration-files-location) of *ecode*.
 
 ### `formatters.json` format
 

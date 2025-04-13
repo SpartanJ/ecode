@@ -3,7 +3,7 @@
 LSP support is provided by executing already stablished LSP from each language.
 *ecode* provides support for several languages by default and can be extended easily by expanding the
 `lspclient.json` configuration. `lspclient.json` default configuration can be obtained from [here](https://raw.githubusercontent.com/SpartanJ/eepp/develop/bin/assets/plugins/lspclient.json).
-To configure new LSPs you can create a new `lspclient.json` file in the [default configuration path](#plugins-configuration-files-location) of *ecode*.
+To configure new LSPs you can create a new `lspclient.json` file in the [default configuration path](../README.md##plugins-configuration-files-location) of *ecode*.
 
 Important note: LSP servers can be very resource intensive and might not be always the best option for simple projects.
 

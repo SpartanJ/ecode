@@ -3,7 +3,7 @@
 Linter support is provided by executing already stablished linters from each language.
 *ecode* provides support for several languages by default and can be extended easily by expanding the
 `linters.json` configuration. `linters.json` default configuration can be obtained from [here](https://raw.githubusercontent.com/SpartanJ/eepp/develop/bin/assets/plugins/linters.json).
-To configure new linters you can create a new `linters.json` file in the [default configuration path](#plugins-configuration-files-location) of *ecode*.
+To configure new linters you can create a new `linters.json` file in the [default configuration path](../README.md#plugins-configuration-files-location) of *ecode*.
 
 ### `linters.json` format
 
