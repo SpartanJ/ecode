@@ -17,7 +17,7 @@ permissions: write-all
 jobs:
   release:
     name: Create Release
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     outputs:
       upload_url: ${{ steps.create_release.outputs.upload_url }}
       version: ${{ steps.tag.outputs.version }}
@@ -58,7 +58,7 @@ jobs:
       matrix:
         config:
           - arch: x86_64
-            container: ubuntu-20.04
+            container: ubuntu-22.04
     runs-on: ${{ matrix.config.container }}
     env:
       CC: gcc
