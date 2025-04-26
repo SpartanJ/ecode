@@ -395,6 +395,7 @@ jobs:
           fetch-depth: 0
           submodules: 'recursive'
           ref: 'refs/tags/ecode-${{ needs.release.outputs.version }}'
+      - name: Set Environment Variables
         run: |
           echo "INSTALL_REF=${{ needs.release.outputs.version }}" >> "$GITHUB_ENV"
           echo "RARCH=$(uname -m)" >> "$GITHUB_ENV"
