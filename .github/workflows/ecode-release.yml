@@ -382,3 +382,43 @@ jobs:
           prerelease: true
           files: |
             projects/macos/ecode/ecode-macos-${{ env.INSTALL_REF }}-x86_64.dmg
+
+  build_freebsd_x86_64:
+    name: FreeBSD x86_64
+    needs: release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          repository: 'SpartanJ/eepp'
+          fetch-depth: 0
+          submodules: 'recursive'
+          ref: 'refs/tags/ecode-${{ needs.release.outputs.version }}'
+        run: |
+          echo "INSTALL_REF=${{ needs.release.outputs.version }}" >> "$GITHUB_ENV"
+          echo "RARCH=$(uname -m)" >> "$GITHUB_ENV"
+      - uses: vmactions/freebsd-vm@v1
+        env:
+          INSTALL_REF: ${{ needs.release.outputs.version }}
+        with:
+          release: '14.1'
+          envs: 'INSTALL_REF'
+          sync: sshfs
+          usesh: true
+          mem: 8192
+          prepare: |
+            pkg install -y bash git sdl2 curl premake5 gsed gmake
+          run: |
+            export CC=clang
+            export CXX=clang++
+            git config --global --add safe.directory "$GITHUB_WORKSPACE"
+            sh projects/freebsd/ecode/build.app.sh
+      - name: Upload Files
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ needs.release.outputs.version }}
+          draft: false
+          prerelease: true
+          files: |
+            projects/freebsd/ecode/ecode-freebsd-${{ env.INSTALL_REF }}-x86_64.tar.gz
