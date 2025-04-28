@@ -11,7 +11,7 @@ eepp GUI library as part of one of its main objectives.
 
 ## Screenshots
 
-![ecode - Code Editor](https://github.com/SpartanJ/ecode/assets/650416/7926c3f3-1b3b-4fe5-859a-3099df73b7e8)
+![ecode - Code Editor](https://github.com/user-attachments/assets/fa995b21-a612-4565-b08e-bb6c72799ef1)
 
 For more screenshots checkout
 [running on macOS](https://github.com/SpartanJ/ecode/assets/650416/9e8e00a7-fbcc-479b-8588-0023d8f86a9a),
