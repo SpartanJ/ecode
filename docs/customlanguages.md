@@ -6,17 +6,18 @@ Custom languages support can be added in the languages directory found at:
 * *macOS*: uses `Application Support` folder in `HOME`, usually translates to `~/Library/Application Support/ecode/languages`
 * *Windows*: uses `APPDATA`, usually translates to `C:\Users\{username}\AppData\Roaming\ecode\languages`
 
-ecode will read each file located at that directory with `json` extension. Each file can contain one
-or several languages. In order to set several languages the root element of the json file should be
-an array, containing one object for each language, otherwise if the root element is an object, it
-should contain the language definition. Language definitions can override any currently supported
-definition. ecode will prioritize user defined definitions.
+ecode will read each file located at that directory with `json` extension. Each file can contain one or several language definitions.
+
+*   **Single Language:** If the root element of the JSON file is an object, it defines a single language.
+*   **Multiple Languages / Sub-Grammars:** If the root element is an array, it can define multiple independent languages *or* a main language along with **sub-language definitions** used for nesting within the main language (see Nested Syntaxes below). Each object in the array must be a complete language definition with at least a unique `"name"`.
+
+Language definitions can override any currently supported definition. ecode will prioritize user defined definitions. Sub-language definitions used only for nesting might not need fields like `"files"` or `"headers"` if they aren't intended to be selectable top-level languages.
 
 ### Language definition format
 
 ```json
 {
-	"name": "language_name",            // (Required) The display name of the language.
+	"name": "language_name",            // (Required) The display name of the language. Must be unique, especially if referenced by other definitions for nesting.
 	"files": [                          // (Required if `visible` is `true`) An array of Lua patterns matching filenames for this language.
 		"%.ext$",                       // Example: Matches files ending in .ext
 		"^Makefile$"                    // Example: Matches the exact filename Makefile
@@ -28,13 +29,13 @@ definition. ecode will prioritize user defined definitions.
 		// Rule using Lua patterns with capture groups mapping to different types:
 		{ "pattern": "no_capture(pattern_capture_1)(pattern_capture_2)", "type": [ "no_capture_type_name", "capture_1_type_name", "capture_2_type_name" ] },
 		// Rule defining a multi-line block using Lua patterns (start, end, escape character):
-		{ "pattern": ["lua_pattern_start", "lua_pattern_end", "escape_character"], "type": "type_name" },
+		{ "pattern": ["lua_pattern_start", "lua_pattern_end", "escape_character"], "type": "type_name" }, // This rule highlights the entire block, including delimiters, with the specified `type_name`.
 		// Rule using Perl-compatible regular expressions (PCRE):
 		{ "regex": "perl_regex", "type": "type_name" },
 		// Rule using PCRE with capture groups mapping to different types:
 		{ "regex": "no_capture(pattern_capture_1)(pattern_capture_2)", "type": [ "no_capture_type_name", "capture_1_type_name", "capture_2_type_name" ] },
 		// Rule defining a multi-line block using PCRE (start, end, escape character):
-		{ "regex": ["regex_start", "regex_end", "escape_character"], "type": "type_name" },
+		{ "regex": ["regex_start", "regex_end", "escape_character"], "type": "type_name" }, // Similar to the Lua pattern block, highlights the entire block with `type_name`.
 		// Rule using a custom parser implemented in native code for performance (e.g., number parsing):
 		{ "parser": "custom_parser_name", "type": "type_name" } // Currently available: "cpp_number_parser", "c_number_parser", "js_number_parser", "common_number_parser" (matches decimal and hexa), "common_number_parser_o" (matches the same as "common_number_parser" plus octal numbers), "common_number_parser_ob" (matches the same as "common_number_parser_o" plus binary numbers)
 
@@ -54,6 +55,28 @@ definition. ecode will prioritize user defined definitions.
 		//   - The third capture (word with extra allowed chars) is typed as "symbol".
 		// Similar to the above, when the third group matches text (e.g., "true"), ecode looks up "true" in the "symbols" definition.
 		// If { "true": "literal" } exists, the matched text "true" will be highlighted as "literal". Otherwise, it defaults to "normal".
+
+		// --- NESTED SYNTAX RULE ---
+		// Rule defining a multi-line block that switches to a DIFFERENT language syntax inside:
+		{
+			"pattern": ["lua_pattern_start", "lua_pattern_end", "escape_character"], // Can also use "regex"
+			"syntax": "NestedLanguageName",                                          // (Optional) The 'name' of another language definition to use for highlighting *within* this block.
+			"type": "type_name" // OR ["type_for_start_capture1", "type_for_start_capture2", ...] // (Optional) Defines the type(s) for the text matched by the START and END patterns themselves (using capture groups if needed). If omitted, delimiters usually get 'normal' type.
+		},
+		// How nesting works:
+		// 1. The `pattern` (or `regex`) defines the start and end delimiters of the block.
+		// 2. The `syntax` key specifies the `name` of another language definition (which must be loaded, often defined in the same JSON file using an array).
+		// 3. The text *between* the start and end delimiters will be highlighted using the rules defined in the "NestedLanguageName" language definition.
+		// 4. The `type` key here applies ONLY to the text matched by the start and end patterns themselves. If the start/end patterns have capture groups, you can provide an array of types matching those captures.
+		// 5. Nesting can occur up to 4 levels deep (e.g., Language A contains Language B, which contains Language C, etc.).
+		// Use Case: Essential for languages embedding other languages, like HTML containing CSS and JavaScript.
+
+		// Example of a nested syntax rule (C++ raw string containing XML):
+		{
+			"pattern": [ "R%\"(xml)%(", "%)(xml)%\"" ], // Start: R"(xml)(, End: )(xml)"
+			"syntax": "XML",                           // Use the "XML" language definition inside.
+			"type": [ "string", "keyword2", "string", "keyword2" ] // Types for captures in start/end: "R\"(" + "xml" + ")(" and ")(" + "xml" + ")\"". Needs adjustment based on exact captures. Assumes captures are (xml) in start and (xml) in end. Often, the delimiters are just styled as 'string' or 'keyword2'. Example simplification: "type": "string" might apply to the whole delimiter match if no captures are typed.
+		},
 	],
 	"symbols": [                        // (Optional) An array defining specific types for exact words, primarily used in conjunction with patterns having `type: "symbol"`.
 		// Structure: An array where each element is an object containing exactly one key-value pair.
@@ -102,6 +125,25 @@ definition. ecode will prioritize user defined definitions.
 	]
 }
 ```
+### Nested Syntaxes (Sub-Grammars)
+
+ecode supports **nested syntaxes**, allowing a block of code within one language to be highlighted according to the rules of another language. This is crucial for accurately representing modern languages that often embed other languages or domain-specific languages.
+
+**How it works:**
+
+1.  **Define Sub-Languages:** Define the syntax for the language to be embedded (e.g., "CSS", "JavaScript", "XML", "SQL") as a separate language definition. Often, these are defined within the *same JSON file* as the main language, using a JSON array as the root element (see [Custom languages support](#custom-languages-support)). The sub-language definition needs a unique `"name"`.
+2.  **Reference in Patterns:** In the main language's `"patterns"`, use a multi-line block rule (`pattern` or `regex` array). Add the `"syntax"` key to this rule, setting its value to the `"name"` of the sub-language definition you want to use inside the block.
+3.  **Highlighting:** When ecode encounters this block, it applies the highlighting rules from the specified sub-language to the content *between* the start and end delimiters. The delimiters themselves are styled according to the `type` specified in the *outer* rule.
+
+**Example Use Cases:**
+
+*   HTML files containing `<style>` blocks (CSS) and `<script>` blocks (JavaScript).
+*   Markdown files with fenced code blocks (e.g., ```python ... ```).
+*   Templating languages embedding HTML and code.
+
+**Nesting Depth:** Syntax nesting is supported up to 4 levels deep.
+
+See the description of the `syntax` key under the [`patterns`](#language-definition-format) section for the exact rule format.
 
 ### Type Names
 

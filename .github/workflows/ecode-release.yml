@@ -17,7 +17,7 @@ permissions: write-all
 jobs:
   release:
     name: Create Release
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     outputs:
       upload_url: ${{ steps.create_release.outputs.upload_url }}
       version: ${{ steps.tag.outputs.version }}
@@ -58,12 +58,19 @@ jobs:
       matrix:
         config:
           - arch: x86_64
-            container: ubuntu-20.04
+            container: ubuntu-22.04
     runs-on: ${{ matrix.config.container }}
+    container:
+      image: ubuntu:20.04
     env:
       CC: gcc
       CXX: g++
     steps:
+      - name: Install essentials
+        run: |
+          export DEBIAN_FRONTEND=noninteractive
+          apt-get update
+          apt-get install -y --no-install-recommends software-properties-common build-essential git ca-certificates
       - name: Checkout Code
         uses: actions/checkout@v4
         with:
@@ -74,33 +81,33 @@ jobs:
       - name: Set Environment Variables
         run: |
           echo "$HOME/.local/bin" >> "$GITHUB_PATH"
-          echo "/usr/lib/ccache" >> "$GITHUB_PATH"
           echo "INSTALL_REF=${{ needs.release.outputs.version }}" >> "$GITHUB_ENV"
           echo "RARCH=$(uname -m)" >> "$GITHUB_ENV"
           echo $(ldd --version)
-          echo $(gcc --version)
-      - name: Update Packages
-        run: |
-          sudo add-apt-repository -y universe
-          sudo add-apt-repository -y multiverse
-          sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
-          sudo apt-get update
+      - name: Mark Git directory as safe
+        run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
       - name: Install dependencies
         run: |
-          sudo apt-get install -y gcc-13 g++-13 libdw-dev
-          sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-13 10
-          sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-13 10
-          sudo update-alternatives --install /usr/bin/cc cc /usr/bin/gcc 30
-          sudo update-alternatives --set cc /usr/bin/gcc
-          sudo update-alternatives --install /usr/bin/c++ c++ /usr/bin/g++ 30
-          sudo update-alternatives --set c++ /usr/bin/g++
-          sudo update-alternatives --config gcc
-          sudo update-alternatives --config g++
-          sudo apt-get install -y libfuse2 fuse premake4 mesa-common-dev libgl1-mesa-dev
+          apt-get install -y curl libfuse2 fuse premake4 mesa-common-dev libgl1-mesa-dev sudo file appstream
+          curl -fsSL https://deb.nodesource.com/setup_lts.x | bash -
+          apt-get install -y nodejs
+          add-apt-repository -y universe
+          add-apt-repository -y multiverse
+          add-apt-repository -y ppa:ubuntu-toolchain-r/test
+          apt-get update
+          apt-get install -y gcc-13 g++-13 libdw-dev
+          update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-13 10
+          update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-13 10
+          update-alternatives --install /usr/bin/cc cc /usr/bin/gcc 30
+          update-alternatives --set cc /usr/bin/gcc
+          update-alternatives --install /usr/bin/c++ c++ /usr/bin/g++ 30
+          update-alternatives --set c++ /usr/bin/g++
+          update-alternatives --config gcc
+          update-alternatives --config g++
           bash projects/linux/scripts/install_sdl2.sh
       - name: Build ecode
         run: |
-          bash projects/linux/ecode/build.app.sh --arch ${{ matrix.config.arch }}
+          bash projects/linux/ecode/build.app.sh --with-static-cpp --arch ${{ matrix.config.arch }}
       - name: Upload Files
         uses: softprops/action-gh-release@v2
         with:
@@ -375,3 +382,44 @@ jobs:
           prerelease: true
           files: |
             projects/macos/ecode/ecode-macos-${{ env.INSTALL_REF }}-x86_64.dmg
+
+  build_freebsd_x86_64:
+    name: FreeBSD x86_64
+    needs: release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          repository: 'SpartanJ/eepp'
+          fetch-depth: 0
+          submodules: 'recursive'
+          ref: 'refs/tags/ecode-${{ needs.release.outputs.version }}'
+      - name: Set Environment Variables
+        run: |
+          echo "INSTALL_REF=${{ needs.release.outputs.version }}" >> "$GITHUB_ENV"
+          echo "RARCH=$(uname -m)" >> "$GITHUB_ENV"
+      - uses: vmactions/freebsd-vm@v1
+        env:
+          INSTALL_REF: ${{ needs.release.outputs.version }}
+        with:
+          release: '14.1'
+          envs: 'INSTALL_REF'
+          sync: sshfs
+          usesh: true
+          mem: 8192
+          prepare: |
+            pkg install -y bash git sdl2 curl premake5 gsed gmake
+          run: |
+            export CC=clang
+            export CXX=clang++
+            git config --global --add safe.directory "$GITHUB_WORKSPACE"
+            sh projects/freebsd/ecode/build.app.sh
+      - name: Upload Files
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ needs.release.outputs.version }}
+          draft: false
+          prerelease: true
+          files: |
+            projects/freebsd/ecode/ecode-freebsd-${{ env.INSTALL_REF }}-x86_64.tar.gz
