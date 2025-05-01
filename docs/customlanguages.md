@@ -24,21 +24,41 @@ Language definitions can override any currently supported definition. ecode will
 	],
 	"comment": "//",                    // (Optional) Sets the single-line comment string used for auto-comment functionality.
 	"patterns": [                       // (Required) An array defining syntax highlighting rules.
+		// --- Simple Rules ---
 		// Rule using Lua patterns:
 		{ "pattern": "lua_pattern", "type": "type_name" },
 		// Rule using Lua patterns with capture groups mapping to different types:
 		{ "pattern": "no_capture(pattern_capture_1)(pattern_capture_2)", "type": [ "no_capture_type_name", "capture_1_type_name", "capture_2_type_name" ] },
-		// Rule defining a multi-line block using Lua patterns (start, end, escape character):
-		{ "pattern": ["lua_pattern_start", "lua_pattern_end", "escape_character"], "type": "type_name" }, // This rule highlights the entire block, including delimiters, with the specified `type_name`.
 		// Rule using Perl-compatible regular expressions (PCRE):
 		{ "regex": "perl_regex", "type": "type_name" },
 		// Rule using PCRE with capture groups mapping to different types:
 		{ "regex": "no_capture(pattern_capture_1)(pattern_capture_2)", "type": [ "no_capture_type_name", "capture_1_type_name", "capture_2_type_name" ] },
-		// Rule defining a multi-line block using PCRE (start, end, escape character):
-		{ "regex": ["regex_start", "regex_end", "escape_character"], "type": "type_name" }, // Similar to the Lua pattern block, highlights the entire block with `type_name`.
+
+		// --- Multi-line Block Rules (Lua Patterns) ---
+		// Defines a block spanning multiple lines using start/end Lua patterns and an optional escape character.
+		// Basic usage (same type for start and end delimiters):
+		{ "pattern": ["lua_pattern_start", "lua_pattern_end", "escape_character"], "type": "type_name" },
+		// Using different types for start and end delimiters:
+		{ "pattern": ["lua_pattern_start", "lua_pattern_end", "escape_character"], "type": "start_type_name", "end_type": "end_type_name" },
+		// Using capture groups with the same types for start and end delimiters (patterns must yield same number of captures):
+		{ "pattern": ["start_nocap(cap1)(cap2)", "end_nocap(cap1)(cap2)", "escape"], "type": ["nocap_type", "cap1_type", "cap2_type"] },
+		// Using capture groups with different types for start and end delimiters (capture counts can differ):
+		{ "pattern": ["start_nocap(scap1)", "end_nocap(ecap1)(ecap2)", "escape"], "type": ["start_nocap_type", "start_cap1_type"], "end_type": ["end_nocap_type", "end_cap1_type", "end_cap2_type"] },
+		// Note: If `end_type` is omitted, `type` applies to both the start and end delimiters. `type` and `end_type` can independently be a single string or an array corresponding to captures.
+
+		// --- Multi-line Block Rules (PCRE) ---
+		// Defines a block spanning multiple lines using start/end PCRE patterns and an optional escape character.
+		// Supports the same `type` and `end_type` combinations as Lua pattern blocks:
+		{ "regex": ["regex_start", "regex_end", "escape_character"], "type": "type_name" }, // Same type for both
+		{ "regex": ["regex_start", "regex_end", "escape_character"], "type": "start_type_name", "end_type": "end_type_name" }, // Different types
+		{ "regex": ["start_nocap(cap1)(cap2)", "end_nocap(cap1)(cap2)", "escape"], "type": ["nocap_type", "cap1_type", "cap2_type"] }, // Captures, same types
+		{ "regex": ["start_nocap(scap1)", "end_nocap(ecap1)(ecap2)", "escape"], "type": ["start_nocap_type", "start_cap1_type"], "end_type": ["end_nocap_type", "end_cap1_type", "end_cap2_type"] }, // Captures, different types
+
+		// --- Custom Parser Rule ---
 		// Rule using a custom parser implemented in native code for performance (e.g., number parsing):
 		{ "parser": "custom_parser_name", "type": "type_name" } // Currently available: "cpp_number_parser", "c_number_parser", "js_number_parser", "common_number_parser" (matches decimal and hexa), "common_number_parser_o" (matches the same as "common_number_parser" plus octal numbers), "common_number_parser_ob" (matches the same as "common_number_parser_o" plus binary numbers)
 
+		// --- Symbol Lookup Rule ---
 		// Rule assigning the "symbol" type:
 		{ "pattern": "[%a_][%w_]*", "type": "symbol" },
 		// When this pattern matches text (e.g., the word "if"), instead of directly applying a "symbol" style,
@@ -57,25 +77,35 @@ Language definitions can override any currently supported definition. ecode will
 		// If { "true": "literal" } exists, the matched text "true" will be highlighted as "literal". Otherwise, it defaults to "normal".
 
 		// --- NESTED SYNTAX RULE ---
-		// Rule defining a multi-line block that switches to a DIFFERENT language syntax inside:
+		// Defines a multi-line block that switches to a DIFFERENT language syntax inside.
+		// Uses the same multi-line pattern/regex format as above, including support for `type` and `end_type`.
 		{
 			"pattern": ["lua_pattern_start", "lua_pattern_end", "escape_character"], // Can also use "regex"
-			"syntax": "NestedLanguageName",                                          // (Optional) The 'name' of another language definition to use for highlighting *within* this block.
-			"type": "type_name" // OR ["type_for_start_capture1", "type_for_start_capture2", ...] // (Optional) Defines the type(s) for the text matched by the START and END patterns themselves (using capture groups if needed). If omitted, delimiters usually get 'normal' type.
+			"syntax": "NestedLanguageName",                                          // (Required for nesting) The 'name' of another language definition to use for highlighting *within* this block.
+			"type": "start_delimiter_type", // OR ["start_capture_type1", ...]       // (Optional) Type(s) for the START delimiter. Defaults to 'normal' if omitted.
+			"end_type": "end_delimiter_type" // OR ["end_capture_type1", ...]         // (Optional) Type(s) for the END delimiter. If omitted, the `type` value is used for the end delimiter too.
 		},
-		// How nesting works:
-		// 1. The `pattern` (or `regex`) defines the start and end delimiters of the block.
-		// 2. The `syntax` key specifies the `name` of another language definition (which must be loaded, often defined in the same JSON file using an array).
-		// 3. The text *between* the start and end delimiters will be highlighted using the rules defined in the "NestedLanguageName" language definition.
-		// 4. The `type` key here applies ONLY to the text matched by the start and end patterns themselves. If the start/end patterns have capture groups, you can provide an array of types matching those captures.
-		// 5. Nesting can occur up to 4 levels deep (e.g., Language A contains Language B, which contains Language C, etc.).
-		// Use Case: Essential for languages embedding other languages, like HTML containing CSS and JavaScript.
+		// How nesting works with delimiter types:
+		// 1. `pattern` or `regex` defines the start/end delimiters.
+		// 2. `syntax` specifies the inner language.
+		// 3. The text *between* delimiters uses the rules from "NestedLanguageName".
+		// 4. The START delimiter is styled using the `type` key (string or array for captures).
+		// 5. The END delimiter is styled using the `end_type` key if present, otherwise it falls back to using the `type` key.
+		// 6. Nesting depth is limited (e.g., up to 4 levels).
+		// Use Case: HTML containing CSS/JS, Markdown code blocks, C++ raw strings with embedded languages, etc.
 
-		// Example of a nested syntax rule (C++ raw string containing XML):
+		// Example of nested syntax with specific delimiter types (C++ raw string):
 		{
-			"pattern": [ "R%\"(xml)%(", "%)(xml)%\"" ], // Start: R"(xml)(, End: )(xml)"
+			"pattern": [ "R%\"(xml)%(", "%)(xml)%\"" ], // Start: R"(xml)(, End: )(xml)" - Captures are `xml` and `xml`
 			"syntax": "XML",                           // Use the "XML" language definition inside.
-			"type": [ "string", "keyword2", "string", "keyword2" ] // Types for captures in start/end: "R\"(" + "xml" + ")(" and ")(" + "xml" + ")\"". Needs adjustment based on exact captures. Assumes captures are (xml) in start and (xml) in end. Often, the delimiters are just styled as 'string' or 'keyword2'. Example simplification: "type": "string" might apply to the whole delimiter match if no captures are typed.
+			"type": [ "string", "keyword2" ],          // Types for start delimiter: "R\"(" is string, captured "xml" is keyword2, final "(" is string (no capture)
+			"end_type": [ "keyword2", "string" ]       // Types for end delimiter: ")" is string (no capture), captured "xml" is keyword2.
+			// --- More precise example assuming captures are only the specified ones ---
+			// "pattern": [ "R%\"(xml)%(", "%)(xml)%\"" ], // Captures: 1="xml" in start, 1="xml" in end.
+			// "type": ["string", "keyword2"], // Type for full start match (no capture / capture 0) is "string", type for capture 1 ("xml") is "keyword2"
+			// "end_type": ["string", "keyword2"] // Type for full end match (no capture / capture 0) is "string", type for capture 1 ("xml") is "keyword2"
+			// --- Simplest Example ---
+			// "type": "string" // Applies "string" to both R"(xml)( and )(xml)"
 		},
 	],
 	"symbols": [                        // (Optional) An array defining specific types for exact words, primarily used in conjunction with patterns having `type: "symbol"`.
