@@ -65,7 +65,7 @@ Language definitions can override any currently supported definition. ecode will
 	],
 	"visible": true,                    // (Optional) If true (default), language appears in main selection menus. Set to false for internal/helper languages.
 	"case_insensitive": false,          // (Optional) If true, pattern matching ignores case. Default is false (case-sensitive).
-	"auto_close_xml_tag": false,        // (Optional) If true, enables auto-closing of XML/HTML tags. Default is false.
+	"auto_close_xml_tag": false,        // (Optional) If true, enables auto-closing of XML/HTML tags (e.g., typing `<div>` automatically adds `</div>`). Default is false.
 	"extension_priority": false,        // (Optional) If true, this language definition takes priority if multiple languages define the same file extension. Default is false.
 	"lsp_name": "language_server_name", // (Optional) Specifies the name recognized by Language Servers (LSP). Defaults to the 'name' field in lowercase if omitted.
 
@@ -155,7 +155,7 @@ The `"patterns"` array is the core of syntax highlighting. It contains an ordere
 		                                   // of the *current* language definition. This is useful for
 		                                   // recursive definitions, such as nested expressions or blocks.
 	},
-	// Example:
+	// Example using "include" with a "repository":
 	// "repository": {
 	//   "comments_and_strings": [
 	//     { "pattern": "//.*", "type": "comment" },
@@ -194,7 +194,7 @@ ecode supports **nested syntaxes**, allowing a block of code within one language
 3.  **Highlighting:** When ecode encounters this block, it applies the highlighting rules from the specified sub-language to the content *between* the start and end delimiters. The delimiters themselves are styled according to the `type` (and `end_type`) specified in the *outer* rule.
 
 **Contrast with Inner Patterns:**
-While the `syntax` key is used to embed an *entirely different language* within a block, multi-line block rules can also contain their own `patterns` array (see "Contextual Patterns within Blocks" under [Pattern Rule Types](#pattern-rule-types)). This inner `patterns` array allows for defining specific highlighting rules for the content *within* the block using rules from the current language's context or ad-hoc rules, which is useful when a full language switch isn't necessary but more granular control over the block's content highlighting is desired.
+While the `syntax` key is used to embed an *entirely different language* within a block, multi-line block rules can also contain their own `patterns` array (see "Contextual Patterns within Blocks" under [Pattern Rule Types](#pattern-rule-types)). This inner `patterns` array allows for defining specific highlighting rules for the content *within* the block using rules from the current language's context or ad-hoc rules. This is useful when a full language switch isn't necessary but more granular control over the block's content highlighting is desired (e.g., highlighting specific keywords differently only within a certain type of block in the parent language).
 
 **Example Use Cases for `syntax` key:**
 
