@@ -17,97 +17,24 @@ Language definitions can override any currently supported definition. ecode will
 
 ```json
 {
-	"name": "language_name",            // (Required) The display name of the language. Must be unique, especially if referenced by other definitions for nesting.
+	"name": "language_name",            // (Required) The display name of the language. Must be unique, especially if referenced by other definitions for nesting or includes.
 	"files": [                          // (Required if `visible` is `true`) An array of Lua patterns matching filenames for this language.
 		"%.ext$",                       // Example: Matches files ending in .ext
 		"^Makefile$"                    // Example: Matches the exact filename Makefile
 	],
 	"comment": "//",                    // (Optional) Sets the single-line comment string used for auto-comment functionality.
-	"patterns": [                       // (Required) An array defining syntax highlighting rules.
-		// --- Simple Rules ---
-		// Rule using Lua patterns:
-		{ "pattern": "lua_pattern", "type": "type_name" },
-		// Rule using Lua patterns with capture groups mapping to different types:
-		{ "pattern": "no_capture(pattern_capture_1)(pattern_capture_2)", "type": [ "no_capture_type_name", "capture_1_type_name", "capture_2_type_name" ] },
-		// Rule using Perl-compatible regular expressions (PCRE):
-		{ "regex": "perl_regex", "type": "type_name" },
-		// Rule using PCRE with capture groups mapping to different types:
-		{ "regex": "no_capture(pattern_capture_1)(pattern_capture_2)", "type": [ "no_capture_type_name", "capture_1_type_name", "capture_2_type_name" ] },
-
-		// --- Multi-line Block Rules (Lua Patterns) ---
-		// Defines a block spanning multiple lines using start/end Lua patterns and an optional escape character.
-		// Basic usage (same type for start and end delimiters):
-		{ "pattern": ["lua_pattern_start", "lua_pattern_end", "escape_character"], "type": "type_name" },
-		// Using different types for start and end delimiters:
-		{ "pattern": ["lua_pattern_start", "lua_pattern_end", "escape_character"], "type": "start_type_name", "end_type": "end_type_name" },
-		// Using capture groups with the same types for start and end delimiters (patterns must yield same number of captures):
-		{ "pattern": ["start_nocap(cap1)(cap2)", "end_nocap(cap1)(cap2)", "escape"], "type": ["nocap_type", "cap1_type", "cap2_type"] },
-		// Using capture groups with different types for start and end delimiters (capture counts can differ):
-		{ "pattern": ["start_nocap(scap1)", "end_nocap(ecap1)(ecap2)", "escape"], "type": ["start_nocap_type", "start_cap1_type"], "end_type": ["end_nocap_type", "end_cap1_type", "end_cap2_type"] },
-		// Note: If `end_type` is omitted, `type` applies to both the start and end delimiters. `type` and `end_type` can independently be a single string or an array corresponding to captures.
-
-		// --- Multi-line Block Rules (PCRE) ---
-		// Defines a block spanning multiple lines using start/end PCRE patterns and an optional escape character.
-		// Supports the same `type` and `end_type` combinations as Lua pattern blocks:
-		{ "regex": ["regex_start", "regex_end", "escape_character"], "type": "type_name" }, // Same type for both
-		{ "regex": ["regex_start", "regex_end", "escape_character"], "type": "start_type_name", "end_type": "end_type_name" }, // Different types
-		{ "regex": ["start_nocap(cap1)(cap2)", "end_nocap(cap1)(cap2)", "escape"], "type": ["nocap_type", "cap1_type", "cap2_type"] }, // Captures, same types
-		{ "regex": ["start_nocap(scap1)", "end_nocap(ecap1)(ecap2)", "escape"], "type": ["start_nocap_type", "start_cap1_type"], "end_type": ["end_nocap_type", "end_cap1_type", "end_cap2_type"] }, // Captures, different types
-
-		// --- Custom Parser Rule ---
-		// Rule using a custom parser implemented in native code for performance (e.g., number parsing):
-		{ "parser": "custom_parser_name", "type": "type_name" } // Currently available: "cpp_number_parser", "c_number_parser", "js_number_parser", "common_number_parser" (matches decimal and hexa), "common_number_parser_o" (matches the same as "common_number_parser" plus octal numbers), "common_number_parser_ob" (matches the same as "common_number_parser_o" plus binary numbers)
-
-		// --- Symbol Lookup Rule ---
-		// Rule assigning the "symbol" type:
-		{ "pattern": "[%a_][%w_]*", "type": "symbol" },
-		// When this pattern matches text (e.g., the word "if"), instead of directly applying a "symbol" style,
-		// ecode performs a lookup. It takes the matched text ("if") and searches for it within the language's "symbols" definition.
-		// If "if" is found in "symbols" (e.g., { "if": "keyword" }), the type specified there ("keyword") is applied.
-		// If the matched text is not found in "symbols", it typically defaults to the "normal" type (or the editor's default).
-		// This allows generic patterns to capture potential keywords, literals, etc., which are then specifically typed via the "symbols" map.
-
-		// Rule using "symbol" within capture groups:
-		{ "pattern": "(%s%-%a[%w_%-]*%s+)(%a[%a%-_:=]+)", "type": [ "normal", "function", "symbol" ] },
-		// Here, the pattern has three capture groups.
-		//   - The first capture (whitespace, hyphen, word, whitespace) is typed as "normal".
-		//   - The second capture (word) is typed as "function".
-		//   - The third capture (word with extra allowed chars) is typed as "symbol".
-		// Similar to the above, when the third group matches text (e.g., "true"), ecode looks up "true" in the "symbols" definition.
-		// If { "true": "literal" } exists, the matched text "true" will be highlighted as "literal". Otherwise, it defaults to "normal".
-
-		// --- NESTED SYNTAX RULE ---
-		// Defines a multi-line block that switches to a DIFFERENT language syntax inside.
-		// Uses the same multi-line pattern/regex format as above, including support for `type` and `end_type`.
-		{
-			"pattern": ["lua_pattern_start", "lua_pattern_end", "escape_character"], // Can also use "regex"
-			"syntax": "NestedLanguageName",                                          // (Required for nesting) The 'name' of another language definition to use for highlighting *within* this block.
-			"type": "start_delimiter_type", // OR ["start_capture_type1", ...]       // (Optional) Type(s) for the START delimiter. Defaults to 'normal' if omitted.
-			"end_type": "end_delimiter_type" // OR ["end_capture_type1", ...]         // (Optional) Type(s) for the END delimiter. If omitted, the `type` value is used for the end delimiter too.
-		},
-		// How nesting works with delimiter types:
-		// 1. `pattern` or `regex` defines the start/end delimiters.
-		// 2. `syntax` specifies the inner language.
-		// 3. The text *between* delimiters uses the rules from "NestedLanguageName".
-		// 4. The START delimiter is styled using the `type` key (string or array for captures).
-		// 5. The END delimiter is styled using the `end_type` key if present, otherwise it falls back to using the `type` key.
-		// 6. Nesting depth is limited (e.g., up to 4 levels).
-		// Use Case: HTML containing CSS/JS, Markdown code blocks, C++ raw strings with embedded languages, etc.
-
-		// Example of nested syntax with specific delimiter types (C++ raw string):
-		{
-			"pattern": [ "R%\"(xml)%(", "%)(xml)%\"" ], // Start: R"(xml)(, End: )(xml)" - Captures are `xml` and `xml`
-			"syntax": "XML",                           // Use the "XML" language definition inside.
-			"type": [ "string", "keyword2" ],          // Types for start delimiter: "R\"(" is string, captured "xml" is keyword2, final "(" is string (no capture)
-			"end_type": [ "keyword2", "string" ]       // Types for end delimiter: ")" is string (no capture), captured "xml" is keyword2.
-			// --- More precise example assuming captures are only the specified ones ---
-			// "pattern": [ "R%\"(xml)%(", "%)(xml)%\"" ], // Captures: 1="xml" in start, 1="xml" in end.
-			// "type": ["string", "keyword2"], // Type for full start match (no capture / capture 0) is "string", type for capture 1 ("xml") is "keyword2"
-			// "end_type": ["string", "keyword2"] // Type for full end match (no capture / capture 0) is "string", type for capture 1 ("xml") is "keyword2"
-			// --- Simplest Example ---
-			// "type": "string" // Applies "string" to both R"(xml)( and )(xml)"
-		},
+	"patterns": [                       // (Required) An array defining syntax highlighting rules. See "Pattern Rule Types" below for details.
+		// ... pattern rules defined here ...
 	],
+	"repository": {                     // (Optional) A collection of named pattern sets for reuse within this language definition.
+	                                    // Keys are repository item names (e.g., "comments", "strings", "expressions").
+	                                    // Values are arrays of pattern rules, following the same format as the main "patterns" array.
+	                                    // These items can be referenced in any "patterns" array using an "include" rule (e.g., { "include": "#comments" }).
+		"my_reusable_rules": [
+			{ "pattern": "foo", "type": "keyword" },
+			{ "pattern": ["bar_start", "bar_end"], "type": "string" }
+		]
+	},
 	"symbols": [                        // (Optional) An array defining specific types for exact words, primarily used in conjunction with patterns having `type: "symbol"`.
 		// Structure: An array where each element is an object containing exactly one key-value pair.
 		//   - The key is the literal word (symbol) to match.
@@ -138,7 +65,7 @@ Language definitions can override any currently supported definition. ecode will
 	],
 	"visible": true,                    // (Optional) If true (default), language appears in main selection menus. Set to false for internal/helper languages.
 	"case_insensitive": false,          // (Optional) If true, pattern matching ignores case. Default is false (case-sensitive).
-	"auto_close_xml_tag": false,        // (Optional) If true, enables auto-closing of XML/HTML tags (e.g., typing `<div>` automatically adds `</div>`). Default is false.
+	"auto_close_xml_tag": false,        // (Optional) If true, enables auto-closing of XML/HTML tags. Default is false.
 	"extension_priority": false,        // (Optional) If true, this language definition takes priority if multiple languages define the same file extension. Default is false.
 	"lsp_name": "language_server_name", // (Optional) Specifies the name recognized by Language Servers (LSP). Defaults to the 'name' field in lowercase if omitted.
 
@@ -155,6 +82,107 @@ Language definitions can override any currently supported definition. ecode will
 	]
 }
 ```
+
+#### Pattern Rule Types
+
+The `"patterns"` array is the core of syntax highlighting. It contains an ordered list of rules that ecode attempts to match against the text. Each rule is an object. Here are the types of rules you can define:
+
+```json
+"patterns": [
+	// --- Simple Rules ---
+	// Rule using Lua patterns:
+	{ "pattern": "lua_pattern", "type": "type_name" },
+	// Rule using Lua patterns with capture groups mapping to different types:
+	{ "pattern": "no_capture(pattern_capture_1)(pattern_capture_2)", "type": [ "no_capture_type_name", "capture_1_type_name", "capture_2_type_name" ] },
+	// Rule using Perl-compatible regular expressions (PCRE):
+	{ "regex": "perl_regex", "type": "type_name" },
+	// Rule using PCRE with capture groups mapping to different types:
+	{ "regex": "no_capture(pattern_capture_1)(pattern_capture_2)", "type": [ "no_capture_type_name", "capture_1_type_name", "capture_2_type_name" ] },
+
+	// --- Multi-line Block Rules (Lua Patterns or PCRE) ---
+	// Defines a block spanning multiple lines using start/end patterns and an optional escape character.
+	// These rules can use either "pattern": ["start", "end", "escape?"] for Lua patterns
+	// or "regex": ["start_regex", "end_regex", "escape_char?"] for PCRE.
+	// They support the same "type" and "end_type" combinations for styling delimiters as detailed previously.
+	//
+	// Basic usage (same type for start and end delimiters):
+	{ "pattern": ["lua_pattern_start", "lua_pattern_end", "escape_character"], "type": "type_name" },
+	// Using different types for start and end delimiters:
+	{ "regex": ["regex_start", "regex_end"], "type": "start_type_name", "end_type": "end_type_name" },
+	// Using capture groups with different types for start and end delimiters:
+	{ "pattern": ["start_nocap(scap1)", "end_nocap(ecap1)(ecap2)", "escape"], "type": ["start_nocap_type", "start_cap1_type"], "end_type": ["end_nocap_type", "end_cap1_type", "end_cap2_type"] },
+
+	// --- Contextual Patterns within Blocks (Inner Patterns) ---
+	// Multi-line block rules can define their own "patterns" array to apply specific rules
+	// to the content *between* their start and end delimiters. This allows for more granular
+	// highlighting within a block without needing to define a full sub-language via the "syntax" key.
+	{
+		"regex": ["<section>", "</section>"], // Defines the block
+		"type": "keyword",                     // Type for "<section>" delimiter
+		"end_type": "keyword",                 // Type for "</section>" delimiter
+		"patterns": [                          // (Optional) Inner patterns for content *inside* <section>...</section>
+			{ "regex": "highlight_this_inside", "type": "function" },
+			{ "include": "#common_section_rules" } // Can also include repository items
+			// These inner patterns are matched only against the text between "<section>" and "</section>".
+			// Inner patterns can themselves be block rules with their own inner patterns, allowing for nested contextual highlighting.
+		]
+	},
+	// Note: If a block rule includes both inner "patterns" and a "syntax" key (for nested languages),
+	// the "syntax" key typically takes precedence, causing the content to be highlighted by the
+	// specified sub-language. Inner "patterns" are primarily for applying rules from the
+	// *current* language's context or ad-hoc rules specifically to the content of this block.
+
+	// --- Custom Parser Rule ---
+	// Rule using a custom parser implemented in native code (as previously described):
+	{ "parser": "custom_parser_name", "type": "type_name" },
+
+	// --- Symbol Lookup Rule ---
+	// Rule assigning the "symbol" type, for lookup in the language's "symbols" definition (as previously described):
+	{ "pattern": "[%a_][%w_]*", "type": "symbol" },
+	// Rule using "symbol" within capture groups (as previously described):
+	{ "pattern": "(%s%-%a[%w_%-]*%s+)(%a[%a%-_:=]+)", "type": [ "normal", "function", "symbol" ] },
+
+	// --- Include Rules ---
+	// Allows reusing sets of patterns defined elsewhere in the grammar.
+	// This helps in organizing complex grammars and avoiding repetition.
+	{
+		"include": "#repository_item_name" // Includes rules from the 'repository_item_name' entry
+		                                   // in the top-level "repository" object of this language definition.
+		                                   // The '#' prefix is mandatory for repository items.
+	},
+	{
+		"include": "$self"                 // Includes all rules from the main top-level "patterns" array
+		                                   // of the *current* language definition. This is useful for
+		                                   // recursive definitions, such as nested expressions or blocks.
+	},
+	// Example:
+	// "repository": {
+	//   "comments_and_strings": [
+	//     { "pattern": "//.*", "type": "comment" },
+	//     { "pattern": ["\"", "\"", "\\\\"], "type": "string" }
+	//   ]
+	// },
+	// "patterns": [
+	//   { "include": "#comments_and_strings" },
+	//   // ... other rules ...
+	// ]
+
+	// --- NESTED SYNTAX RULE ---
+	// Defines a multi-line block that switches to a DIFFERENT language syntax inside.
+	// Uses the same multi-line pattern/regex format and delimiter styling options ("type", "end_type").
+	{
+		"pattern": ["lua_pattern_start", "lua_pattern_end", "escape_character"], // Can also use "regex"
+		"syntax": "NestedLanguageName",                                          // (Required for nesting) The 'name' of another language definition.
+		"type": "start_delimiter_type",                                          // (Optional) Type(s) for the START delimiter.
+		"end_type": "end_delimiter_type"                                         // (Optional) Type(s) for the END delimiter.
+	}
+	// This is distinct from "Contextual Patterns within Blocks (Inner Patterns)".
+	// The "syntax" key switches highlighting to a completely different, pre-defined language
+	// for the content within the delimiters. Inner "patterns", on the other hand, apply a
+	// specific set of rules from the *current* language's context or ad-hoc rules to the block's content.
+]
+```
+
 ### Nested Syntaxes (Sub-Grammars)
 
 ecode supports **nested syntaxes**, allowing a block of code within one language to be highlighted according to the rules of another language. This is crucial for accurately representing modern languages that often embed other languages or domain-specific languages.
@@ -163,17 +191,20 @@ ecode supports **nested syntaxes**, allowing a block of code within one language
 
 1.  **Define Sub-Languages:** Define the syntax for the language to be embedded (e.g., "CSS", "JavaScript", "XML", "SQL") as a separate language definition. Often, these are defined within the *same JSON file* as the main language, using a JSON array as the root element (see [Custom languages support](#custom-languages-support)). The sub-language definition needs a unique `"name"`.
 2.  **Reference in Patterns:** In the main language's `"patterns"`, use a multi-line block rule (`pattern` or `regex` array). Add the `"syntax"` key to this rule, setting its value to the `"name"` of the sub-language definition you want to use inside the block.
-3.  **Highlighting:** When ecode encounters this block, it applies the highlighting rules from the specified sub-language to the content *between* the start and end delimiters. The delimiters themselves are styled according to the `type` specified in the *outer* rule.
+3.  **Highlighting:** When ecode encounters this block, it applies the highlighting rules from the specified sub-language to the content *between* the start and end delimiters. The delimiters themselves are styled according to the `type` (and `end_type`) specified in the *outer* rule.
 
-**Example Use Cases:**
+**Contrast with Inner Patterns:**
+While the `syntax` key is used to embed an *entirely different language* within a block, multi-line block rules can also contain their own `patterns` array (see "Contextual Patterns within Blocks" under [Pattern Rule Types](#pattern-rule-types)). This inner `patterns` array allows for defining specific highlighting rules for the content *within* the block using rules from the current language's context or ad-hoc rules, which is useful when a full language switch isn't necessary but more granular control over the block's content highlighting is desired.
+
+**Example Use Cases for `syntax` key:**
 
 *   HTML files containing `<style>` blocks (CSS) and `<script>` blocks (JavaScript).
 *   Markdown files with fenced code blocks (e.g., ```python ... ```).
 *   Templating languages embedding HTML and code.
 
-**Nesting Depth:** Syntax nesting is supported up to 4 levels deep.
+**Nesting Depth:** Syntax nesting (using the `syntax` key) is supported up to 8 levels deep. The nesting capabilities of inner `patterns` within block rules depend on the parser's implementation but also allow for complex hierarchical structures.
 
-See the description of the `syntax` key under the [`patterns`](#language-definition-format) section for the exact rule format.
+See the description of the `syntax` key and inner `patterns` under the [`patterns`](#language-definition-format) section for the exact rule format.
 
 ### Type Names
 
@@ -196,10 +227,50 @@ These are the currently supported type names:
 
 ### Porting language definitions
 
-ecode uses the same format for language definition as [lite](https://github.com/rxi/lite) and [lite-xl](https://github.com/lite-xl/lite-xl) editors.
-This makes much easier to add new languages to ecode. There's also a helper tool that can be download from
+ecode uses the same format for language definition as [lite](https://github.com/rxi/lite) and [lite-xl](https://github.com/lite-xl/lite-xl) editors for its original features. The newly added features like `repository`, `include`, and inner `patterns` for block rules are inspired by TextMate grammars, extending ecode's capabilities beyond the traditional lite/lite-xl format while maintaining compatibility with the core structure.
+This makes it easier to add new languages to ecode. There's also a helper tool that can be download from
 ecode repository located [here](https://github.com/SpartanJ/ecode/tree/develop/tools/data-migration/lite/language)
 that allows to directly export a lite language definition to the JSON file format used in ecode.
+
+The advanced features (`repository`, `include`, and inner `patterns` within block rules) detailed in this documentation allow for the creation of complex and accurate syntax highlighting in ecode's native format.
+
+#### Using TextMate Grammars (`.tmLanguage.json`)
+
+In addition to its native format, ecode offers support for directly loading TextMate grammar files (typically ending with `.tmLanguage.json`). This can be a convenient way to leverage existing TextMate grammars.
+
+*   **Direct Loading:**
+    *   To use a TextMate grammar, simply place the `.tmLanguage.json` file into your custom languages directory (e.g., `~/.config/ecode/languages`). ecode will attempt to load it.
+
+*   **`fileTypes` Array Requirement:**
+    *   For ecode to correctly associate the TextMate grammar with specific file extensions, the grammar file **must** contain a `fileTypes` (or `filetypes`) array at its root level. This array lists the file extensions (without the leading dot) that the grammar should handle.
+    *   **Example:**
+        ```json
+        // Inside your .tmLanguage.json file
+        {
+          "name": "MyTextMateLanguage",
+          "scopeName": "source.mylang",
+          "fileTypes": [ // Or "filetypes"
+            "mylang_ext1",
+            "mylang_ext2"
+          ],
+          // ... rest of the TextMate grammar ...
+        }
+        ```
+        Without this `fileTypes` array, ecode will not know which files to apply the grammar to.
+
+*   **Limitations:**
+    *   **Sub-syntaxes / Embedded Grammars:** A key limitation when directly loading TextMate grammars is that **sub-syntaxes or embedded languages that are defined by referencing external grammar scopes (e.g., `include: 'source.js'` where `source.js` is expected to be another grammar file) are not currently supported.** ecode's native mechanism for nested syntaxes (using the `"syntax"` key to refer to a language `"name"` defined within the same JSON file or another loaded ecode definition) operates differently. Therefore, complex embeddings common in TextMate grammars might not render correctly when loaded directly.
+
+*   **Conversion to ecode's Native Format:**
+    *   To overcome limitations or to fully integrate a TextMate grammar into ecode's feature set (including potentially adapting its sub-syntax definitions), you can convert it to ecode's native JSON format.
+    *   First, ensure the TextMate grammar file (e.g., `MyLanguage.tmLanguage.json`) is in the languages directory so ecode can load it. Make sure it includes the `fileTypes` array.
+    *   Then, use the `--export-lang` CLI argument. The `name` you use to refer to the language should match the `name` field within the TextMate grammar (or how ecode lists it after loading).
+        ```bash
+        ecode --export-lang=MyTextMateLanguage --export-lang-path=./my_language_ecode_format.json
+        ```
+    *   This command will process the loaded TextMate grammar and output its structure in ecode's native JSON format to `my_language_ecode_format.json`. You can then further edit this file, adapt its structure (especially for sub-syntaxes if needed), and use it as a standard ecode custom language definition.
+
+This approach allows users to leverage the vast library of existing TextMate grammars, either directly with some limitations, or by converting them into ecode's more feature-rich native format for deeper integration.
 
 ### Extending language definitions
 
