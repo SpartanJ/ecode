@@ -55,7 +55,7 @@ Language definitions can override any currently supported definition. ecode will
 		{ "else": "keyword" },
 		{ "true": "literal" },          // If a `type: "symbol"` pattern matches "true", it will be highlighted as "literal".
 		{ "false": "literal" },
-		{ "MyClass": "keyword2" },      // If a `type: "symbol"` pattern matches "MyClass", it will be highlighted as "keyword2".
+		{ "MyClass": "type" },      // If a `type: "symbol"` pattern matches "MyClass", it will be highlighted as "type".
 		{ "begin": "keyword" },
 		{ "end": "keyword" }
 		// ... add other specific words and their types as needed ...
@@ -214,9 +214,9 @@ These are the currently supported type names:
 
 * *normal*: Used for non-highlighted words. This is the default color.
 * *comment*: Code comments color.
-* *keyword*: Usually used for language reserved words (if, else, class, struct, then, enum, etc).
-* *keyword2*: Usually used for type names.
-* *keyword3*: Currently used for coloring parameters but can be used for anything.
+* *keyword*: Used for language reserved words (if, else, class, struct, then, enum, etc).
+* *type* (previously *keyword2*): Used for type names.
+* *parameter* (previously *keyword3*): Used for coloring parameters but can be used for anything.
 * *number*: Number colors
 * *literal*: Word literals colors (usually things like NULL, true, false, undefined, etc). Can be used also for any particular reserved symbol.
 * *string*: String colors.
@@ -304,7 +304,7 @@ For example, to extend the language `vue` you will need to run:
   "lsp_name": "shellscript",
   "name": "Shell script",
   "patterns": [
-    { "pattern": "$[%a_@*#][%w_]*", "type": "keyword2" },
+    { "pattern": "$[%a_@*#][%w_]*", "type": "type" },
     { "pattern": "#.*\n", "type": "comment" },
     { "pattern": [ "<<%-?%s*EOF", "EOF" ], "type": "string" },
     { "pattern": [ "\"", "\"", "\\" ], "type": "string" },
@@ -316,9 +316,9 @@ For example, to extend the language `vue` you will need to run:
     { "pattern": "%f[%S][%+%-][%w%-_]+%f[=]", "type": "function" },
     { "pattern": "(%s%-%a[%w_%-]*%s+)(%d[%d%.]+)", "type": [ "normal", "function", "number" ] },
     { "pattern": "(%s%-%a[%w_%-]*%s+)(%a[%a%-_:=]+)", "type": [ "normal", "function", "symbol" ] },
-    { "pattern": "[_%a][%w_]+%f[%+=]", "type": "keyword2" },
-    { "pattern": "${.-}", "type": "keyword2" },
-    { "pattern": "$[%d$%a_@*][%w_]*", "type": "keyword2" },
+    { "pattern": "[_%a][%w_]+%f[%+=]", "type": "type" },
+    { "pattern": "${.-}", "type": "type" },
+    { "pattern": "$[%d$%a_@*][%w_]*", "type": "type" },
     { "pattern": "[%a_%-][%w_%-]*[%s]*%f[(]", "type": "function" },
     { "pattern": "[%a_][%w_]*", "type": "symbol" }
   ],
