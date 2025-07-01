@@ -125,7 +125,7 @@ If your custom styles are not applied as expected:
 
 - Verify that the `style.css` file is in the correct directory or properly specified via the `--css` parameter.
 - Check for syntax errors in your CSS, as invalid rules may prevent the stylesheet from loading correctly.
-- Ensure that your selectors are specific enough to override ecode's default styles, as some built-in rules may have higher specificity. You can always rely on \[!important\](https://developer.mozilla.org/en-US/docs/Web/CSS/important) if needed.
+- Ensure that your selectors are specific enough to override ecode's default styles, as some built-in rules may have higher specificity. You can always rely on [!important](https://developer.mozilla.org/en-US/docs/Web/CSS/important) if needed.
 - Consult the [eepp CSS specification](https://eepp.ensoft.dev/page_cssspecification.html) to confirm that your properties are supported by the eepp CSS engine.
 
 By leveraging `style.css`, you can transform ecode's UI to suit your unique needs, creating a personalized and productive coding environment.
