@@ -66,3 +66,66 @@ It's also possible to override the style of the different widgets redefining the
 usual rules that apply to the well-known CSS specification (A.K.A. using adequate
 [specificity](https://developer.mozilla.org/en-US/docs/Web/CSS/Specificity) and probably abusing the
 [!important](https://developer.mozilla.org/en-US/docs/Web/CSS/important) flag).
+
+### Customizing the User Interface with `style.css`
+
+The `style.css` file is a powerful tool for customizing the user interface (UI) of ecode, allowing users to tailor the look and feel of the editor to their preferences. Inspired by Firefox's `userChrome.css`, this stylesheet enables you to override nearly all built-in UI style rules, providing extensive flexibility to personalize the editor's appearance. Whether you want to adjust colors, fonts, layouts, or other visual elements, `style.css` gives you fine-grained control over the UI.
+
+#### CSS Engine in ecode
+
+ecode's UI customization is powered by a custom CSS engine based on the eepp GUI framework, which closely aligns with the CSS3 specification. While it adheres to standard CSS3 conventions, the eepp CSS engine includes some unique properties and behaviors specific to ecode's rendering system. For a complete reference of supported properties, syntax, and eepp-specific extensions, consult the [eepp CSS specification](https://eepp.ensoft.dev/page_cssspecification.html).
+
+This CSS3-based engine ensures compatibility with familiar CSS syntax, making it easy for users with web development experience to customize the UI. However, some eepp-specific rules may require additional learning for optimal use. The specification documentation provides detailed guidance on these extensions, including examples and best practices.
+
+#### Location of `style.css`
+
+By default, ecode looks for the `style.css` file in a platform-specific configuration directory. If the file does not exist, you can create it in the appropriate location to start customizing the UI. The default paths are:
+
+- **Linux**: Uses the `XDG_CONFIG_HOME` environment variable, typically resolving to `~/.config/ecode/style.css`.
+- **macOS**: Stored in the `Application Support` folder within the user's home directory, typically `~/Library/Application Support/ecode/style.css`.
+- **Windows**: Located in the `APPDATA` directory, typically `C:\Users\{username}\AppData\Roaming\ecode\style.css`.
+
+If you prefer to store `style.css` in a custom location, you can specify an alternative file path using the `--css` command-line parameter when launching ecode. For example:
+
+```bash
+ecode --css /path/to/custom/style.css
+```
+
+This flexibility allows you to maintain multiple stylesheets for different workflows or share them across systems.
+
+#### How Customization Works
+
+The `style.css` file operates similarly to Firefox's `userChrome.css`. It is loaded after ecode's default styles, meaning your custom rules take precedence and can override built-in styles for most UI elements. This includes, but is not limited to:
+
+- **Editor components**: Customize the appearance of the code editor, such as background colors, font sizes, or line spacing.
+- **UI elements**: Modify toolbars, menus, side panels, or status bars to match your preferred aesthetic or workflow.
+
+To get started, create or edit the `style.css` file in the appropriate directory and add standard CSS3 rules. For example, to add some padding to the PopUpMenu buttons, you might add:
+
+```css
+PopUpMenu > *
+{
+	padding-top: 4dp;
+	padding-bottom: 4dp;
+}
+```
+
+For eepp-specific properties or advanced customization, refer to the [eepp CSS specification](https://eepp.ensoft.dev/page_cssspecification.html). Always test your changes to ensure compatibility, as some properties may behave differently due to ecode's custom rendering engine.
+
+#### Tips for Effective Customization
+
+- **Start small**: Begin with simple changes, such as adjusting colors or fonts, before tackling complex layout modifications.
+- **Use the Inspect Widgets tool**: If you're familiar with web development, you can inspect ecode's UI elements using its built-in widget inspector tool to identify class names or IDs for targeting specific components. Inspector can be found at `Settings -> Tools -> Inspect Widgets` .
+- **Backup your styles**: Save a copy of your `style.css` file before making significant changes to avoid losing your customizations.
+- **Leverage the community**: Explore online forums or the ecode community for shared `style.css` examples to inspire your customizations.
+
+#### Troubleshooting
+
+If your custom styles are not applied as expected:
+
+- Verify that the `style.css` file is in the correct directory or properly specified via the `--css` parameter.
+- Check for syntax errors in your CSS, as invalid rules may prevent the stylesheet from loading correctly.
+- Ensure that your selectors are specific enough to override ecode's default styles, as some built-in rules may have higher specificity. You can always rely on \[!important\](https://developer.mozilla.org/en-US/docs/Web/CSS/important) if needed.
+- Consult the [eepp CSS specification](https://eepp.ensoft.dev/page_cssspecification.html) to confirm that your properties are supported by the eepp CSS engine.
+
+By leveraging `style.css`, you can transform ecode's UI to suit your unique needs, creating a personalized and productive coding environment.
