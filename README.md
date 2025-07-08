@@ -73,6 +73,7 @@ Usually, this translates into much better results for any project-related search
 There's also a very simple mechanism to allow visibility of filtered files by the `.gitignore`, by
 adding a file with the allowed filtered patterns in a subfolder over the folder loaded, creating a file
 in `.ecode/.prjallowed` with the necessary glob patterns allowing the filtered patterns to be "unfiltered".
+It's also possible achieving the inverse operation (ignoring a file that it's not being gitignored) with the `.ecode/.prjdisallowed` file.
 ecode will only add files that are supported by the editor, the editor won't try to do anything
 with files that are not officially supported.
 
