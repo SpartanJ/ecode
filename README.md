@@ -65,17 +65,21 @@ For more screenshots checkout
 
 ### Folder / Project Settings (\*)
 
-*ecode* treats folders as projects, like many other editors. The main difference is that it also tries
-to automatically sanitize the project files by filtering out any file that it's filtered in the repository
-`.gitignore` files. The idea is to use the `.gitignore` file as a project setting.
-The project files will be the ones used to find files in the project and do global searches.
-Usually, this translates into much better results for any project-related search.
-There's also a very simple mechanism to allow visibility of filtered files by the `.gitignore`, by
-adding a file with the allowed filtered patterns in a subfolder over the folder loaded, creating a file
-in `.ecode/.prjallowed` with the necessary glob patterns allowing the filtered patterns to be "unfiltered".
-It's also possible achieving the inverse operation (ignoring a file that it's not being gitignored) with the `.ecode/.prjdisallowed` file.
-ecode will only add files that are supported by the editor, the editor won't try to do anything
-with files that are not officially supported.
+In *ecode*, folders are treated as projects, similar to other code editors. However, *ecode* distinguishes itself by using the repository's `.gitignore` file as a project configuration to streamline file management.
+
+#### Automatic File Filtering
+*ecode* automatically excludes files listed in the `.gitignore` file when indexing project files. This ensures that only relevant files are considered for project-wide searches and navigation, resulting in faster and more accurate search outcomes.
+
+#### Customizing File Inclusion
+To override `.gitignore` filtering, *ecode* supports two configuration files in the `.ecode/` subfolder:
+
+- **`.prjallowed`**: Add glob patterns to include files ignored by `.gitignore`, making them available for indexing and searching.
+- **`.prjdisallowed`**: Add glob patterns to exclude files that are not ignored by `.gitignore`, providing precise control over file visibility.
+
+#### Supported File Types
+By default, *ecode* indexes only file types it officially supports. Unsupported files are excluded unless their patterns are explicitly added to the `.ecode/.prjallowed` file.
+
+This approach ensures an efficient and tailored project management experience with flexible customization options.
 
 ## Philosophy
 
@@ -100,7 +104,7 @@ there. But you can give it a try:
 ### Demo Clarifications
 
 * You'll need a modern browser with [SharedArrayBuffer](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/SharedArrayBuffer#browser_compatibility) support
-* Linter, Formatter,, LSP Client and Debugger plugins won't work since they work by running other processes (except for the native formatters that are available)
+* Linter, Formatter, LSP Client and Debugger plugins won't work since they work by running other processes (except for the native formatters that are available)
 * WebGL renderer isn't optimized, so it's not as fast as it could/should be (still, performance is good in chromium based browsers)
 * Demo is designed for desktop resolutions (mobile is unusable, IME keyboard won't show up due to an emscripten limitation)
 
