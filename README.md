@@ -135,6 +135,103 @@ The project name is always *ecode* (so if you are building with make, you'll nee
 
 Nightly builds are being distributed [here](https://github.com/SpartanJ/eepp/releases/tag/nightly) for the more impatient users. ecode is being developed actively, nightly builds may not be stable for daily usage unless there's a pending unreleased fix required for the user.
 
+## Plugins
+
+Plugins extend the base code editor functionality. Currently all plugins are enabled by default, but
+they are optional and they can be disabled at any time. *ecode* implements an internal protocol that
+allow plugins to communicate with each other. The LSP protocol is going to be used as a base to implement
+the plugin communication. And, for example, the Linter plugin will consume the LSP to improve its diagnostics.
+Also the Auto Complete module will request assistance from the LSP, if available, to improve the
+completions and to provide signature help.
+
+#### Linter
+
+Linter support is provided by executing already stablished linters from each language.
+*ecode* provides support for several languages by default and can be extended easily by expanding the
+`linters.json` configuration.
+
+For more information [read the linter documentation](docs/linter.md).
+
+#### LSP Client
+
+LSP support is provided by executing already stablished LSP from each language.
+*ecode* provides support for several languages by default and can be extended easily by expanding the
+`lspclient.json` configuration.
+
+For more information [read the lsp client documentation](docs/lsp.md).
+
+#### Debugger
+
+Debugger support is provided by the implementation the [Debug Adapter Protocol](https://microsoft.github.io/debug-adapter-protocol).
+ecode is able to debug any language implementing this protocol, although the protocol is generic sometimes
+requires to support some of the languages some specific adaptation is needed, so initially the support
+is limited to the languages mentoined in the support list.
+
+For more information on how to use the debugger [read the debugger documentation](docs/debugger.md).
+
+#### Git integration
+
+*ecode* provides some basic Git integration (more features will come in the future). Its main purpose
+is to help the user to do the most basics operations with Git. Some of the current features supported:
+git status and stats visualization (files states), commit, push, checkout, pull, fetch, fast-forward
+merge, creating+renaming+deleting branches, managing stashes. All stats will be automatically
+updated/refreshed in real time. There's also some basic configuration available.
+
+For more information [read the git integration documentation](docs/git.md).
+
+#### Auto Formatter
+
+The formatter plugin works exactly like the linter plugin, but it will execute tools that auto-format code.
+*ecode* provides support for several languages by default with can be extended easily by expanding the
+`formatters.json` configuration.
+
+For more information [read the formatter documentation](docs/formatter.md).
+
+#### Auto Complete
+
+The auto-complete plugin is in charge of providing suggestions for code-completion and signature help.
+
+For more information [read the auto-complete documentation](docs/autocomplete.md).
+
+#### AI Assistant
+
+The AI Assistant is a simple but effective LLM Chat UI. You'll be able to chat with different models
+from within the editor.
+
+For more information [read the AI assistant documentation](docs/aiassistant.md).
+
+#### XML Tools
+
+The XML Tools plugin (disabled by default) provides some nice to have improvements when editing XML
+content.
+
+For more information [read the xml tools documentation](docs/xmltools.md).
+
+### Plugins configuration files location
+
+*ecode* respects the standard configuration paths on each OS:
+
+* *Linux*: uses `XDG_CONFIG_HOME`, usually translates to `~/.config/ecode/plugins`
+* *macOS*: uses `Application Support` folder in `HOME`, usually translates to `~/Library/Application Support/ecode/plugins`
+* *Windows*: uses `APPDATA`, usually translates to `C:\Users\{username}\AppData\Roaming\ecode\plugins`
+
+### Plugins important behaviors
+
+All plugin configurations are designed to be overwriteable by the user. This means that the default
+configuration can be replaced with custom configurations from the user. For example, if the user
+wants to use a different linter, it just needs to declare a new linter definition in its own linter
+configuration file. The same applies to formatters and LSPs servers.
+Plugins will always implement a "config" for plugins customization, and will always implement a
+"keybindings" key to configure custom keybindings.
+
+## UI Customizations
+
+*ecode* is highly customizable and extendable thanks to its several configuration files.
+If you're interested in creating new color schemes for the editor or terminal, or in creating new
+UI themes please check our documentation:
+
+For more information [read the UI Customization documentation](docs/uicustomizations.md).
+
 ## Language support
 
 ecode is constantly adding more languages support and also supports extending it's language support
@@ -296,103 +393,6 @@ Use the health check flag to troubleshoot missing language servers, linters and 
 
 Check the health of all languages with `ecode --health` or ask for details about a specific language
 with `ecode --health-lang=<lang>`.
-
-## Plugins
-
-Plugins extend the base code editor functionality. Currently all plugins are enabled by default, but
-they are optional and they can be disabled at any time. *ecode* implements an internal protocol that
-allow plugins to communicate with each other. The LSP protocol is going to be used as a base to implement
-the plugin communication. And, for example, the Linter plugin will consume the LSP to improve its diagnostics.
-Also the Auto Complete module will request assistance from the LSP, if available, to improve the
-completions and to provide signature help.
-
-#### Linter
-
-Linter support is provided by executing already stablished linters from each language.
-*ecode* provides support for several languages by default and can be extended easily by expanding the
-`linters.json` configuration.
-
-For more information [read the linter documentation](docs/linter.md).
-
-#### LSP Client
-
-LSP support is provided by executing already stablished LSP from each language.
-*ecode* provides support for several languages by default and can be extended easily by expanding the
-`lspclient.json` configuration.
-
-For more information [read the lsp client documentation](docs/lsp.md).
-
-#### Debugger
-
-Debugger support is provided by the implementation the [Debug Adapter Protocol](https://microsoft.github.io/debug-adapter-protocol).
-ecode is able to debug any language implementing this protocol, although the protocol is generic sometimes
-requires to support some of the languages some specific adaptation is needed, so initially the support
-is limited to the languages mentoined in the support list.
-
-For more information on how to use the debugger [read the debugger documentation](docs/debugger.md).
-
-#### Git integration
-
-*ecode* provides some basic Git integration (more features will come in the future). Its main purpose
-is to help the user to do the most basics operations with Git. Some of the current features supported:
-git status and stats visualization (files states), commit, push, checkout, pull, fetch, fast-forward
-merge, creating+renaming+deleting branches, managing stashes. All stats will be automatically
-updated/refreshed in real time. There's also some basic configuration available.
-
-For more information [read the git integration documentation](docs/git.md).
-
-#### Auto Formatter
-
-The formatter plugin works exactly like the linter plugin, but it will execute tools that auto-format code.
-*ecode* provides support for several languages by default with can be extended easily by expanding the
-`formatters.json` configuration.
-
-For more information [read the formatter documentation](docs/formatter.md).
-
-#### Auto Complete
-
-The auto-complete plugin is in charge of providing suggestions for code-completion and signature help.
-
-For more information [read the auto-complete documentation](docs/autocomplete.md).
-
-#### AI Assistant
-
-The AI Assistant is a simple but effective LLM Chat UI. You'll be able to chat with different models
-from within the editor.
-
-For more information [read the AI assistant documentation](docs/aiassistant.md).
-
-#### XML Tools
-
-The XML Tools plugin (disabled by default) provides some nice to have improvements when editing XML
-content.
-
-For more information [read the xml tools documentation](docs/xmltools.md).
-
-### Plugins configuration files location
-
-*ecode* respects the standard configuration paths on each OS:
-
-* *Linux*: uses `XDG_CONFIG_HOME`, usually translates to `~/.config/ecode/plugins`
-* *macOS*: uses `Application Support` folder in `HOME`, usually translates to `~/Library/Application Support/ecode/plugins`
-* *Windows*: uses `APPDATA`, usually translates to `C:\Users\{username}\AppData\Roaming\ecode\plugins`
-
-### Plugins important behaviors
-
-All plugin configurations are designed to be overwriteable by the user. This means that the default
-configuration can be replaced with custom configurations from the user. For example, if the user
-wants to use a different linter, it just needs to declare a new linter definition in its own linter
-configuration file. The same applies to formatters and LSPs servers.
-Plugins will always implement a "config" for plugins customization, and will always implement a
-"keybindings" key to configure custom keybindings.
-
-## UI Customizations
-
-*ecode* is highly customizable and extendable thanks to its several configuration files.
-If you're interested in creating new color schemes for the editor or terminal, or in creating new
-UI themes please check our documentation:
-
-For more information [read the UI Customization documentation](docs/uicustomizations.md).
 
 ## Custom languages support
 
