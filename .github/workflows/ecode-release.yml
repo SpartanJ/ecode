@@ -418,7 +418,7 @@ jobs:
       - name: Upload Files
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: ${{ needs.release.outputs.version }}
+          tag_name: ecode-${{ needs.release.outputs.version }}
           draft: false
           prerelease: true
           files: |
