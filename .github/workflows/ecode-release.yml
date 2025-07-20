@@ -9,7 +9,7 @@ on:
     inputs:
       version:
         description: Release Version
-        default: ecode-0.7.1
+        default: ecode-0.7.2
         required: true
 
 permissions: write-all
@@ -216,8 +216,8 @@ jobs:
       - name: Install dependencies
         run: |
           sudo apt-get install -y premake4 libfuse2 fuse mingw-w64 gcc-12 g++-12
-          wget https://github.com/premake/premake-core/releases/download/v5.0.0-beta2/premake-5.0.0-beta2-linux.tar.gz
-          tar xvzf premake-5.0.0-beta2-linux.tar.gz
+          wget https://cdn.ensoft.dev/eepp-assets/premake-5.0.0-beta6-linux.tar.gz
+          tar xvzf premake-5.0.0-beta6-linux.tar.gz
           sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-12 10
           sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-12 10
           sudo update-alternatives --install /usr/bin/cc cc /usr/bin/gcc 30
@@ -269,8 +269,8 @@ jobs:
       - name: Install dependencies
         run: |
           sudo apt-get install -y libfuse2 fuse
-          wget https://github.com/premake/premake-core/releases/download/v5.0.0-beta2/premake-5.0.0-beta2-linux.tar.gz
-          tar xvzf premake-5.0.0-beta2-linux.tar.gz
+          wget https://cdn.ensoft.dev/eepp-assets/premake-5.0.0-beta6-linux.tar.gz
+          tar xvzf premake-5.0.0-beta6-linux.tar.gz
       - name: Build ecode
         run: |
           bash projects/mingw32/ecode/build.app.sh --arch=arm64
