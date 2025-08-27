@@ -217,7 +217,7 @@ For more information [read the xml tools documentation](docs/xmltools.md).
 
 ### Plugins important behaviors
 
-All plugin configurations are designed to be overwriteable by the user. This means that the default
+All plugin configurations are designed to be overwritable by the user. This means that the default
 configuration can be replaced with custom configurations from the user. For example, if the user
 wants to use a different linter, it just needs to declare a new linter definition in its own linter
 configuration file. The same applies to formatters and LSPs servers.
