@@ -69,7 +69,7 @@ To use cloud-based LLM providers, you need to add your API keys. You can do this
 
 The following default keybindings are provided for interacting with the LLM Chat UI. You can customize these in the `keybindings` section of your settings file.
 
-*(Note: `mod` typically refers to `Cmd` on macOS and `Ctrl` on Windows/Linux)*
+*(Note: `mod` typically refers to `Ctrl` on Windows/Linux and `Cmd` on macOS)*
 
 | Action                       | Default Keybinding | Description                                                                                                                                                              |
 | :--------------------------- | :----------------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -85,6 +85,7 @@ The following default keybindings are provided for interacting with the LLM Chat
 | Show Chat Menu               | `mod+m`            | Displays a context menu with common chat actions: New Chat, Save Chat, Rename Chat, Clone Chat, Lock Chat Memory (prevents removal during batch clear operations).       |
 | Toggle Private Chat          | `mod+shift+p`      | Toggles if chat must be persisted or no in the chat history (incognito mode)                                                                                             |
 | Open New AI Assistant Tab    | `mod+shift+m`      | Opens a new LLM Chat UI                                                                                                                                                  |
+| Attach a source file         | `mod+shift+a`      | Attaches a source file to the current message, allowing the AI to analyze, review, or reference the file's contents in its response.                                     |
 
 ## LLM Providers (`providers` section)
 

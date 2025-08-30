@@ -61,7 +61,7 @@ For more screenshots checkout
 * Code-folding
 * Session Snapshot & Periodic Backup
 * Perl Regular Expressions and [Lua pattern searches](https://www.lua.org/manual/5.4/manual.html#6.4.1) support
-* Plugins support.
+* Plugins support (linter, spell checker, LSP, DAP, Git, and more).
 
 ### Folder / Project Settings (\*)
 
@@ -199,6 +199,13 @@ The AI Assistant is a simple but effective LLM Chat UI. You'll be able to chat w
 from within the editor.
 
 For more information [read the AI assistant documentation](docs/aiassistant.md).
+
+#### Spell Checker
+
+The spell checker plugin uses the [typos](https://github.com/crate-ci/typos) specialized tool for
+code spell checking.
+
+For more information [read the Spell Checker documentation](docs/spellchecker.md).
 
 #### XML Tools
 
