@@ -9,7 +9,7 @@ on:
     inputs:
       version:
         description: Release Version
-        default: ecode-0.7.2
+        default: ecode-0.7.3
         required: true
 
 permissions: write-all
@@ -293,6 +293,11 @@ jobs:
     env:
       CC: clang
       CXX: clang++
+      MACOS_CERTIFICATE_P12_B64: ${{ secrets.MACOS_CERTIFICATE_P12_B64 }}
+      MACOS_CERTIFICATE_PASSWORD: ${{ secrets.MACOS_CERTIFICATE_PASSWORD }}
+      MACOS_APPLE_ID: ${{ secrets.MACOS_APPLE_ID }}
+      MACOS_NOTARIZATION_PASSWORD: ${{ secrets.MACOS_NOTARIZATION_PASSWORD }}
+      MACOS_TEAM_ID: ${{ secrets.MACOS_TEAM_ID }}
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
@@ -318,9 +323,20 @@ jobs:
       - name: Build
         run: |
           bash projects/macos/ecode/build.app.sh
+      - name: Sign Application
+        if: env.MACOS_CERTIFICATE_P12_B64 != ''
+        working-directory: projects/macos/ecode
+        run: |
+          bash ./sign.sh ecode.app
       - name: Create DMG Image
         run: |
           bash projects/macos/ecode/create.dmg.sh
+      - name: Notarize DMG
+        if: env.MACOS_CERTIFICATE_P12_B64 != ''
+        working-directory: projects/macos/ecode
+        run: |
+          DMG_NAME="ecode-macos-${{ env.INSTALL_REF }}-arm64.dmg"
+          bash ./sign.sh "$DMG_NAME"
       - name: Upload Files
         uses: softprops/action-gh-release@v2
         with:
@@ -341,6 +357,11 @@ jobs:
     env:
       CC: clang
       CXX: clang++
+      MACOS_CERTIFICATE_P12_B64: ${{ secrets.MACOS_CERTIFICATE_P12_B64 }}
+      MACOS_CERTIFICATE_PASSWORD: ${{ secrets.MACOS_CERTIFICATE_PASSWORD }}
+      MACOS_APPLE_ID: ${{ secrets.MACOS_APPLE_ID }}
+      MACOS_NOTARIZATION_PASSWORD: ${{ secrets.MACOS_NOTARIZATION_PASSWORD }}
+      MACOS_TEAM_ID: ${{ secrets.MACOS_TEAM_ID }}
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
@@ -370,9 +391,20 @@ jobs:
       - name: Build
         run: |
           bash projects/macos/ecode/cross.build.app.sh
+      - name: Sign Application
+        if: env.MACOS_CERTIFICATE_P12_B64 != ''
+        working-directory: projects/macos/ecode
+        run: |
+          bash ./sign.sh ecode.app
       - name: Create DMG Image
         run: |
           bash projects/macos/ecode/cross.create.dmg.sh
+      - name: Notarize DMG
+        if: env.MACOS_CERTIFICATE_P12_B64 != ''
+        working-directory: projects/macos/ecode
+        run: |
+          DMG_NAME="ecode-macos-${{ env.INSTALL_REF }}-x86_64.dmg"
+          bash ./sign.sh "$DMG_NAME"
       - name: Upload Files
         uses: softprops/action-gh-release@v2
         with:
