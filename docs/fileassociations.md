@@ -1,4 +1,4 @@
-# File Associations in Ecode Projects
+# File Associations in ecode Projects
 
 ecode supports project-specific file associations, allowing you to map file patterns or names to specific programming languages for syntax highlighting, autocompletion, and other language-specific features. This is configured via the `.ecode/settings.json` file in your project root, using the same format as VS Code for easy compatibility.
 
