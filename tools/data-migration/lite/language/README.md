@@ -9,4 +9,4 @@ You'll need to have installed lua binary, then run:
 Then you can copy the language definition to the [ecode languages folder](https://github.com/SpartanJ/ecode/#custom-languages-support).
 
 If you want to ecode support the language that you're porting in the base install please [open an issue](https://github.com/SpartanJ/ecode/issues)
-and share the language definiton JSON.
+and share the language definition JSON.
