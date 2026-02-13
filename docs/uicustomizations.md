@@ -129,3 +129,60 @@ If your custom styles are not applied as expected:
 - Consult the [eepp CSS specification](https://eepp.ensoft.dev/page_cssspecification.html) to confirm that your properties are supported by the eepp CSS engine.
 
 By leveraging `style.css`, you can transform ecode's UI to suit your unique needs, creating a personalized and productive coding environment.
+
+### GUI Color Schemes Spec Map
+
+```css
+:root {
+	--primary: #3daee9; /* primary color used to highlight things. buttons and select/hover (selected) + checkbox, etc */
+	--back: #31363b; /* default window background color */
+	--font: #eff0f1; /* default font color */
+	--font-highlight: #8bdcfd; /* color used to highlight that something changed */
+	--font-hint: #898b8d; /* font color of the hints in text inputs. The hint is the text that explains or suggest what to complete to the user, it's commonly also known as the placeholder in HTML */
+	--button-back: #30353a; /* background color of button elements */
+	--button-border: #6b6f73; /* background border color of button elements */
+	--button-radius: 2dp; /* border radius of button elements */
+	--base-horizontal-padding: 5dp; /** base horizontal padding of most clickable elements (e.g. buttons) */
+	--base-vertical-padding: 5dp; /** base vertical padding of most clickable elements (e.g. buttons) */
+	--border-width: 1dp; /** default border width used in GUI elements with borders */
+	--list-back: #232629; /* background color of list elements (listbox, listview, treeview, tableview, etc) */
+	--separator: #383a3d; /* separator line color */
+	--item-hover: #284150; /* listbox and listview mouse hover background color */
+	--slider-back: #676a6e; /* slider background color */
+	--slider-button: #31363b; /* sliding rail button color */
+	--slider-border: #787b80; /* slider rail button border color */
+	--scrollbar-border: #373a3d; /* scrollbar border color */
+	--scrollbar-button: #4085a9; /* scrollbar button color */
+	--scrollbar-hback-hover: #606365; /* scrollbar background color when hovered / active */
+	--list-row-active: #eff0f1; /* elements in active list rows text and icon color */
+	--tab-back: #2b3034; /* inactive / not selected tab background color */
+	--tab-line: #616569; /* tab widget separator line color */
+	--tab-active: #31363b; /* active / selected tab background color */
+	--tab-hover: #334e5e; /* intactive / not selected tab background color when hovered */
+	--tab-close: #909396; /* tab close button background color */
+	--tab-close-hover: #863d47; /* tab close button hover background color */
+	--tab-font-active: white; /* active / selected tab text and icon color */
+	--tab-font-inactive: #c0c5cc; /* inactive / not selected tab text color */
+	--icon: #b6bbc2; /* default icon color */
+	--icon-active: white; /* active icon color */
+	--icon-back-hover: #eff0f1; /* icon hover background color (window action like maximize, minimize and close icons) */
+	--icon-line: #dbdbdd; /* in vectorial icons with line primitives this is the line color */
+	--icon-line-hover: #3d4246; /* in vectorial icons with line primitives this is the line color when hovered */
+	--icon-back-alert: #e49aa2;/* icons with alert state background color (this is usually used for close button in tab widget, it's the background color when hovered) */
+	--menu-back: #2d3136; /* menu item background color (menu as in popup menu) */
+	--menu-font: #eff0f1; /* menu item font color (menu as in popup menu) */
+	--menu-border: #616569; /* menu border color (menu as in popup menu) */
+	--menu-font-active: white; /* current menu active item font color (hovered item) */
+	--menu-font-disabled: #6e7275; /* disabled menu item font color (hovered item) */
+	--floating-icon: #96999c; /* this is literally the icon color used for floating icons (which are treated separately from regular icons) */
+	--term-back-color: #1e2127; /* terminal background color (this is for the console element, which is not an actually terminal but a console) */
+	--term-font-color: #abb2bf; /* terminal font color (this is for the console element, which is not an actually terminal but a console) */
+	--highlight-primary: #FFFFFF7A; /* this is only used for the border highlight of selected elements, currently only used for CheckBox, it's literally the underline color of it. */
+	--disabled-color: #727679; /* font color of disabled elements with borders */
+	--disabled-border: #43474c; /* border color of disabled elements with borders */
+	--theme-error: #ff4040; /* font or background color of visual errors */
+	--theme-warning: #ffff40; /* font or background color of visual warnings */
+	--theme-success: #40ff40; /* font or background color of visual success */
+	droppable-hovering-color: #FFFFFF20; /* the foreground color drawn over an item that accepts widgets drop */
+}
+```

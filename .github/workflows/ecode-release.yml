@@ -9,7 +9,7 @@ on:
     inputs:
       version:
         description: Release Version
-        default: ecode-0.7.3
+        default: ecode-0.7.5
         required: true
 
 permissions: write-all
@@ -455,3 +455,37 @@ jobs:
           prerelease: true
           files: |
             projects/freebsd/ecode/ecode-freebsd-${{ env.INSTALL_REF }}-x86_64.tar.gz
+
+  build_haiku_x86_64:
+    name: Haiku x86_64 Nightly
+    needs: release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with: { fetch-depth: 0, submodules: 'recursive' }
+      - name: Set Environment Variables
+        run: |
+          echo "INSTALL_REF=${{ needs.release.outputs.version }}" >> "$GITHUB_ENV"
+          echo "RARCH=$(uname -m)" >> "$GITHUB_ENV"
+      - uses: vmactions/haiku-vm@v1
+        env:
+          INSTALL_REF: ${{ needs.release.outputs.version }}
+        with:
+          envs: 'INSTALL_REF'
+          usesh: true
+          mem: 8192
+          disable-cache: true
+          prepare: |
+            pkgman install -y libsdl2 libsdl2_devel git gcc premake5
+          run: |
+            git config --global --add safe.directory "$GITHUB_WORKSPACE"
+            sh projects/haiku/ecode/build.app.sh --version ${{ env.INSTALL_REF }}
+      - name: Upload Files
+        uses: softprops/action-gh-release@v2.2.2
+        with:
+          tag_name: ${{ needs.release.outputs.version }}
+          draft: false
+          prerelease: true
+          files: |
+            projects/haiku/ecode/ecode-haiku-${{ env.INSTALL_REF }}-x86_64.tar.gz
