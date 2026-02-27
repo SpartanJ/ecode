@@ -139,6 +139,7 @@ By leveraging `style.css`, you can transform ecode's UI to suit your unique need
 	--font: #eff0f1; /* default font color */
 	--font-highlight: #8bdcfd; /* color used to highlight that something changed */
 	--font-hint: #898b8d; /* font color of the hints in text inputs. The hint is the text that explains or suggest what to complete to the user, it's commonly also known as the placeholder in HTML */
+	--font-selected-pressed: #eff0f1; /* elements in active list rows and pressed or selected elements like buttons, this sets text and icon color */
 	--button-back: #30353a; /* background color of button elements */
 	--button-border: #6b6f73; /* background border color of button elements */
 	--button-radius: 2dp; /* border radius of button elements */
@@ -154,7 +155,6 @@ By leveraging `style.css`, you can transform ecode's UI to suit your unique need
 	--scrollbar-border: #373a3d; /* scrollbar border color */
 	--scrollbar-button: #4085a9; /* scrollbar button color */
 	--scrollbar-hback-hover: #606365; /* scrollbar background color when hovered / active */
-	--list-row-active: #eff0f1; /* elements in active list rows text and icon color */
 	--tab-back: #2b3034; /* inactive / not selected tab background color */
 	--tab-line: #616569; /* tab widget separator line color */
 	--tab-active: #31363b; /* active / selected tab background color */
