@@ -489,3 +489,16 @@ jobs:
           prerelease: true
           files: |
             projects/haiku/ecode/ecode-haiku-${{ env.INSTALL_REF }}-x86_64.tar.gz
+
+  publish_winget:
+    name: Publish to WinGet
+    needs: [release, build_windows_cross, build_windows_arm64_cross]
+    runs-on: windows-latest
+    steps:
+      - uses: vedantmgoyal9/winget-releaser@main
+        with: 
+          identifier: SpartanJ.ecode
+          version: ${{ needs.release.outputs.version }}
+          token: ${{ secrets.WINGET_TOKEN }}
+          max-versions-to-keep: 7
+          installers-regex: '\.zip$'
