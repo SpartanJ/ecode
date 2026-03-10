@@ -1,5 +1,5 @@
 <h1 align="center">
-  <img src="https://raw.githubusercontent.com/SpartanJ/eepp/develop/bin/assets/icon/ecode-icon-web.svg" width=128 height=128/><br>
+  <img align="center" src="https://raw.githubusercontent.com/SpartanJ/eepp/develop/bin/assets/icon/ecode-icon-web.svg" width="128" height="128" /><br/>
   ecode
 </h1>
 
@@ -99,7 +99,7 @@ ecode can be compiled to WASM and run in any modern browser. There are no plans 
 development on the web version (at least for the moment) since there are plenty of good solutions out
 there. But you can give it a try:
 
-[*Demo here*](https://cdn.ensoft.dev/eepp-demos/demo-fs.html?run=ecode.js)
+*[Demo here](https://cdn.ensoft.dev/eepp-demos/demo-fs.html?run=ecode.js)*
 
 ### Demo Clarifications
 
@@ -424,7 +424,7 @@ Listed in no particular order:
 
 * General polishing
 * Improved plugin system (visual configuration, more flexibility/features)
-* AI assistant plugin
+* ACP support in AI Assistant
 * Snippets support
 * Macros support
 * Better integration with OSes
@@ -455,17 +455,14 @@ you could need some special font (currently covers CJK languages).
 
 * No font sub-pixel hinting \*1 \*2
 * No VIM-mode / modal editing \*3
-* No [text-shaping](https://harfbuzz.github.io/why-do-i-need-a-shaping-engine.html) support. \*1 \*4
-* No ligatures support (requires text-shaping) \*1
-* No BiDi support (requires text-shaping) \*1
+* No ligatures support \*1
+* No BiDi support \*1
 
 _\*1_ Current eepp feature limitations.
 
 _\*2_ I'm not a fan of sub-pixel hinting. But I'm more than willing to implement it, I'm not very versed in the matter, so any help will be appreciated.
 
 _\*3_ I'm not a VIM user, and I'm not qualified to implement the VIM mode or any modal editing. PRs are welcome to support this.
-
-_\*4_ Some work has been done to support text-shaping but it's not ready for general usage. So it's a work in progress.
 
 ## Author comments
 
