@@ -1,5 +1,5 @@
 <h1 align="center">
-  <img align="center" src="https://raw.githubusercontent.com/SpartanJ/eepp/develop/bin/assets/icon/ecode-icon-web.svg" width="128" height="128" /><br/>
+  <img align="center" src="https://raw.githubusercontent.com/SpartanJ/eepp/develop/bin/assets/icon/ecode-icon-web.svg" width="128px" height="128px" /><br/>
   ecode
 </h1>
 
