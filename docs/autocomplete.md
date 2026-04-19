@@ -6,6 +6,10 @@ The auto-complete plugin is in charge of providing suggestions for code-completi
 
 * **max_label_characters**: Maximum characters displayed in the suggestion box.
 * **suggestions_syntax_highlight**: Enables/disables syntax highlighting in suggestions.
+* **max_signature_helper_width**: The maximum width in stylesheet length of the signature helper (default value: "90%").
+* **max_suggestion_documentation_width**:  The maximum width in stylesheet length of the currently selected suggestion item documentation (default value: "100%").
+* **signature_help_multi_line**: Enables the signature help to be rendered in multiple lines if needed (wraps text), otherwise it will render in a single line and ensure the current parameter is visible.
+* **suggestion_documentation**:  Enables the suggestion item documentation.
 
 ### Auto Complete keybindings object keys
 
