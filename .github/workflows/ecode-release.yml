@@ -34,14 +34,12 @@ jobs:
             echo "version=${GITHUB_REF/refs\/tags\//}" | sed 's/ecode-//' >> "$GITHUB_OUTPUT"
           fi
       - name: Update Tag
-        uses: richardsimko/update-tag@v1
-        with:
-          tag_name: ecode-${{ steps.tag.outputs.version }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          git tag -f ecode-${{ steps.tag.outputs.version }}
+          git push -f origin ecode-${{ steps.tag.outputs.version }}
       - name: Create Release
         id: create_release
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@v3
         with:
           tag_name: ecode-${{ steps.tag.outputs.version }}
           name: ecode ${{ steps.tag.outputs.version }}
@@ -109,7 +107,7 @@ jobs:
         run: |
           bash projects/linux/ecode/build.app.sh --with-static-cpp --arch ${{ matrix.config.arch }}
       - name: Upload Files
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@v3
         with:
           repository: SpartanJ/ecode
           tag_name: ecode-${{ needs.release.outputs.version }}
@@ -172,7 +170,7 @@ jobs:
         run: |
           bash projects/linux/ecode/build.app.sh --arch ${{ matrix.config.arch }}
       - name: Upload Files
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@v3
         with:
           repository: SpartanJ/ecode
           tag_name: ecode-${{ needs.release.outputs.version }}
@@ -230,7 +228,7 @@ jobs:
         run: |
           bash projects/mingw32/ecode/build.app.sh
       - name: Upload Files
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@v3
         with:
           repository: SpartanJ/ecode
           tag_name: ecode-${{ needs.release.outputs.version }}
@@ -275,7 +273,7 @@ jobs:
         run: |
           bash projects/mingw32/ecode/build.app.sh --arch=arm64
       - name: Upload Files
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@v3
         with:
           tag_name: ecode-${{ needs.release.outputs.version }}
           draft: false
@@ -338,7 +336,7 @@ jobs:
           DMG_NAME="ecode-macos-${{ env.INSTALL_REF }}-arm64.dmg"
           bash ./sign.sh "$DMG_NAME"
       - name: Upload Files
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@v3
         with:
           repository: SpartanJ/ecode
           tag_name: ecode-${{ needs.release.outputs.version }}
@@ -406,7 +404,7 @@ jobs:
           DMG_NAME="ecode-macos-${{ env.INSTALL_REF }}-x86_64.dmg"
           bash ./sign.sh "$DMG_NAME"
       - name: Upload Files
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@v3
         with:
           repository: SpartanJ/ecode
           tag_name: ecode-${{ needs.release.outputs.version }}
@@ -448,7 +446,7 @@ jobs:
             git config --global --add safe.directory "$GITHUB_WORKSPACE"
             sh projects/freebsd/ecode/build.app.sh
       - name: Upload Files
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@v3
         with:
           tag_name: ecode-${{ needs.release.outputs.version }}
           draft: false
@@ -482,7 +480,7 @@ jobs:
             git config --global --add safe.directory "$GITHUB_WORKSPACE"
             sh projects/haiku/ecode/build.app.sh --version ${{ env.INSTALL_REF }}
       - name: Upload Files
-        uses: softprops/action-gh-release@v2.2.2
+        uses: softprops/action-gh-release@v3
         with:
           tag_name: ${{ needs.release.outputs.version }}
           draft: false
