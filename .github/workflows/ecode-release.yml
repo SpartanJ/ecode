@@ -461,7 +461,11 @@ jobs:
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
-        with: { fetch-depth: 0, submodules: 'recursive' }
+        with:
+          repository: 'SpartanJ/eepp'
+          fetch-depth: 0
+          submodules: 'recursive'
+          ref: 'refs/tags/ecode-${{ needs.release.outputs.version }}'
       - name: Set Environment Variables
         run: |
           echo "INSTALL_REF=${{ needs.release.outputs.version }}" >> "$GITHUB_ENV"
@@ -494,7 +498,7 @@ jobs:
     runs-on: windows-latest
     steps:
       - uses: vedantmgoyal9/winget-releaser@main
-        with: 
+        with:
           identifier: SpartanJ.ecode
           version: ${{ needs.release.outputs.version }}
           token: ${{ secrets.WINGET_TOKEN }}
