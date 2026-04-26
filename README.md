@@ -44,7 +44,7 @@ For more screenshots checkout
 * Customizable keyboard bindings
 * Configurable build pipelines
 * Fast global search (and replace)
-* AI Assistant plugin
+* AI Assistant plugin with [ACP](https://agentclientprotocol.com/) support
 * Minimap
 * Unlimited editor splitting
 * Easily extendable language support
