@@ -439,7 +439,7 @@ jobs:
           usesh: true
           mem: 8192
           prepare: |
-            pkg install -y bash git sdl2 curl premake5 gsed gmake
+            pkg install -y bash pcre2 git sdl2 curl premake5 gsed gmake
           run: |
             export CC=clang
             export CXX=clang++
@@ -461,7 +461,11 @@ jobs:
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
-        with: { fetch-depth: 0, submodules: 'recursive' }
+        with:
+          repository: 'SpartanJ/eepp'
+          fetch-depth: 0
+          submodules: 'recursive'
+          ref: 'refs/tags/ecode-${{ needs.release.outputs.version }}'
       - name: Set Environment Variables
         run: |
           echo "INSTALL_REF=${{ needs.release.outputs.version }}" >> "$GITHUB_ENV"
@@ -482,7 +486,7 @@ jobs:
       - name: Upload Files
         uses: softprops/action-gh-release@v3
         with:
-          tag_name: ${{ needs.release.outputs.version }}
+          tag_name: ecode-${{ needs.release.outputs.version }}
           draft: false
           prerelease: true
           files: |
