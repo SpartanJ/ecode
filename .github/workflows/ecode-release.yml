@@ -439,7 +439,7 @@ jobs:
           usesh: true
           mem: 8192
           prepare: |
-            pkg install -y bash git sdl2 curl premake5 gsed gmake
+            pkg install -y bash pcre2 git sdl2 curl premake5 gsed gmake
           run: |
             export CC=clang
             export CXX=clang++
