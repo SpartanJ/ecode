@@ -456,16 +456,10 @@ you could need some special font (currently covers CJK languages).
 
 ## Current Limitations
 
-* No font sub-pixel hinting \*1 \*2
-* No VIM-mode / modal editing \*3
-* No ligatures support \*1
-* No BiDi support \*1
+* No VIM-mode / modal editing \*2
+* No ligatures support
 
-_\*1_ Current eepp feature limitations.
-
-_\*2_ I'm not a fan of sub-pixel hinting. But I'm more than willing to implement it, I'm not very versed in the matter, so any help will be appreciated.
-
-_\*3_ I'm not a VIM user, and I'm not qualified to implement the VIM mode or any modal editing. PRs are welcome to support this.
+_\*2_ I'm not a VIM user, and I'm not qualified to implement the VIM mode or any modal editing. PRs are welcome to support this.
 
 ## Author comments
 

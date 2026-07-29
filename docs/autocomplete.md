@@ -27,3 +27,9 @@ The auto-complete plugin is in charge of providing suggestions for code-completi
 * **autocomplete-prev-suggestion**: Moves to the previous suggestion
 * **autocomplete-prev-suggestion-page**: Moves to the previous suggestion page
 * **autocomplete-update-suggestions**: Request to display or update currently displayed suggestions (if possible)
+
+### User-defined snippets
+
+The auto-complete plugin supports user and project snippets using the VS Code JSON/JSONC snippet
+file format. See the [user-defined snippets documentation](snippets.md) for file locations, syntax,
+variables, examples, and current compatibility limitations.
