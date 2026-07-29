@@ -61,6 +61,7 @@ For more screenshots checkout
 * Code-folding
 * Session Snapshot & Periodic Backup
 * Perl Regular Expressions and [Lua pattern searches](https://www.lua.org/manual/5.4/manual.html#6.4.1) support
+* Snippets support
 * Plugins support (linter, spell checker, LSP, DAP, Git, and more).
 
 ### Folder / Project Settings (\*)
@@ -427,13 +428,9 @@ Listed in no particular order:
 
 * General polishing
 * Improved plugin system (visual configuration, more flexibility/features)
-* ACP support in AI Assistant
-* Snippets support
+* Settings Panel
 * Macros support
 * Better integration with OSes
-
-### Long Term Planned Features
-
 * Modal editing
 * Maybe Remote development support
 * Maybe [Tree-sitter](https://github.com/tree-sitter/tree-sitter) support

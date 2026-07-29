@@ -121,6 +121,30 @@ Definitions with an invalid or empty `prefix`, an invalid `body`, or an invalid 
 skipped without preventing valid siblings in the same file from loading. Unknown properties are
 ignored for forward compatibility.
 
+### File pattern scopes
+
+The optional `include` and `exclude` properties accept a glob or an array of globs. They restrict a
+snippet beyond its language scope:
+
+```jsonc
+{
+	"Test Case": {
+		"scope": "cpp",
+		"prefix": "testcase",
+		"include": ["*_test.cpp", "tests/**/*.cpp"],
+		"exclude": "generated/**",
+		"body": "TEST(${1:Suite}, ${2:Name}) {\n\t$0\n}"
+	}
+}
+```
+
+Filename-only patterns such as `*_test.cpp` match the filename regardless of its directory.
+Patterns containing `/` match the normalized path relative to the workspace root, consistently
+with ecode's other glob-based filters. Use `**/tests/**/*.cpp` instead of `tests/**/*.cpp` when the
+directory may occur below any workspace subdirectory. A snippet must match at least one `include`
+pattern when `include` is present, and any matching `exclude` pattern hides it. `exclude` therefore
+wins when both properties match.
+
 ## Matching and insertion
 
 Snippet prefixes participate in normal auto-completion ranking. Matching is fuzzy and can use
@@ -135,6 +159,17 @@ remain separate entries in the completion list.
 Snippets are also available when no language server is running. When an LSP server supplies
 completion results, user snippets are merged with those results rather than disappearing when the
 asynchronous response arrives.
+
+## Browsing snippets in the Universal Locator
+
+Open the Universal Locator and choose **Insert Snippet**, or enter its `sn ` provider prefix. The
+provider lists snippets applicable to the current language and file. Search matches snippet names,
+prefixes, and descriptions. The list also identifies whether a snippet comes from the user
+directory, `.vscode`, or `.ecode`.
+
+Selecting a result inserts it directly at the current selections without requiring or deleting a
+typed prefix. Insertion uses the same variables, indentation, choices, multi-cursor behavior, and
+tab-stop navigation as snippets selected from auto-completion.
 
 ## Snippet body syntax
 
@@ -208,6 +243,34 @@ ecode currently defines these variables for both LSP and user snippets:
 | `TM_FILENAME_BASE` | Filename without its extension |
 | `TM_DIRECTORY` | Directory containing the current file |
 | `TM_FILEPATH` | Full path of the current file |
+| `RELATIVE_FILEPATH` | File path relative to the current workspace |
+| `WORKSPACE_NAME` | Name of the current workspace folder |
+| `WORKSPACE_FOLDER` | Path of the current workspace folder |
+| `CLIPBOARD` | Current clipboard text |
+| `CURSOR_INDEX` | Zero-based insertion cursor number |
+| `CURSOR_NUMBER` | One-based insertion cursor number |
+| `CURRENT_YEAR` | Four-digit year |
+| `CURRENT_YEAR_SHORT` | Two-digit year |
+| `CURRENT_MONTH` | Two-digit month |
+| `CURRENT_MONTH_NAME` | Full localized month name |
+| `CURRENT_MONTH_NAME_SHORT` | Abbreviated localized month name |
+| `CURRENT_DATE` | Two-digit day of the month |
+| `CURRENT_DAY_NAME` | Full localized weekday name |
+| `CURRENT_DAY_NAME_SHORT` | Abbreviated localized weekday name |
+| `CURRENT_HOUR` | Two-digit hour in 24-hour format |
+| `CURRENT_MINUTE` | Two-digit minute |
+| `CURRENT_SECOND` | Two-digit second |
+| `CURRENT_MILLISECOND` | Three-digit millisecond |
+| `CURRENT_SECONDS_UNIX` | Seconds since the Unix epoch |
+| `CURRENT_MILLISECONDS_UNIX` | Milliseconds since the Unix epoch |
+| `CURRENT_TIMEZONE_OFFSET` | Current UTC offset in `+HH:MM` or `-HH:MM` form |
+| `CURRENT_TIMEZONE_NAME` | Platform-provided current time-zone name |
+| `RANDOM` | Six random decimal digits |
+| `RANDOM_HEX` | Six random hexadecimal digits |
+| `UUID` | Random version 4 UUID |
+| `LINE_COMMENT` | Current language's line-comment marker |
+| `BLOCK_COMMENT_START` | Current language's opening block-comment marker |
+| `BLOCK_COMMENT_END` | Current language's closing block-comment marker |
 
 Use `$TM_FILENAME`, `${TM_FILENAME}`, or a fallback such as
 `${TM_SELECTED_TEXT:fallback text}`.
@@ -232,12 +295,12 @@ Supported transform behavior includes:
 
 - capture references such as `$1` and `${1}`;
 - global (`g`), case-insensitive (`i`), multiline (`m`), and dot-all (`s`) options;
-- `${1:/upcase}`, `${1:/downcase}`, and `${1:/capitalize}`;
+- `${1:/upcase}`, `${1:/downcase}`, `${1:/capitalize}`, `${1:/camelcase}`,
+  `${1:/pascalcase}`, `${1:/snakecase}`, and `${1:/kebabcase}`;
 - conditional formats such as `${1:+if}`, `${1:?if:else}`, `${1:-else}`, and `${1:else}`.
 
 Transforms use ecode/eepp regular expressions rather than JavaScript regular expressions. Common
 expressions work as expected, but unusual JavaScript-specific constructs can behave differently.
-The `camelcase`, `pascalcase`, `snakecase`, and `kebabcase` modifiers are not yet supported.
 
 Placeholder transforms such as `${1/(.*)/${1:/upcase}/}` are not currently implemented. Variable
 transforms are evaluated once when the snippet is inserted; ecode does not yet reevaluate a
@@ -290,12 +353,12 @@ The following table compares the current ecode implementation with the behavior 
 | Tab stops, placeholders, nested placeholders, mirrors, and choices | Supported | Supported |
 | Contextual indentation | Supported for common layouts | Supported, with VS Code-specific formatting behavior |
 | Multiple cursors | Supported | Supported |
-| Variable transforms | Partially supported as described above | JavaScript regex and all documented format modifiers |
+| Variable transforms | Supported with ecode/eepp regex differences described above | Supported with JavaScript regular expressions |
 | Placeholder transforms updated from edited tab stops | Not supported | Supported |
-| Variables | Nine `TM_*` file/editor variables | Also workspace, clipboard, cursor, date/time, random, UUID, and comment variables |
-| `include` / `exclude` file-pattern scopes | Not supported; ignored | Supported |
+| Variables | Workspace, clipboard, cursor, date/time, random, UUID, comment, and `TM_*` variables supported | Supported |
+| `include` / `exclude` file-pattern scopes | Supported with ecode's glob matcher | Supported |
 | `isFileTemplate` and Fill File with Snippet | Not supported; ignored and shown as an ordinary snippet | Supported |
-| Insert Snippet searchable command | Not yet available | Supported |
+| Insert Snippet searchable command | Supported through the Universal Locator | Supported |
 | Configure Snippets command | Not yet available; edit files directly | Supported |
 | Exact-prefix Tab completion without suggestions | Not yet available | Optional through `editor.tabCompletion` |
 | Placement above/below normal suggestions | Not configurable; normal match ranking is used | Configurable through `editor.snippetSuggestions` |

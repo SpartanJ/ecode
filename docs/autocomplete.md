@@ -32,4 +32,5 @@ The auto-complete plugin is in charge of providing suggestions for code-completi
 
 The auto-complete plugin supports user and project snippets using the VS Code JSON/JSONC snippet
 file format. See the [user-defined snippets documentation](snippets.md) for file locations, syntax,
-variables, examples, and current compatibility limitations.
+variables, examples, and current compatibility limitations. Applicable snippets can also be
+searched through the Universal Locator's **Insert Snippet** provider (`sn `).
