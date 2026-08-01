@@ -38,6 +38,10 @@ ecode also loads project snippets from the current workspace:
 Project files are convenient for snippets that should be shared with the repository. User files
 are better for personal snippets that should be available across projects.
 
+Loading snippets from `.vscode` is enabled by default. To disable it, set
+`config.load_vscode_snippets` to `false` in the autocomplete plugin's `autocomplete.json` file.
+Snippets from `.ecode` and the user snippet directory remain enabled.
+
 When equally good user snippets conflict, `.ecode` project snippets take precedence over
 `.vscode` project snippets, which take precedence over user snippets. This priority only resolves
 ties between user-defined snippets; it does not automatically place snippets above normal code
