@@ -1,0 +1,119 @@
+name: Bug report
+description: Report a reproducible problem in ecode
+title: "[Bug]: "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for taking the time to report a problem.
+
+        Use this form only for observable bugs. Questions, troubleshooting, and uncertain reports belong in [Discussions](https://github.com/SpartanJ/ecode/discussions). Please read the [contribution guidelines](../../CONTRIBUTING.md) before continuing.
+
+  - type: checkboxes
+    id: preliminary-checks
+    attributes:
+      label: Preliminary checks
+      options:
+        - label: I searched existing Issues and Discussions and did not find a duplicate.
+          required: true
+        - label: This is an observable defect, not only a preference or support question.
+          required: true
+        - label: I have personally reviewed this report and verified that its contents are accurate.
+          required: true
+
+  - type: input
+    id: affected-area
+    attributes:
+      label: Affected area
+      description: Identify the ecode feature, subsystem, or plugin where the problem occurs.
+      placeholder: e.g. editor, terminal, project tree, LSP, debugger, Git integration, or a specific plugin
+    validations:
+      required: true
+
+  - type: textarea
+    id: observed-behavior
+    attributes:
+      label: Observed behavior
+      description: Describe precisely what happened, including any visible error or incorrect result.
+      placeholder: Describe the concrete behavior you observed.
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected-behavior
+    attributes:
+      label: Expected behavior
+      description: Explain what should have happened and why.
+      placeholder: Describe the expected result.
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Steps to reproduce
+      description: Provide exact, minimal steps that another person can follow. Include a minimal example when possible.
+      placeholder: |
+        1. Start with...
+        2. Configure or open...
+        3. Perform...
+        4. Observe...
+    validations:
+      required: true
+
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: Provide all details relevant to reproducing the problem.
+      value: |
+        - ecode version, commit, or build date:
+        - Operating system and version:
+        - Architecture:
+        - Installation method or package:
+        - Desktop environment or display server, if relevant:
+        - Graphics renderer, if relevant:
+        - Relevant plugins or configuration:
+        - Compiler and version, if self-built:
+        - Other relevant details:
+    validations:
+      required: true
+
+  - type: dropdown
+    id: reproducibility
+    attributes:
+      label: Reproducibility
+      description: How consistently can you reproduce the problem?
+      options:
+        - Every time
+        - Frequently
+        - Occasionally
+        - Only once
+        - Unable to reproduce again
+    validations:
+      required: true
+
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Evidence
+      description: Provide relevant logs, complete error messages, crash stack traces, screenshots, or recordings. If evidence is unavailable, explain why. You can drag files into this field.
+      placeholder: Paste evidence, attach files, or explain why it cannot be provided.
+    validations:
+      required: true
+
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: Additional context
+      description: Include previous working versions, possible causes, workarounds, related links, or anything else that may help.
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Submission agreement
+      options:
+        - label: I will provide reasonably requested information and follow the [Code of Conduct](../../CODE_OF_CONDUCT.md).
+          required: true

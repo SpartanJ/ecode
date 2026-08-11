@@ -1,0 +1,83 @@
+name: Feature request
+description: Propose a specific, well-defined improvement
+title: "[FR]: "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Well-defined feature requests are welcome. Early-stage or broad ideas should be posted in the [Ideas discussion category](https://github.com/SpartanJ/ecode/discussions/categories/ideas) first. Starting a Discussion before a large or consequential request is encouraged.
+
+        Please read the [contribution guidelines](../../CONTRIBUTING.md) before continuing.
+
+  - type: checkboxes
+    id: preliminary-checks
+    attributes:
+      label: Preliminary checks
+      options:
+        - label: I searched existing Issues and Discussions and did not find a duplicate.
+          required: true
+        - label: This request is sufficiently defined to be evaluated and acted upon.
+          required: true
+        - label: I have personally reviewed this request and verified that its contents are accurate.
+          required: true
+
+  - type: input
+    id: affected-area
+    attributes:
+      label: Affected area
+      description: Identify the ecode feature, subsystem, or plugin this request concerns.
+      placeholder: e.g. editor, terminal, project tree, LSP, debugger, Git integration, or a specific plugin
+    validations:
+      required: true
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem or use case
+      description: Describe the concrete problem, limitation, or use case. Explain who benefits and under what conditions.
+      placeholder: What problem needs to be solved, and for whom?
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposed-behavior
+    attributes:
+      label: Proposed behavior
+      description: Describe the desired outcome precisely. Include examples where useful.
+      placeholder: What should ecode do?
+    validations:
+      required: true
+
+  - type: textarea
+    id: constraints
+    attributes:
+      label: Constraints and alternatives
+      description: Describe relevant technical constraints, tradeoffs, alternative solutions, and existing workarounds.
+      placeholder: What alternatives have you considered?
+    validations:
+      required: true
+
+  - type: input
+    id: discussion
+    attributes:
+      label: Related Discussion
+      description: If this proposal was discussed first, link the Discussion here.
+      placeholder: https://github.com/SpartanJ/ecode/discussions/...
+    validations:
+      required: false
+
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: Additional context
+      description: Add mockups, examples, references, or other information that helps evaluate the request.
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Submission agreement
+      options:
+        - label: I understand that submitting a request does not commit maintainers to implementing it, and I agree to follow the [Code of Conduct](../../CODE_OF_CONDUCT.md).
+          required: true

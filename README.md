@@ -441,6 +441,9 @@ The author is more than open to collaborations. Any person interested in the pro
 participate. Many features are still pending, and the project will grow much more over time. Please,
 collaborate. =)
 
+Before participating, please read the [contribution and community support
+guidelines](CONTRIBUTING.md) and the [Code of Conduct](CODE_OF_CONDUCT.md).
+
 ## FAQ
 
 ## Why some characters are not being rendered correctly inside the editor?
