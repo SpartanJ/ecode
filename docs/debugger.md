@@ -157,4 +157,5 @@ In addition to general configurations, *ecode* offers language-specific settings
 
 * **fetch_globals**: Enable/Disable if global variables should be fetched automatically (when available)
 * **fetch_registers**: Enable/Disable if registers should be fetched automatically (when available)
+* **load_vscode_launch_config**: Enable/Disable loading project configurations from `.vscode/launch.json` (enabled by default). `.ecode/launch.json` remains enabled.
 * **silent**: Enable/Disable non-critical Debugger logs

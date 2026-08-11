@@ -61,6 +61,7 @@ For more screenshots checkout
 * Code-folding
 * Session Snapshot & Periodic Backup
 * Perl Regular Expressions and [Lua pattern searches](https://www.lua.org/manual/5.4/manual.html#6.4.1) support
+* Snippets support
 * Plugins support (linter, spell checker, LSP, DAP, Git, and more).
 
 ### Folder / Project Settings (\*)
@@ -427,13 +428,9 @@ Listed in no particular order:
 
 * General polishing
 * Improved plugin system (visual configuration, more flexibility/features)
-* ACP support in AI Assistant
-* Snippets support
+* Settings Panel
 * Macros support
 * Better integration with OSes
-
-### Long Term Planned Features
-
 * Modal editing
 * Maybe Remote development support
 * Maybe [Tree-sitter](https://github.com/tree-sitter/tree-sitter) support
@@ -443,6 +440,9 @@ Listed in no particular order:
 The author is more than open to collaborations. Any person interested in the project is invited to
 participate. Many features are still pending, and the project will grow much more over time. Please,
 collaborate. =)
+
+Before participating, please read the [contribution and community support
+guidelines](CONTRIBUTING.md) and the [Code of Conduct](CODE_OF_CONDUCT.md).
 
 ## FAQ
 
@@ -456,16 +456,10 @@ you could need some special font (currently covers CJK languages).
 
 ## Current Limitations
 
-* No font sub-pixel hinting \*1 \*2
-* No VIM-mode / modal editing \*3
-* No ligatures support \*1
-* No BiDi support \*1
+* No VIM-mode / modal editing \*2
+* No ligatures support
 
-_\*1_ Current eepp feature limitations.
-
-_\*2_ I'm not a fan of sub-pixel hinting. But I'm more than willing to implement it, I'm not very versed in the matter, so any help will be appreciated.
-
-_\*3_ I'm not a VIM user, and I'm not qualified to implement the VIM mode or any modal editing. PRs are welcome to support this.
+_\*2_ I'm not a VIM user, and I'm not qualified to implement the VIM mode or any modal editing. PRs are welcome to support this.
 
 ## Author comments
 

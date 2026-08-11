@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Questions and support
+    url: https://github.com/SpartanJ/ecode/discussions
+    about: Ask project-related questions and request troubleshooting help in Discussions.
+  - name: Ideas and early proposals
+    url: https://github.com/SpartanJ/ecode/discussions/categories/ideas
+    about: Share ideas that are not yet specific enough to be actionable Issues.
