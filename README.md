@@ -427,8 +427,6 @@ For more information [read the custom languages documentation](docs/customlangua
 Listed in no particular order:
 
 * General polishing
-* Improved plugin system (visual configuration, more flexibility/features)
-* Settings Panel
 * Macros support
 * Better integration with OSes
 * Modal editing
@@ -444,22 +442,11 @@ collaborate. =)
 Before participating, please read the [contribution and community support
 guidelines](CONTRIBUTING.md) and the [Code of Conduct](CODE_OF_CONDUCT.md).
 
-## FAQ
-
-## Why some characters are not being rendered correctly inside the editor?
-
-Some Unicode characters won't be rendered in the editor out of the box. You'll need to change the
-default monospace font in favor of a font that supports the characters you want to see that are not
-being rendered. You could also change the default fallback font in the case you want to use a
-traditional monospaced font. The default fallback font should cover a wide range of languages but
-you could need some special font (currently covers CJK languages).
-
 ## Current Limitations
 
-* No VIM-mode / modal editing \*2
-* No ligatures support
+* No VIM-mode / modal editing \*1
 
-_\*2_ I'm not a VIM user, and I'm not qualified to implement the VIM mode or any modal editing. PRs are welcome to support this.
+_\*1_ I'm not a VIM user, and I'm not qualified to implement the VIM mode or any modal editing. PRs are welcome to support this.
 
 ## Author comments
 

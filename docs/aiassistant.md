@@ -32,38 +32,64 @@ Configuration is managed through `ecode`'s settings file (a JSON file). The rele
 
 ### API Keys (`config` section)
 
-To use cloud-based LLM providers, you need to add your API keys. You can do this in two ways:
+To use cloud-based LLM providers, you need to configure their API keys. Providers with a
+resolved API key are shown before unconfigured providers in the model selector, while the
+remaining providers stay searchable.
 
-1.  **Via the `config` object in settings:**
+You can configure API keys in two ways:
 
-    Add your keys directly into the `config` section of your `ecode` settings file.
+1.  **Via the `config.api_keys` object in settings:**
+
+    Add an entry whose key is the provider ID and whose value is its API key. Provider IDs
+    are the identifiers used by [models.dev](https://models.dev/), such as `openai`,
+    `anthropic`, `openrouter`, `deepseek`, or `groq`.
 
     ```json
     {
       "config": {
-        "anthropic_api_key": "YOUR_ANTHROPIC_API_KEY",
-        "deepseek_api_key": "YOUR_DEEPSEEK_API_KEY",
-        "google_ai_api_key": "YOUR_GOOGLE_AI_API_KEY", // For Google AI / Gemini models
-        "mistral_api_key": "YOUR_MISTRAL_API_KEY",
-        "openai_api_key": "YOUR_OPENAI_API_KEY",
-        "xai_api_key": "YOUR_XAI_API_KEY" // For xAI / Grok models
+        "api_keys": {
+          "anthropic": "YOUR_ANTHROPIC_API_KEY",
+          "deepseek": "YOUR_DEEPSEEK_API_KEY",
+          "google": "YOUR_GOOGLE_AI_API_KEY",
+          "groq": "YOUR_GROQ_API_KEY",
+          "openai": "YOUR_OPENAI_API_KEY",
+          "openrouter": "YOUR_OPENROUTER_API_KEY",
+          "xai": "YOUR_XAI_API_KEY"
+        }
       }
     }
     ```
-    Leave the string empty (`""`) for services you don't intend to use.
+
+    Only add providers you intend to use. The generic `api_keys` object supports catalog
+    providers without requiring a dedicated ecode release whenever models.dev adds one.
+
+    The older provider-specific fields remain supported for compatibility:
+    `openai_api_key`, `anthropic_api_key`, `google_ai_api_key`, `deepseek_api_key`,
+    `mistral_api_key`, `xai_api_key`, `github_api_key`, `perplexity_api_key`,
+    `openrouter_api_key`, `moonshot_api_key`, `nvidia_api_key`, `together_api_key`, and
+    `mimo_api_key`. When both forms configure the same provider, the value in `api_keys`
+    takes precedence.
 
 2.  **Via Environment Variables:**
 
-    The application can also read API keys from environment variables. This is often a more secure method, especially in shared environments or when committing configuration files. If an environment variable is set, it will  override the corresponding key in the `config` object.
+    The application reads the environment-variable names published for each provider by
+    models.dev. This is often safer than storing secrets in the settings file. A resolved
+    environment variable takes precedence over values in both `api_keys` and the legacy
+    provider-specific fields.
 
-    The supported environment variables are:
+    Common examples include:
 
     *   `ANTHROPIC_API_KEY`
     *   `DEEPSEEK_API_KEY`
     *   `GOOGLE_AI_API_KEY` (or `GEMINI_API_KEY`)
     *   `MISTRAL_API_KEY`
     *   `OPENAI_API_KEY`
+    *   `OPENROUTER_API_KEY`
     *   `XAI_API_KEY` (or `GROK_API_KEY`)
+
+    Other catalog providers use the environment variables specified in their models.dev
+    metadata. Environment variables must be present in the environment from which ecode is
+    launched.
 
 ### Keybindings (`keybindings` section)
 
