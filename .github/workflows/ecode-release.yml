@@ -9,7 +9,7 @@ on:
     inputs:
       version:
         description: Release Version
-        default: ecode-0.8.1
+        default: ecode-0.9.0
         required: true
 
 permissions: write-all
@@ -155,13 +155,21 @@ jobs:
           codename=$(lsb_release -cs)
           url="http://ports.ubuntu.com/ubuntu-ports"
           repos="main restricted universe multiverse"
+
+          # GitHub's Ubuntu x86_64 runner sources are not architecture-scoped.
+          # Restrict them before enabling arm64, otherwise apt also tries to
+          # fetch arm64 packages from the regular x86 Ubuntu mirrors.
+          sudo sed -i 's/^deb /deb [arch=amd64] /' /etc/apt/sources.list
+
+          sudo dpkg --add-architecture arm64
+
           echo "deb [arch=arm64] $url $codename $repos" > arm64.list
           echo "deb [arch=arm64] $url $codename-backports $repos" >> arm64.list
           echo "deb [arch=arm64] $url $codename-security $repos" >> arm64.list
           echo "deb [arch=arm64] $url $codename-updates $repos" >> arm64.list
           sudo mv arm64.list /etc/apt/sources.list.d/
+
           sudo apt-get update
-          sudo dpkg --add-architecture arm64
       - name: Install dependencies
         run: |
           sudo apt-get install -y premake4 libfuse2 fuse gcc-aarch64-linux-gnu g++-aarch64-linux-gnu
