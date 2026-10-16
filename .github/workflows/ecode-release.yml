@@ -317,10 +317,18 @@ jobs:
           echo "INSTALL_REF=${{ needs.release.outputs.version }}" >> "$GITHUB_ENV"
       - name: Install Dependencies
         run: |
-          brew install bash sdl2 create-dmg premake p7zip
+          brew install bash create-dmg premake p7zip
+          curl -fL -O https://github.com/libsdl-org/SDL/releases/download/release-2.32.10/SDL2-2.32.10.dmg
+          hdiutil attach SDL2-2.32.10.dmg
+          sudo cp -r /Volumes/SDL2/SDL2.framework /Library/Frameworks/
+          hdiutil detach /Volumes/SDL2
       - name: Build
         run: |
-          bash projects/macos/ecode/build.app.sh
+          bash projects/macos/ecode/build.app.sh --use-frameworks
+      - name: Verify SDL2 framework packaging
+        run: |
+          otool -D projects/macos/ecode/ecode.app/Contents/MacOS/SDL2 | grep -F '@rpath/SDL2.framework/Versions/A/SDL2'
+          otool -L projects/macos/ecode/ecode.app/Contents/MacOS/libeepp.dylib | grep -F '@executable_path/SDL2 ('
       - name: Sign Application
         if: env.MACOS_CERTIFICATE_P12_B64 != ''
         working-directory: projects/macos/ecode
