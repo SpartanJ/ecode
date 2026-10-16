@@ -37,6 +37,20 @@ jobs:
         run: |
           git tag -f ecode-${{ steps.tag.outputs.version }}
           git push -f origin ecode-${{ steps.tag.outputs.version }}
+      - name: Check for Existing Release
+        id: release_state
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_TAG: ecode-${{ steps.tag.outputs.version }}
+        run: |
+          response_file=$(mktemp)
+          if gh api "repos/$GITHUB_REPOSITORY/releases/tags/$RELEASE_TAG" > "$response_file"; then
+            echo "generate_notes=false" >> "$GITHUB_OUTPUT"
+          elif jq -e '.status == "404" or .status == 404' "$response_file" > /dev/null; then
+            echo "generate_notes=true" >> "$GITHUB_OUTPUT"
+          else
+            exit 1
+          fi
       - name: Create Release
         id: create_release
         uses: softprops/action-gh-release@v3
@@ -45,9 +59,8 @@ jobs:
           name: ecode ${{ steps.tag.outputs.version }}
           draft: false
           prerelease: true
-          generate_release_notes: true
-          body: >
-            Changelog pending
+          # Preserve edited notes when rebuilding an existing release.
+          generate_release_notes: ${{ steps.release_state.outputs.generate_notes }}
 
   build_linux_x86_64:
     name: Linux x86_64
