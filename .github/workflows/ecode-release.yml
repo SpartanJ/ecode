@@ -119,6 +119,14 @@ jobs:
       - name: Build ecode
         run: |
           bash projects/linux/ecode/build.app.sh --with-static-cpp --arch ${{ matrix.config.arch }}
+      - name: Stage input for AnyLinux packaging
+        continue-on-error: true
+        uses: actions/upload-artifact@v4
+        with:
+          name: ecode-anylinux-input
+          path: projects/linux/ecode/ecode-linux-${{ env.INSTALL_REF }}-${{ env.RARCH }}.tar.gz
+          retention-days: 1
+          if-no-files-found: error
       - name: Upload Files
         uses: softprops/action-gh-release@v3
         with:
@@ -129,6 +137,47 @@ jobs:
           files: |
             projects/linux/ecode/ecode-linux-${{ env.INSTALL_REF }}-${{ env.RARCH }}.AppImage
             projects/linux/ecode/ecode-linux-${{ env.INSTALL_REF }}-${{ env.RARCH }}.tar.gz
+
+  build_linux_anylinux:
+    name: Linux x86_64 AnyLinux
+    needs: [release, build_linux_x86_64]
+    # Sharun requires a loader with --argv0 (glibc >= 2.33). Keep the conventional
+    # build on Ubuntu 20.04 and repackage its exact binaries with a newer libc here.
+    runs-on: ubuntu-22.04
+    continue-on-error: true
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          repository: SpartanJ/eepp
+          ref: refs/tags/ecode-${{ needs.release.outputs.version }}
+      - name: Download ecode build
+        uses: actions/download-artifact@v4
+        with:
+          name: ecode-anylinux-input
+          path: ${{ runner.temp }}/anylinux-input
+      - name: Install packaging dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y patchelf binutils curl xvfb xauth libsdl2-dev libdw-dev libgl1-mesa-dri libglx-mesa0 libegl-mesa0
+      - name: Build and verify ecode AnyLinux image
+        env:
+          VERSION: ${{ needs.release.outputs.version }}
+        run: |
+          staging="$RUNNER_TEMP/anylinux-stage"
+          mkdir -p "$staging" projects/linux/ecode
+          tar -xzf "$RUNNER_TEMP/anylinux-input/ecode-linux-$VERSION-x86_64.tar.gz" -C "$staging"
+          bash projects/scripts/package-anylinux.sh ecode "$staging/ecode" "$PWD/projects/linux/ecode" "$VERSION" x86_64
+          timeout 60s "projects/linux/ecode/ecode-anylinux-$VERSION-x86_64.AppImage" --version
+      - name: Upload AnyLinux image
+        uses: softprops/action-gh-release@v3
+        with:
+          repository: SpartanJ/ecode
+          tag_name: ecode-${{ needs.release.outputs.version }}
+          draft: false
+          prerelease: true
+          fail_on_unmatched_files: true
+          files: projects/linux/ecode/ecode-anylinux-${{ needs.release.outputs.version }}-x86_64.AppImage
 
   build_linux_arm64:
     name: Linux arm64
