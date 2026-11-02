@@ -76,6 +76,7 @@ jobs:
     env:
       CC: gcc
       CXX: g++
+      UPINFO: "gh-releases-zsync|SpartanJ|ecode|latest-all|ecode-linux-*-x86_64.AppImage.zsync"
     steps:
       - name: Install essentials
         run: |
@@ -99,7 +100,7 @@ jobs:
         run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
       - name: Install dependencies
         run: |
-          apt-get install -y curl libfuse2 fuse premake4 mesa-common-dev libgl1-mesa-dev sudo file appstream
+          apt-get install -y curl libfuse2 fuse premake4 mesa-common-dev libgl1-mesa-dev sudo file appstream zsync
           curl -fsSL https://deb.nodesource.com/setup_lts.x | bash -
           apt-get install -y nodejs
           add-apt-repository -y universe
@@ -136,6 +137,7 @@ jobs:
           prerelease: true
           files: |
             projects/linux/ecode/ecode-linux-${{ env.INSTALL_REF }}-${{ env.RARCH }}.AppImage
+            projects/linux/ecode/ecode-linux-${{ env.INSTALL_REF }}-${{ env.RARCH }}.AppImage.zsync
             projects/linux/ecode/ecode-linux-${{ env.INSTALL_REF }}-${{ env.RARCH }}.tar.gz
 
   build_linux_anylinux:
@@ -163,12 +165,21 @@ jobs:
       - name: Build and verify ecode AnyLinux image
         env:
           VERSION: ${{ needs.release.outputs.version }}
+          UPINFO: "gh-releases-zsync|SpartanJ|ecode|latest-all|ecode-anylinux-*-x86_64.AppImage.zsync"
         run: |
           staging="$RUNNER_TEMP/anylinux-stage"
           mkdir -p "$staging" projects/linux/ecode
           tar -xzf "$RUNNER_TEMP/anylinux-input/ecode-linux-$VERSION-x86_64.tar.gz" -C "$staging"
           bash projects/scripts/package-anylinux.sh ecode "$staging/ecode" "$PWD/projects/linux/ecode" "$VERSION" x86_64
           timeout 60s "projects/linux/ecode/ecode-anylinux-$VERSION-x86_64.AppImage" --version
+      - name: Verify fallback on Alpine without FUSE
+        timeout-minutes: 2
+        env:
+          VERSION: ${{ needs.release.outputs.version }}
+        run: |
+          docker run --rm --network none --cap-drop ALL --security-opt no-new-privileges --user 65534:65534 \
+            -v "$PWD/projects/linux/ecode:/images:ro" alpine:3.22 \
+            "/images/ecode-anylinux-$VERSION-x86_64.AppImage" --version
       - name: Upload AnyLinux image
         uses: softprops/action-gh-release@v3
         with:
@@ -177,7 +188,9 @@ jobs:
           draft: false
           prerelease: true
           fail_on_unmatched_files: true
-          files: projects/linux/ecode/ecode-anylinux-${{ needs.release.outputs.version }}-x86_64.AppImage
+          files: |
+            projects/linux/ecode/ecode-anylinux-${{ needs.release.outputs.version }}-x86_64.AppImage
+            projects/linux/ecode/ecode-anylinux-${{ needs.release.outputs.version }}-x86_64.AppImage.zsync
 
   build_linux_arm64:
     name: Linux arm64
@@ -191,6 +204,7 @@ jobs:
     env:
       CC: gcc
       CXX: g++
+      UPINFO: "gh-releases-zsync|SpartanJ|ecode|latest-all|ecode-linux-*-arm64.AppImage.zsync"
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
@@ -234,7 +248,7 @@ jobs:
           sudo apt-get update
       - name: Install dependencies
         run: |
-          sudo apt-get install -y premake4 libfuse2 fuse gcc-aarch64-linux-gnu g++-aarch64-linux-gnu
+          sudo apt-get install -y premake4 libfuse2 fuse gcc-aarch64-linux-gnu g++-aarch64-linux-gnu zsync
           bash projects/linux/scripts/install_sdl2.sh --aarch64
       - name: Build ecode
         run: |
@@ -248,6 +262,7 @@ jobs:
           prerelease: true
           files: |
             projects/linux/ecode/ecode-linux-${{ env.INSTALL_REF }}-${{ env.RARCH }}.AppImage
+            projects/linux/ecode/ecode-linux-${{ env.INSTALL_REF }}-${{ env.RARCH }}.AppImage.zsync
             projects/linux/ecode/ecode-linux-${{ env.INSTALL_REF }}-${{ env.RARCH }}.tar.gz
 
   build_windows_cross:
