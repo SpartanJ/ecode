@@ -171,15 +171,19 @@ jobs:
           mkdir -p "$staging" projects/linux/ecode
           tar -xzf "$RUNNER_TEMP/anylinux-input/ecode-linux-$VERSION-x86_64.tar.gz" -C "$staging"
           bash projects/scripts/package-anylinux.sh ecode "$staging/ecode" "$PWD/projects/linux/ecode" "$VERSION" x86_64
-          timeout 60s "projects/linux/ecode/ecode-anylinux-$VERSION-x86_64.AppImage" --version
+          version_output=$(timeout 60s "projects/linux/ecode/ecode-anylinux-$VERSION-x86_64.AppImage" --version)
+          printf '%s\n' "$version_output"
+          [[ "$version_output" == "ecode version "* ]] || { echo 'Missing ecode version output' >&2; exit 1; }
       - name: Verify fallback on Alpine without FUSE
         timeout-minutes: 2
         env:
           VERSION: ${{ needs.release.outputs.version }}
         run: |
-          docker run --rm --network none --cap-drop ALL --security-opt no-new-privileges --user 65534:65534 \
+          version_output=$(docker run --rm --network none --cap-drop ALL --security-opt no-new-privileges --user 65534:65534 \
             -v "$PWD/projects/linux/ecode:/images:ro" alpine:3.22 \
-            "/images/ecode-anylinux-$VERSION-x86_64.AppImage" --version
+            "/images/ecode-anylinux-$VERSION-x86_64.AppImage" --version)
+          printf '%s\n' "$version_output"
+          [[ "$version_output" == "ecode version "* ]] || { echo 'Missing ecode version output on Alpine' >&2; exit 1; }
       - name: Upload AnyLinux image
         uses: softprops/action-gh-release@v3
         with:
