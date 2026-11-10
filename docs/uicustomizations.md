@@ -101,7 +101,7 @@ Custom UI schemes can be added in the user UI themes directory found at:
 
 A custom UI theme file must have the extension `.css`, ecode will look for all the files with `.css`
 extension in the directory, the UI theme name is the file name without the extension. The new theme
-will appear in `Settings -> Window -> UI Theme`.
+will appear in `Settings -> Appearance -> Theme & Language -> UI Theme`.
 
 Custom UI themes allow customizing the editor at the user's will. Since ecode uses CSS to style all the
 elements of the UI, creating new themes is quite easy. It's possible to customize only the color palette
@@ -131,6 +131,28 @@ It's also possible to override the style of the different widgets redefining the
 usual rules that apply to the well-known CSS specification (A.K.A. using adequate
 [specificity](https://developer.mozilla.org/en-US/docs/Web/CSS/Specificity) and probably abusing the
 [!important](https://developer.mozilla.org/en-US/docs/Web/CSS/important) flag).
+
+#### Declaring light or dark appearance
+
+For a fixed light or dark palette, set `--color-scheme` on `:root`:
+
+```css
+:root {
+	--inherit-base-theme: true;
+	--color-scheme: dark;
+	--back: #1a1b26;
+	--font: #a9b1d6;
+}
+```
+
+Accepted values are `light` and `dark`. While the theme is active, ecode uses this value for
+`prefers-color-scheme` media queries and `light-dark()` values, so inherited widget styles match
+the palette. The variable declares the palette's appearance; the theme still supplies its colors.
+
+The user's saved **UI Prefers Color Scheme** setting remains unchanged. Switching to a theme
+without `--color-scheme` restores that setting. Omit the variable when a theme should follow the
+configured Light, Dark, or System preference, for example when it provides both palettes through
+media queries.
 
 ### Customizing the User Interface with `style.css`
 

@@ -76,6 +76,7 @@ jobs:
     env:
       CC: gcc
       CXX: g++
+      UPINFO: "gh-releases-zsync|SpartanJ|ecode|latest-all|ecode-linux-*-x86_64.AppImage.zsync"
     steps:
       - name: Install essentials
         run: |
@@ -99,7 +100,7 @@ jobs:
         run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
       - name: Install dependencies
         run: |
-          apt-get install -y curl libfuse2 fuse premake4 mesa-common-dev libgl1-mesa-dev sudo file appstream
+          apt-get install -y curl libfuse2 fuse premake4 mesa-common-dev libgl1-mesa-dev sudo file appstream zsync
           curl -fsSL https://deb.nodesource.com/setup_lts.x | bash -
           apt-get install -y nodejs
           add-apt-repository -y universe
@@ -119,6 +120,14 @@ jobs:
       - name: Build ecode
         run: |
           bash projects/linux/ecode/build.app.sh --with-static-cpp --arch ${{ matrix.config.arch }}
+      - name: Stage input for AnyLinux packaging
+        continue-on-error: true
+        uses: actions/upload-artifact@v4
+        with:
+          name: ecode-anylinux-input
+          path: projects/linux/ecode/ecode-linux-${{ env.INSTALL_REF }}-${{ env.RARCH }}.tar.gz
+          retention-days: 1
+          if-no-files-found: error
       - name: Upload Files
         uses: softprops/action-gh-release@v3
         with:
@@ -128,7 +137,79 @@ jobs:
           prerelease: true
           files: |
             projects/linux/ecode/ecode-linux-${{ env.INSTALL_REF }}-${{ env.RARCH }}.AppImage
+            projects/linux/ecode/ecode-linux-${{ env.INSTALL_REF }}-${{ env.RARCH }}.AppImage.zsync
             projects/linux/ecode/ecode-linux-${{ env.INSTALL_REF }}-${{ env.RARCH }}.tar.gz
+
+  build_linux_anylinux:
+    name: Linux x86_64 AnyLinux
+    needs: [release, build_linux_x86_64]
+    # Sharun requires a loader with --argv0 (glibc >= 2.33). Keep the conventional
+    # build on Ubuntu 20.04 and repackage its exact binaries with a newer libc here.
+    runs-on: ubuntu-22.04
+    continue-on-error: true
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          repository: SpartanJ/eepp
+          ref: refs/tags/ecode-${{ needs.release.outputs.version }}
+      - name: Download ecode build
+        uses: actions/download-artifact@v4
+        with:
+          name: ecode-anylinux-input
+          path: ${{ runner.temp }}/anylinux-input
+      - name: Install packaging dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y patchelf binutils curl xvfb xauth libsdl2-dev libdw-dev libfontconfig1 libdbus-1-3 libgl1-mesa-dri libglx-mesa0 libegl-mesa0
+      - name: Build and verify ecode AnyLinux image
+        env:
+          VERSION: ${{ needs.release.outputs.version }}
+          UPINFO: "gh-releases-zsync|SpartanJ|ecode|latest-all|ecode-anylinux-*-x86_64.AppImage.zsync"
+        run: |
+          staging="$RUNNER_TEMP/anylinux-stage"
+          mkdir -p "$staging" projects/linux/ecode
+          tar -xzf "$RUNNER_TEMP/anylinux-input/ecode-linux-$VERSION-x86_64.tar.gz" -C "$staging"
+          bash projects/scripts/package-anylinux.sh ecode "$staging/ecode" "$PWD/projects/linux/ecode" "$VERSION" x86_64
+          version_output=$(timeout 60s "projects/linux/ecode/ecode-anylinux-$VERSION-x86_64.AppImage" --version)
+          printf '%s\n' "$version_output"
+          [[ "$version_output" == "ecode version "* ]] || { echo 'Missing ecode version output' >&2; exit 1; }
+      - name: Verify fallback on Alpine without FUSE
+        timeout-minutes: 3
+        env:
+          VERSION: ${{ needs.release.outputs.version }}
+        run: |
+          docker build -t eepp-anylinux-alpine-gcompat - <<'DOCKERFILE'
+          FROM alpine:3.24.3
+          RUN apk add --no-cache gcompat fontconfig xvfb mesa-dri-gallium
+          DOCKERFILE
+          for test_image in alpine:3.22 eepp-anylinux-alpine-gcompat; do
+            version_output=$(docker run --rm --network none --cap-drop ALL --security-opt no-new-privileges --user 65534:65534 \
+              -v "$PWD/projects/linux/ecode:/images:ro" "$test_image" \
+              "/images/ecode-anylinux-$VERSION-x86_64.AppImage" --version)
+            printf '%s: %s\n' "$test_image" "$version_output"
+            [[ "$version_output" == "ecode version "* ]] || { echo "Missing ecode version output on $test_image" >&2; exit 1; }
+          done
+          # Exercise real UI startup with compatible Fontconfig and with the
+          # optional library disabled. Neither case may load the host's musl copy.
+          docker run --rm --network none --cap-drop ALL --security-opt no-new-privileges --user 65534:65534 \
+            -v "$PWD/projects/linux/ecode:/images:ro" \
+            -v "$PWD/projects/scripts/test-anylinux-gui.sh:/test-gui.sh:ro" \
+            eepp-anylinux-alpine-gcompat sh -ec '
+              sh /test-gui.sh "$1"
+              ANYLINUX_DO_NOT_LOAD_LIBS="libfontconfig.so*" sh /test-gui.sh "$1"
+            ' sh "/images/ecode-anylinux-$VERSION-x86_64.AppImage"
+      - name: Upload AnyLinux image
+        uses: softprops/action-gh-release@v3
+        with:
+          repository: SpartanJ/ecode
+          tag_name: ecode-${{ needs.release.outputs.version }}
+          draft: false
+          prerelease: true
+          fail_on_unmatched_files: true
+          files: |
+            projects/linux/ecode/ecode-anylinux-${{ needs.release.outputs.version }}-x86_64.AppImage
+            projects/linux/ecode/ecode-anylinux-${{ needs.release.outputs.version }}-x86_64.AppImage.zsync
 
   build_linux_arm64:
     name: Linux arm64
@@ -142,6 +223,7 @@ jobs:
     env:
       CC: gcc
       CXX: g++
+      UPINFO: "gh-releases-zsync|SpartanJ|ecode|latest-all|ecode-linux-*-arm64.AppImage.zsync"
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
@@ -185,7 +267,7 @@ jobs:
           sudo apt-get update
       - name: Install dependencies
         run: |
-          sudo apt-get install -y premake4 libfuse2 fuse gcc-aarch64-linux-gnu g++-aarch64-linux-gnu
+          sudo apt-get install -y premake4 libfuse2 fuse gcc-aarch64-linux-gnu g++-aarch64-linux-gnu zsync
           bash projects/linux/scripts/install_sdl2.sh --aarch64
       - name: Build ecode
         run: |
@@ -199,6 +281,7 @@ jobs:
           prerelease: true
           files: |
             projects/linux/ecode/ecode-linux-${{ env.INSTALL_REF }}-${{ env.RARCH }}.AppImage
+            projects/linux/ecode/ecode-linux-${{ env.INSTALL_REF }}-${{ env.RARCH }}.AppImage.zsync
             projects/linux/ecode/ecode-linux-${{ env.INSTALL_REF }}-${{ env.RARCH }}.tar.gz
 
   build_windows_cross:
@@ -297,7 +380,7 @@ jobs:
   build_macos:
     name: macOS arm64
     needs: release
-    runs-on: macos-14
+    runs-on: macos-15
     strategy:
       matrix:
         arch: [arm64]
@@ -369,7 +452,7 @@ jobs:
   build_macos_cross:
     name: macOS x86_64
     needs: release
-    runs-on: macos-14
+    runs-on: macos-15
     strategy:
       matrix:
         arch: [arm64]
